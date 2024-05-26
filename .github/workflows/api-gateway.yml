@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./api-gateway
-      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/bookstore-api-gateway
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-api-gateway
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
