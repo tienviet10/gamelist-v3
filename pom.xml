@@ -18,6 +18,7 @@
 
     <modules>
         <module>api-gateway</module>
+        <module>game-service</module>
     </modules>
     <build>
         <plugins>
