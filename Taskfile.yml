@@ -8,6 +8,7 @@ vars:
   APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
   MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
+  KILL_CMD: '{{if eq .GOOS "windows"}}taskkill /f /im{{else}}pkill{{end}}'
 
 tasks:
   default:
@@ -75,10 +76,10 @@ tasks:
   db_reset:
     cmds:
       - task: restart_infra
-      - "cd ./game-service && mvn spring-boot:run &"
+      - "cd ./game-service && {{.MVNW}} spring-boot:run &"
       - "{{.SLEEP_CMD}} 15"
-      - "pkill -f game-service"
-      - "cd ./seeding && mvn spring-boot:run"
+      - "{{.KILL_CMD}} -f game-service"
+      - "cd ./seeding && {{.MVNW}} spring-boot:run"
 
   sleep:
     vars:
