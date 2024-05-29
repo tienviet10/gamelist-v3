@@ -72,6 +72,14 @@ tasks:
       - task: sleep
       - task: start
 
+  db_reset:
+    cmds:
+      - task: restart_infra
+      - "cd ./game-service && mvn spring-boot:run &"
+      - "{{.SLEEP_CMD}} 15"
+      - "pkill -f game-service"
+      - "cd ./seeding && mvn spring-boot:run"
+
   sleep:
     vars:
       DURATION: "{{default 5 .DURATION}}"

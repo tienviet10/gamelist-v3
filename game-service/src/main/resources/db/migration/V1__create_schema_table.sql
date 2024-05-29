@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS games
 (
     avg_score    FLOAT,
-    bannerURL    VARCHAR(255),
+    "bannerURL"  VARCHAR(255),
     description  VARCHAR(2000),
-    imageURL     VARCHAR(255),
+    "imageURL"   VARCHAR(255),
     name         VARCHAR(255),
     releaseDate  TIMESTAMP,
     total_rating INTEGER,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users
     created_at      TIMESTAMP,
     email           VARCHAR(255),
     is_active       BOOLEAN,
-    listsOrder      VARCHAR(255),
+    "listsOrder"    VARCHAR(255),
     password_digest VARCHAR(255),
     updated_at      TIMESTAMP,
     user_picture    VARCHAR(255),
