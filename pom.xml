@@ -19,7 +19,6 @@
     <modules>
         <module>api-gateway</module>
         <module>game-service</module>
-        <module>seeding</module>
     </modules>
     <build>
         <plugins>
