@@ -1,4 +1,4 @@
-name: 'spring-boot-microservices-course'
+name: 'spring-boot-microservices-gamelist'
 services:
   prometheus:
     image: prom/prometheus:v2.51.2

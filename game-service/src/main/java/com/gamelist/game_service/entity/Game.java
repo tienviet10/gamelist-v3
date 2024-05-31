@@ -17,21 +17,21 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @Entity(name = "games")
-@Table(
-        indexes = {
-            @Index(name = "nameIndex", columnList = "name"),
-            @Index(name = "releaseDateIndex", columnList = "releaseDate"),
-            @Index(name = "avgScoreIndex", columnList = "avg_score"),
-            @Index(name = "totalRatingIndex", columnList = "total_rating"),
-            @Index(name = "mulitIndexNameIdAsc", columnList = "name ASC, id"),
-            @Index(name = "mulitIndexNameIdDesc", columnList = "name DESC, id"),
-            @Index(name = "mulitIndexReleaseDateIdAsc", columnList = "releaseDate ASC, id"),
-            @Index(name = "mulitIndexReleaseDateIdDesc", columnList = "releaseDate DESC, id"),
-            @Index(name = "mulitIndexAvgScoreIdAsc", columnList = "avg_score ASC, id"),
-            @Index(name = "mulitIndexAvgScoreIdDesc", columnList = "avg_score DESC, id"),
-            @Index(name = "mulitIndexTotalRatingIdAsc", columnList = "total_rating ASC, id"),
-            @Index(name = "mulitIndexTotalRatingIdDesc", columnList = "total_rating DESC, id"),
-        })
+// @Table(
+//        indexes = {
+//            @Index(name = "nameIndex", columnList = "name"),
+//            @Index(name = "releaseDateIndex", columnList = "releaseDate"),
+//            @Index(name = "avgScoreIndex", columnList = "avg_score"),
+//            @Index(name = "totalRatingIndex", columnList = "total_rating"),
+//            @Index(name = "mulitIndexNameIdAsc", columnList = "name ASC, id"),
+//            @Index(name = "mulitIndexNameIdDesc", columnList = "name DESC, id"),
+//            @Index(name = "mulitIndexReleaseDateIdAsc", columnList = "releaseDate ASC, id"),
+//            @Index(name = "mulitIndexReleaseDateIdDesc", columnList = "releaseDate DESC, id"),
+//            @Index(name = "mulitIndexAvgScoreIdAsc", columnList = "avg_score ASC, id"),
+//            @Index(name = "mulitIndexAvgScoreIdDesc", columnList = "avg_score DESC, id"),
+//            @Index(name = "mulitIndexTotalRatingIdAsc", columnList = "total_rating ASC, id"),
+//            @Index(name = "mulitIndexTotalRatingIdDesc", columnList = "total_rating DESC, id"),
+//        })
 public class Game extends InteractiveEntity {
 
     private String name;
