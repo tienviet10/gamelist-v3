@@ -218,4 +218,13 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <spring.profiles.active>local</spring.profiles.active>
+                <spring.cloud.config.enabled>false</spring.cloud.config.enabled>
+            </properties>
+        </profile>
+    </profiles>
 </project>
