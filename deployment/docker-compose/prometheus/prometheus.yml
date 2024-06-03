@@ -21,3 +21,9 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: [ 'game-service:8080' ]
+
+  - job_name: 'config-server'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'config-server:8888' ]

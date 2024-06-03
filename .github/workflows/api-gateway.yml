@@ -5,9 +5,12 @@ on:
     paths:
       - api-gateway/**
     branches:
-      - '**'
+      - main
   pull_request:
-    branches: [ main ]
+    paths:
+      - api-gateway/**
+    branches:
+      - main
 
 jobs:
   build:

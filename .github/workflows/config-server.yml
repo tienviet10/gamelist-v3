@@ -1,14 +1,14 @@
-name: Game Service
+name: Config Service
 
 on:
   push:
     paths:
-      - game-service/**
+      - config-server/**
     branches:
       - main
   pull_request:
     paths:
-      - game-service/**
+      - config-server/**
     branches:
       - main
 
@@ -17,8 +17,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      working-directory: ./game-service
-      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-game-service
+      working-directory: ./config-server
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-config-server
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
