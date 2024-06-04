@@ -5,6 +5,7 @@ import com.gamelist.auth_service.repository.UserRepository;
 import com.gamelist.auth_service.service.AuthService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class AuthServiceImpl implements AuthService {
     private final JwtServiceImpl jwtService;
 
     public Map<String, Object> attemptSignup(String email, String password, String username) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
+
+        if (existingUser.isPresent()) {
+            throw new IllegalArgumentException("Email is already in use");
+        }
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
