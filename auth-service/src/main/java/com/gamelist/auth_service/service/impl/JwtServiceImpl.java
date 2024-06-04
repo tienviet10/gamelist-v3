@@ -6,11 +6,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,8 @@ public class JwtServiceImpl implements JwtService {
                 .claim("email", email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTimeInMs))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     private Key getSignKey() {

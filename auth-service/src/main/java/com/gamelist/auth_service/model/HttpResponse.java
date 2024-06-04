@@ -1,12 +1,11 @@
 package com.gamelist.auth_service.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
-
-import java.util.Map;
 
 @Getter
 @Setter

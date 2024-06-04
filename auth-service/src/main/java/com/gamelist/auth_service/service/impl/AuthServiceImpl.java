@@ -1,15 +1,13 @@
 package com.gamelist.auth_service.service.impl;
 
-
 import com.gamelist.auth_service.entity.User;
 import com.gamelist.auth_service.repository.UserRepository;
 import com.gamelist.auth_service.service.AuthService;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

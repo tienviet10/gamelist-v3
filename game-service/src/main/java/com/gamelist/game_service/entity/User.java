@@ -3,15 +3,14 @@ package com.gamelist.game_service.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -59,12 +58,12 @@ public class User {
     @Column(name = "`listsorder`")
     private String listsOrder;
 
-//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @JsonProperty("roles")
-//    @Enumerated(EnumType.STRING)
-//    @RoleSubset(anyOf = {Role.ROLE_USER, Role.ROLE_ADMIN})
-//    private Set<Role> roles;
+    //    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    //    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    //    @JsonProperty("roles")
+    //    @Enumerated(EnumType.STRING)
+    //    @RoleSubset(anyOf = {Role.ROLE_USER, Role.ROLE_ADMIN})
+    //    private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
