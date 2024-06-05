@@ -2,8 +2,6 @@ package com.gamelist.api_gateway.filter;
 
 import com.gamelist.api_gateway.util.JwtUtil;
 import java.util.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
+    //    private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
     private final RouteValidator validator;
     private final JwtUtil jwtUtil;
 

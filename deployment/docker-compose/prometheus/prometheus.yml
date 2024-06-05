@@ -27,3 +27,9 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: [ 'config-server:8888' ]
+
+  - job_name: 'auth-service'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'auth-service:8082' ]

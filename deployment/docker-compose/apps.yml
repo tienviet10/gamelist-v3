@@ -23,8 +23,8 @@ services:
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - GAMELIST_SERVICE_URL=http://game-service:8080
-      #      - ORDER_SERVICE_URL=http://order-service:8082
+      - GAME_SERVICE_URL=http://game-service:8080
+      - AUTH_SERVICE_URL=http://auth-service:8082
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -33,6 +33,28 @@ services:
     restart: unless-stopped
     depends_on:
       - config-server
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  auth-service:
+    image: tienviet/gamelist-auth-service
+    container_name: auth-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - CONFIG_SERVER_URL=config-server
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
     deploy:
       resources:
         limits:
