@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,20 @@ public class JwtServiceImpl implements JwtService {
     private final JwtProperties properties;
 
     @Override
-    public String generateToken(long userId, String email) {
+    public String generateToken(long userId, String email, List<String> roles) {
         long expirationTimeInMs = 1000L * 60 * 60 * 24 * 60;
+        //        return Jwts.builder()
+        //                .subject(String.valueOf(userId))
+        //                .claim("email", email)
+        //                .claim("roles", roles)
+        //                .issuedAt(new Date(System.currentTimeMillis()))
+        //                .expiration(new Date(System.currentTimeMillis() + expirationTimeInMs))
+        //                .signWith(getSignKey())
+        //                .compact();
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .claim("email", email)
+                .claim("roles", roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTimeInMs))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
