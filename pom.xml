@@ -22,6 +22,7 @@
         <module>config-server</module>
         <module>auth-service</module>
         <module>social-service</module>
+        <module>user-service</module>
     </modules>
     <build>
         <plugins>
