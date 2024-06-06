@@ -54,7 +54,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "`listsOrder`")
+    @Column(name = "`listsorder`")
     private String listsOrder;
 
     //    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

@@ -40,11 +40,11 @@ public class Game extends InteractiveEntity {
     @JsonProperty("summary")
     private String description;
 
-    @Column(name = "`imageURL`")
+    @Column(name = "`imageurl`")
     @JsonProperty("cover")
     private String imageURL;
 
-    @Column(name = "releaseDate")
+    @Column(name = "releasedate")
     @JsonProperty("first_release_date")
     private LocalDateTime releaseDate;
 
@@ -55,7 +55,7 @@ public class Game extends InteractiveEntity {
     @JsonProperty("total_rating_count")
     private int totalRating;
 
-    @Column(name = "`bannerURL`")
+    @Column(name = "`bannerurl`")
     @JsonProperty("screenshots")
     private String bannerURL;
 

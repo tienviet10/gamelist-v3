@@ -1,7 +1,10 @@
 package com.gamelist.social_service.mapper;
 
+import com.gamelist.social_service.dto.CommentDTO;
 import com.gamelist.social_service.dto.PostDTO;
+import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.Post;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,5 +19,5 @@ public interface PostMapper {
     PostDTO postToPostDTO(Post post);
 
     //    @Mapping(target = "post.comments", ignore = true)
-    //    List<CommentDTO> commentListToCommentDTOList(List<Comment> comments);
+    List<CommentDTO> commentListToCommentDTOList(List<Comment> comments);
 }

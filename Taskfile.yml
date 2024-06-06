@@ -29,6 +29,8 @@ tasks:
       - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl game-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl auth-service spring-boot:build-image -DskipTests"
+      - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests"
+      - "{{.MVNW}} -pl user-service spring-boot:build-image -DskipTests"
 
   start_infra:
     cmds:

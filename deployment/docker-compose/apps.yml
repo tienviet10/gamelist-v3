@@ -5,7 +5,7 @@ services:
     container_name: config-server
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
@@ -25,6 +25,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - GAME_SERVICE_URL=http://game-service:8080
       - AUTH_SERVICE_URL=http://auth-service:8082
+      - SOCIAL_SERVICE_URL=http://social-service:8081
+      - USER_SERVICE_URL=http://user-service:8083
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -70,12 +72,56 @@ services:
       - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
     ports:
       - "8080:8080"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  social-service:
+    image: tienviet/gamelist-social-service
+    container_name: social-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - CONFIG_SERVER_URL=config-server
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  user-service:
+    image: tienviet/gamelist-user-service
+    container_name: user-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - CONFIG_SERVER_URL=config-server
+    ports:
+      - "8083:8083"
     restart: unless-stopped
     deploy:
       resources:

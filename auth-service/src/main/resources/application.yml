@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: auth-service
+  config:
+    import: optional:configserver:http://${CONFIG_SERVER_URL:localhost}:8888
+
+security:
+  jwt:
+    secret-key: jkhoiuvsnoiergtbyabdyuweaobcaljcsbejoiufydsbu

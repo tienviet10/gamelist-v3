@@ -13,11 +13,14 @@ import com.gamelist.social_service.service.InteractiveEntityService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class InteractiveEntityServiceImpl implements InteractiveEntityService {
+    private static final Logger log = LoggerFactory.getLogger(InteractiveEntityServiceImpl.class);
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final PostMapper postMapper;
     private final StatusUpdateMapper statusUpdateMapper;
@@ -59,12 +62,13 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
 
     @Override
     public PostAndStatusUpdateResponse getAllPostAndStatusUpdatesFirstPage(Integer limit) {
+        log.info("Getting all posts and status updates first page");
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
         List<InteractiveEntity> postsAndStatusUpdates =
                 interactiveEntityRepository.findAllPostsAndStatusUpdatesFirstPage(limit);
-
+        log.info("Got all posts and status updates first page");
         return handleGetPostAndStatusUpdateResponse(posts, statusUpdates, postsAndStatusUpdates);
     }
 
@@ -88,6 +92,8 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
                 statusUpdates.add(statusUpdateMapper.statusUpdateToStatusUpdateDTO((StatusUpdate) postOrStatusUpdate));
             }
         }
+
+        log.info("Got all posts and status updates");
 
         Long lastPostOrStatusUpdateId =
                 postsAndStatusUpdates.get(postsAndStatusUpdates.size() - 1).getId();

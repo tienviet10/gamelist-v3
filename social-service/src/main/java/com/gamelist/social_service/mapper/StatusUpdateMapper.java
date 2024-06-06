@@ -1,7 +1,10 @@
 package com.gamelist.social_service.mapper;
 
+import com.gamelist.social_service.dto.CommentDTO;
 import com.gamelist.social_service.dto.StatusUpdateDTO;
+import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.StatusUpdate;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,5 +19,5 @@ public interface StatusUpdateMapper {
     StatusUpdateDTO statusUpdateToStatusUpdateDTO(StatusUpdate statusUpdate);
 
     //    @Mapping(target = "statusUpdate.comments", ignore = true)
-    //    List<CommentDTO> commentListToCommentDTOList(List<Comment> comments);
+    List<CommentDTO> commentListToCommentDTOList(List<Comment> comments);
 }
