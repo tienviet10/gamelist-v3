@@ -14,8 +14,6 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
 
     Optional<UserGame> findByGameIdAndUserId(Long gameId, Long userId);
 
-    boolean existsByGameIdAndUserId(Long gameId, Long userId);
-
     @Query("SELECT CASE WHEN COUNT(ug) > 0 THEN true ELSE false END FROM user_games ug " + "WHERE ug.game.id = :gameId "
             + "AND ug.user.id = :userId "
             + "AND ug.gameStatus != 'Inactive'")

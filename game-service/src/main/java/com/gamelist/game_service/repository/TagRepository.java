@@ -9,6 +9,4 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     @Query("SELECT name FROM tags")
     List<String> getAllNames();
-
-    Tag findByName(String tagName);
 }
