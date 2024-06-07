@@ -4,26 +4,31 @@ import com.gamelist.social_service.model.CreateCommentRequest;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.service.CommentService;
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comments")
 @CrossOrigin(origins = "*")
 public class CommentController {
+    private static final Logger log = LoggerFactory.getLogger(CommentController.class);
     private final CommentService commentService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createComment(
             @RequestHeader(name = "userId") Long userId, @RequestBody CreateCommentRequest createCommentRequest) {
+        log.info("createComment called with userId: {}", userId);
         CommentView comment = commentService.createComment(
                 userId, createCommentRequest.getInteractiveEntityId(), createCommentRequest.getText());
 
@@ -41,6 +46,7 @@ public class CommentController {
     @Transactional
     public ResponseEntity<HttpResponse> deleteComment(
             @RequestHeader(name = "userId") Long userId, @PathVariable Long requestedId) {
+        log.info("deleteComment called with userId: {}", userId);
         commentService.deleteCommentById(userId, requestedId);
 
         return ResponseEntity.ok(HttpResponse.builder()
@@ -57,6 +63,7 @@ public class CommentController {
             @RequestHeader(name = "userId") Long userId,
             @PathVariable Long requestedId,
             @RequestBody CreateCommentRequest createCommentRequest) {
+        log.info("updateComment called with userId: {}", userId);
         CommentView comment = commentService.updateCommentById(userId, requestedId, createCommentRequest.getText());
 
         return ResponseEntity.ok(HttpResponse.builder()

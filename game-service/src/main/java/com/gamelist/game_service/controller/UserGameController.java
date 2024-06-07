@@ -6,24 +6,29 @@ import com.gamelist.game_service.exception.InternalServerErrorException;
 import com.gamelist.game_service.model.EditUserGameRequest;
 import com.gamelist.game_service.model.HttpResponse;
 import com.gamelist.game_service.service.UserGameService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/usergames")
 @CrossOrigin(origins = "*")
 public class UserGameController {
+    private static final Logger log = LoggerFactory.getLogger(UserGameController.class);
     private final UserGameService userGameService;
 
     @GetMapping
     public ResponseEntity<HttpResponse> getAllUserGameByUserId(@RequestHeader(name = "userId") Long userId) {
+        log.info("getAllUserGameByUserId called with userId: {}", userId);
         Set<UserGame> userGames = userGameService.findAllUserGamesByUserId(userId);
 
         return ResponseEntity.ok(HttpResponse.builder()
@@ -37,7 +42,9 @@ public class UserGameController {
 
     @GetMapping("/status")
     public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(@RequestHeader(name = "userId") Long userId) {
+        log.info("getAllUserGameByUserIdByStatus called with userId: {}", userId);
         UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId);
+
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
                 .data(Map.of("userGamesByStatus", userGames))
@@ -50,6 +57,7 @@ public class UserGameController {
     @GetMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> findUserGameByGameId(
             @PathVariable("requestedId") Long requestedId, @RequestHeader(name = "userId") Long userId) {
+        log.info("findUserGameByGameId called with gameId: {}", requestedId);
         UserGame userGame = userGameService.findUserGameByGameId(requestedId, userId);
 
         return ResponseEntity.ok(HttpResponse.builder()
@@ -63,6 +71,7 @@ public class UserGameController {
 
     @PostMapping
     public ResponseEntity<HttpResponse> createUserGame(@RequestBody EditUserGameRequest userGame, Long userId) {
+        log.info("createUserGame called with userId: {}", userId);
         UserGame createdUserGame = userGameService.createUserGame(userGame, userId);
 
         if (createdUserGame != null) {
@@ -89,6 +98,7 @@ public class UserGameController {
 
     @PutMapping
     public ResponseEntity<HttpResponse> updateUserGame(@RequestBody EditUserGameRequest userGame, Long userId) {
+        log.info("updateUserGame called with userId: {}", userId);
         UserGame updatedUserGame = userGameService.updateUserGameById(userGame, userId);
 
         return ResponseEntity.created(URI.create(""))
@@ -104,6 +114,7 @@ public class UserGameController {
     @DeleteMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> deleteUserGameByGameId(
             @PathVariable("requestedId") Long requestedId, Long userId) {
+        log.info("deleteUserGameByGameId called with userId: {}", userId);
         UserGame deletedUserGame = userGameService.deleteUserGameByGameId(requestedId, userId);
 
         return ResponseEntity.created(URI.create(""))

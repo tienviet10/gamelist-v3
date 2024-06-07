@@ -4,26 +4,31 @@ import com.gamelist.social_service.entity.CreateLikeEntityRequest;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.LikeEntityView;
 import com.gamelist.social_service.service.LikeService;
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/likes")
 @CrossOrigin(origins = "*")
 public class LikeController {
+    private static final Logger log = LoggerFactory.getLogger(LikeController.class);
     private final LikeService likeService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createLike(
             @RequestHeader(name = "userId") Long userId, @RequestBody CreateLikeEntityRequest createLikeEntityRequest) {
+        log.info("createLike called with userId: {}", userId);
         LikeEntityView like = likeService.createLike(userId, createLikeEntityRequest.getInteractiveEntityId());
 
         return ResponseEntity.created(URI.create(""))
@@ -40,6 +45,7 @@ public class LikeController {
     @Transactional
     public ResponseEntity<HttpResponse> deleteLike(
             @RequestHeader(name = "userId") Long userId, @PathVariable Long requestedId) {
+        log.info("deleteLike called with userId: {}", userId);
         likeService.deleteLikeById(userId, requestedId);
 
         return ResponseEntity.ok(HttpResponse.builder()
