@@ -4,17 +4,16 @@ import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.PostView;
 import com.gamelist.social_service.service.PostService;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

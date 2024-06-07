@@ -6,17 +6,16 @@ import com.gamelist.game_service.exception.InternalServerErrorException;
 import com.gamelist.game_service.model.EditUserGameRequest;
 import com.gamelist.game_service.model.HttpResponse;
 import com.gamelist.game_service.service.UserGameService;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor

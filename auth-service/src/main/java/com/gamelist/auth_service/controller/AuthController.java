@@ -4,6 +4,8 @@ import com.gamelist.auth_service.entity.User;
 import com.gamelist.auth_service.model.HttpResponse;
 import com.gamelist.auth_service.model.LoginRequest;
 import com.gamelist.auth_service.service.impl.AuthServiceImpl;
+import java.net.URI;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.URI;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RestController
