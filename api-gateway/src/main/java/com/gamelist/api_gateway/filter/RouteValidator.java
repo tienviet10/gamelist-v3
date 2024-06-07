@@ -1,10 +1,9 @@
 package com.gamelist.api_gateway.filter;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.function.Predicate;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RouteValidator {
