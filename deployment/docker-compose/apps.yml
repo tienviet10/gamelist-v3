@@ -30,7 +30,7 @@ services:
       - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/auth-service
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -52,7 +52,7 @@ services:
       - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game-service
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -74,7 +74,7 @@ services:
       - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/social-service
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -96,7 +96,7 @@ services:
       - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/user-service
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
