@@ -78,6 +78,7 @@ tasks:
     cmds:
       - "docker compose -f {{.APPS_DC_FILE}} stop"
       - "docker compose -f {{.APPS_DC_FILE}} rm -f"
+      - task: stop_config
 
   restart:
     cmds:
