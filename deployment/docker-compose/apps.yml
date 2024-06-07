@@ -1,23 +1,5 @@
 name: 'spring-boot-microservices-gamelist'
 services:
-  config-server:
-    image: tienviet/gamelist-config-server
-    container_name: config-server
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
-      - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
-    ports:
-      - "8888:8888"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    labels:
-      logging: "promtail"
-
   api-gateway:
     image: tienviet/gamelist-api-gateway
     container_name: api-gateway
@@ -33,8 +15,6 @@ services:
     ports:
       - "8989:8989"
     restart: unless-stopped
-    depends_on:
-      - config-server
     deploy:
       resources:
         limits:

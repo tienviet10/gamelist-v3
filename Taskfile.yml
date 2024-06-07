@@ -47,6 +47,13 @@ tasks:
       - task: sleep
       - task: start_infra
 
+  stop_config:
+    vars:
+      SERVICE_NAME: "config-server"
+    cmds:
+      - "docker compose -f {{.INFRA_DC_FILE}} stop {{.SERVICE_NAME}}"
+      - "docker compose -f {{.INFRA_DC_FILE}} rm -f {{.SERVICE_NAME}}"
+
   start_monitoring:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
@@ -85,6 +92,7 @@ tasks:
       - "{{.SLEEP_CMD}} 15"
       - "{{.KILL_CMD}} -f game-service"
       - "cd ./seeding && {{.MVNW}} spring-boot:run"
+      - task: stop_config
 
   sleep:
     vars:

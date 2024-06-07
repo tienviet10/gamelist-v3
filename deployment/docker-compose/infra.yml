@@ -19,3 +19,21 @@ services:
       resources:
         limits:
           memory: 500m
+
+  config-server:
+    image: tienviet/gamelist-config-server
+    container_name: config-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/game
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+    ports:
+      - "8888:8888"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
