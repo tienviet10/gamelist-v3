@@ -31,6 +31,7 @@ tasks:
       - "{{.MVNW}} -pl auth-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl user-service spring-boot:build-image -DskipTests"
+      - "docker build ./go-docker-example -t tienviet/gamelist-go-service"
 
   start_infra:
     cmds:
