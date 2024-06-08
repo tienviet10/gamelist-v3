@@ -78,6 +78,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
+      - GAME_SERVICE_URL=http://api-gateway:8989/game-service
     ports:
       - "8081:8081"
     restart: unless-stopped

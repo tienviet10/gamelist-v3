@@ -25,9 +25,9 @@ public class GameController {
     @PostMapping
     public ResponseEntity<HttpResponse> getGames(
             @RequestBody(required = false) GameQueryFilters gameQueryFilters,
-            @RequestHeader(name = "userId", required = false) Long userId
+            @RequestHeader(name = "userId", required = false) Long userId,
             //            @RequestHeader(name = "email", required = false) String email
-            ) {
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
         log.info("getGames called with userId: {}", userId);
         List<GameDTO> games = gameService.getAllGames(gameQueryFilters, userId);
         return ResponseEntity.ok(HttpResponse.builder()
