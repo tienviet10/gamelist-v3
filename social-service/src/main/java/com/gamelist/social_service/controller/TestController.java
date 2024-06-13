@@ -3,6 +3,7 @@ package com.gamelist.social_service.controller;
 import com.gamelist.social_service.clients.game.GameDTO;
 import com.gamelist.social_service.clients.game.GameServiceClient;
 import com.gamelist.social_service.clients.game.HttpResponseModel;
+import com.gamelist.social_service.clients.go.GoServiceClient;
 import com.gamelist.social_service.model.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
     private static final Logger log = LoggerFactory.getLogger(PostController.class);
     private final GameServiceClient client;
+    private final GoServiceClient goClient;
 
     @GetMapping
     public ResponseEntity<HttpResponse> getTest(@RequestHeader(name = "userId", required = false) Long userId) {
@@ -37,6 +39,19 @@ public class TestController {
                 .status(HttpStatus.OK)
                 .statusCode(HttpStatus.OK.value())
                 .message("Game retrieved successfully")
+                .build());
+    }
+
+    @GetMapping("/go")
+    public ResponseEntity<HttpResponse> getTestGo() {
+        log.info("getTestGo called in Controller");
+        Optional<String> result = goClient.getGo();
+        return ResponseEntity.ok(HttpResponse.builder()
+                .timeStamp(LocalDateTime.now().toString())
+                .data(Map.of("go", result))
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message("GOLang retrieved successfully")
                 .build());
     }
 }

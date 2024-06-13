@@ -22,27 +22,27 @@ services:
     labels:
       logging: "promtail"
 
-  auth-service:
-    image: tienviet/gamelist-auth-service
-    container_name: auth-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/auth-service
-      - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
-      - CONFIG_SERVER_URL=config-server
-    ports:
-      - "8082:8082"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    labels:
-      logging: "promtail"
+  #  auth-service:
+  #    image: tienviet/gamelist-auth-service
+  #    container_name: auth-service
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=docker
+  #      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+  #      - DB_USERNAME=postgres
+  #      - DB_PASSWORD=postgres
+  #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/auth-service
+  #      - MANAGEMENT_TRACING_ENABLED=true
+  #      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+  #      - CONFIG_SERVER_URL=config-server
+  #    ports:
+  #      - "8082:8082"
+  #    restart: unless-stopped
+  #    deploy:
+  #      resources:
+  #        limits:
+  #          memory: 700m
+  #    labels:
+  #      logging: "promtail"
 
   game-service:
     image: tienviet/gamelist-game-service
@@ -79,6 +79,7 @@ services:
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
       - GAME_SERVICE_URL=http://api-gateway:8989/game-service
+      - GO_SERVICE_URL=http://api-gateway:8989/go-service
     ports:
       - "8081:8081"
     restart: unless-stopped
@@ -110,3 +111,21 @@ services:
           memory: 700m
     labels:
       logging: "promtail"
+
+  auth-service:
+    image: tienviet/gamelist-auth-service
+    container_name: auth-service
+    build:
+      context: ./auth-service-go
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8082
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+#    labels:
+#      logging: "promtail"

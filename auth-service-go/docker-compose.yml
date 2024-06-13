@@ -1,0 +1,13 @@
+name: 'spring-boot-microservices-gamelist'
+version: '3.8'
+services:
+  app:
+    container_name: auth-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8082
+    restart: unless-stopped
+    ports:
+      - 8082:8082

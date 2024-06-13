@@ -2,8 +2,8 @@ package com.gamelist.api_gateway.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.List;
 import java.util.function.Function;
@@ -47,7 +47,6 @@ public class JwtUtil {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(properties.getSecretKey());
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(properties.getSecretKey().getBytes(StandardCharsets.UTF_8));
     }
 }
