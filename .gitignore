@@ -108,3 +108,17 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+*.env
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go binaries
+*.test
+*.out
+*.o
+*.a

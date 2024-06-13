@@ -9,7 +9,6 @@ services:
       - AUTH_SERVICE_URL=http://auth-service:8082
       - SOCIAL_SERVICE_URL=http://social-service:8081
       - USER_SERVICE_URL=http://user-service:8083
-      - GO_SERVICE_URL=http://go-service:9000
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -23,27 +22,27 @@ services:
     labels:
       logging: "promtail"
 
-  auth-service:
-    image: tienviet/gamelist-auth-service
-    container_name: auth-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/auth-service
-      - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
-      - CONFIG_SERVER_URL=config-server
-    ports:
-      - "8082:8082"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    labels:
-      logging: "promtail"
+  #  auth-service:
+  #    image: tienviet/gamelist-auth-service
+  #    container_name: auth-service
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=docker
+  #      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+  #      - DB_USERNAME=postgres
+  #      - DB_PASSWORD=postgres
+  #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/auth-service
+  #      - MANAGEMENT_TRACING_ENABLED=true
+  #      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+  #      - CONFIG_SERVER_URL=config-server
+  #    ports:
+  #      - "8082:8082"
+  #    restart: unless-stopped
+  #    deploy:
+  #      resources:
+  #        limits:
+  #          memory: 700m
+  #    labels:
+  #      logging: "promtail"
 
   game-service:
     image: tienviet/gamelist-game-service
@@ -113,16 +112,16 @@ services:
     labels:
       logging: "promtail"
 
-  go-service:
-    image: tienviet/gamelist-go-service
-    container_name: go-service
+  auth-service:
+    image: tienviet/gamelist-auth-service
+    container_name: auth-service
     build:
-      context: ./go-docker-example
+      context: ./auth-service-go
       dockerfile: Dockerfile
     environment:
-      - PORT=9000
+      - PORT=8082
     ports:
-      - "9000:9000"
+      - "8082:8082"
     restart: unless-stopped
     deploy:
       resources:
