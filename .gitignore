@@ -122,3 +122,6 @@ Thumbs.db
 *.out
 *.o
 *.a
+
+tmp/
+*.tmp
