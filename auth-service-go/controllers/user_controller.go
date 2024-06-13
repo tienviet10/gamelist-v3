@@ -22,7 +22,7 @@ type User struct {
 	Bio           string             `bson:"bio"`
 	IsActivated   bool               `bson:"is_activated"`
 	CreatedAt     time.Time          `bson:"created_at"`
-	ListsOrder    []string           `bson:"listsorder"`
+	ListsOrder    string             `bson:"listsorder"`
 	UpdatedAt     time.Time          `bson:"updated_at"`
 	UserPicture   string             `bson:"user_picture"`
 	Username      string             `bson:"username"`
@@ -53,6 +53,32 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	if user.Username == "" {
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", "Username is required")
+		return
+	}
+
+	if user.Email == "" {
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", "Email is required")
+		return
+	}
+
+	if user.Password == "" {
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", "Password is required")
+		return
+	}
+
+	var result User
+	err := collection.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&result)
+	if err != mongo.ErrNoDocuments {
+		if err != nil {
+			helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error checking if email exists")
+			return
+		}
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", "Email already exists")
+		return
+	}
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error hashing password")
@@ -60,6 +86,8 @@ func Register(c *gin.Context) {
 	}
 
 	user.Password = string(hash)
+	user.ListsOrder = "planning,playing,completed,paused,dropped,justAdded"
+	user.IsActivated = true
 
 	_, err = collection.InsertOne(context.TODO(), user)
 	if err != nil {

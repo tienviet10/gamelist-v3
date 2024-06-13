@@ -8,6 +8,16 @@ Content-Type: application/json
 
 {
     "email": "m@gmail.com",
+    "password": "123456",
+    "username": "Mm"
+}
+
+###
+post {{hostname}}/register
+Content-Type: application/json
+
+{
+    "email": "m@gmail.com",
     "password": "123456"
 }
 
