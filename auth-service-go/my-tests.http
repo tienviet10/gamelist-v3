@@ -7,7 +7,7 @@ post {{hostname}}/register
 Content-Type: application/json
 
 {
-    "email": "v@gmail.com",
+    "email": "m@gmail.com",
     "password": "123456"
 }
 

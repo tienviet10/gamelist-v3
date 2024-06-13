@@ -2,13 +2,12 @@ package controllers
 
 import (
 	"containerized-go-app/config"
+	"containerized-go-app/helpers"
 	"context"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
-	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,18 +28,34 @@ type User struct {
 	Username      string             `bson:"username"`
 }
 
+type UserResponse struct {
+	Username      string `json:"username"`
+	Email         string `json:"email"`
+	BannerPicture string `json:"bannerPicture"`
+	UserPicture   string `json:"userPicture"`
+}
+
+func createUserResponse(user User) UserResponse {
+	return UserResponse{
+		Username:      user.Username,
+		Email:         user.Email,
+		BannerPicture: user.BannerPicture,
+		UserPicture:   user.UserPicture,
+	}
+}
+
 func Register(c *gin.Context) {
 	collection := config.MongoClient.Database("gamelist").Collection("users")
 
 	var user User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", err.Error())
 		return
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
+		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error hashing password")
 		return
 	}
 
@@ -48,17 +63,23 @@ func Register(c *gin.Context) {
 
 	_, err = collection.InsertOne(context.TODO(), user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error registering user"})
+		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error registering user")
 		return
 	}
 
-	token, err := generateToken(1, user.Email)
+	token, err := helpers.GenerateToken(1, user.Email)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating token"})
+		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error generating token")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully", "token": token})
+	userResponse := createUserResponse(user)
+	data := map[string]interface{}{
+		"token": token,
+		"user":  userResponse,
+	}
+
+	helpers.SendSuccessResponse(c, http.StatusOK, "OK", "Registered successfully", "Registered", data)
 }
 
 func Login(c *gin.Context) {
@@ -66,7 +87,7 @@ func Login(c *gin.Context) {
 
 	var user User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		helpers.SendErrorResponse(c, http.StatusBadRequest, "Bad Request", err.Error())
 		return
 	}
 
@@ -74,41 +95,30 @@ func Login(c *gin.Context) {
 	err := collection.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&foundUser)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+			helpers.SendErrorResponse(c, http.StatusUnauthorized, "Unauthorized", "Invalid username or password")
 		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error logging in"})
+			helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error logging in")
 		}
 		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(foundUser.Password), []byte(user.Password))
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		helpers.SendErrorResponse(c, http.StatusUnauthorized, "Unauthorized", "Invalid username or password")
 		return
 	}
 
-	token, err := generateToken(1, foundUser.Email)
+	token, err := helpers.GenerateToken(1, foundUser.Email)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating token"})
+		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error generating token")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Logged in successfully", "token": token})
-}
-
-func generateToken(userId int, email string) (string, error) {
-	var jwtKey = []byte(viper.GetString("JWT_SECRET"))
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":   userId,
-		"iss":   "gamelist-auth-service",
-		"exp":   time.Now().Add(time.Hour).Unix(),
-		"iat":   time.Now().Unix(),
-		"email": email,
-	})
-
-	tokenString, err := claims.SignedString(jwtKey)
-	if err != nil {
-		return "", err
+	userResponse := createUserResponse(foundUser)
+	data := map[string]interface{}{
+		"token": token,
+		"user":  userResponse,
 	}
-	return tokenString, nil
+
+	helpers.SendSuccessResponse(c, http.StatusOK, "OK", "Logged in successfully", "User logged in", data)
 }
