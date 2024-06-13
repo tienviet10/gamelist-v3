@@ -1,4 +1,4 @@
-name: Auth Service
+name: Auth Service GO
 
 on:
   push:
