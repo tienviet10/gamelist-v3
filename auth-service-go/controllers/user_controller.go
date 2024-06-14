@@ -4,6 +4,7 @@ import (
 	"containerized-go-app/config"
 	"containerized-go-app/helpers"
 	"context"
+	"log"
 	"net/http"
 	"time"
 
@@ -45,6 +46,9 @@ func createUserResponse(user User) UserResponse {
 }
 
 func Register(c *gin.Context) {
+	_, traceID := helpers.StartSpanWithTracer(c, "Register")
+	log.Printf("Register in user with trace ID: %s", traceID)
+
 	collection := config.MongoClient.Database("gamelist").Collection("users")
 
 	var user User
@@ -111,6 +115,8 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
+	_, traceID := helpers.StartSpanWithTracer(c, "Login")
+	log.Printf("Logging in user with trace ID: %s", traceID)
 	collection := config.MongoClient.Database("gamelist").Collection("users")
 
 	var user User
