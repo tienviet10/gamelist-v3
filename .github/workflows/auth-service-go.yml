@@ -41,6 +41,6 @@ jobs:
 
       - name: Build and Publish Docker Image
         run: |
-          docker build -t $DOCKER_IMAGE_NAME .
+          docker build --build-arg VAR_MONGO_DB=${{ secrets.VAR_MONGO_DB }} --build-arg VAR_JWT_SECRET=${{ secrets.VAR_JWT_SECRET }} -t $DOCKER_IMAGE_NAME .
           echo "Pushing the image $DOCKER_IMAGE_NAME to Docker Hub..."
           docker push $DOCKER_IMAGE_NAME
