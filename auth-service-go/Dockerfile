@@ -17,16 +17,10 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
-ARG VAR_MONGO_DB
-ARG VAR_JWT_SECRET
-
-ENV VAR_MONGO_DB=$VAR_MONGO_DB
-ENV VAR_JWT_SECRET=$VAR_JWT_SECRET
-
 COPY --from=builder /app/main .
 
 # Remove the line that copies the .env file
-# COPY --from=builder /app/.env .env
+COPY --from=builder /app/.env .env
 
 EXPOSE 8082
 
