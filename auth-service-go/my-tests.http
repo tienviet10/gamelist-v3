@@ -1,7 +1,5 @@
 @hostname = http://localhost:8082
 
-get {{hostname}}/movies
-
 ###
 post {{hostname}}/register
 Content-Type: application/json
