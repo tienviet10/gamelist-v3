@@ -14,9 +14,14 @@ type DatabaseConfiguration struct {
 }
 
 func DbConfiguration() string {
-	masterDBName := viper.GetString("VAR_MONGO_DB")
+	// dbName := viper.GetString("MONGO_DB_NAME")
+	// dbPass := viper.GetString("MONGO_DB_PASS")
 
-	return masterDBName
+	// connectionString := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.sp1v8.mongodb.net/?retryWrites=true&w=majority", dbName, dbPass)
+
+	connectionString := viper.GetString("VAR_MONGO_DB")
+
+	return connectionString
 }
 
 var MongoClient *mongo.Client

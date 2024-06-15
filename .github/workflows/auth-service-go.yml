@@ -39,8 +39,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#      - name: Build and Publish Docker Image
-#        run: |
-#          docker build --build-arg VAR_MONGO_DB=${{ secrets.VAR_MONGO_DB }} --build-arg VAR_JWT_SECRET=${{ secrets.VAR_JWT_SECRET }} -t $DOCKER_IMAGE_NAME .
-#          echo "Pushing the image $DOCKER_IMAGE_NAME to Docker Hub..."
-#          docker push $DOCKER_IMAGE_NAME
+      - name: Build and Publish Docker Image
+        run: |
+          docker build --build-arg VAR_MONGO_DB=${{ secrets.VAR_MONGO_DB }} --build-arg VAR_JWT_SECRET=${{ secrets.VAR_JWT_SECRET }} --build-arg MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }} --build-arg MONGO_DB_PASS=${{ secrets.MONGO_DB_PASS }} -t $DOCKER_IMAGE_NAME .
+          echo "Pushing the image $DOCKER_IMAGE_NAME to Docker Hub..."
+          docker push $DOCKER_IMAGE_NAME
