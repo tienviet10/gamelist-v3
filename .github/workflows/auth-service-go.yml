@@ -42,7 +42,7 @@ jobs:
       - name: Build and Publish Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./auth-service-go
           file: ./auth-service-go/Dockerfile
           load: true
           push: true
