@@ -79,6 +79,8 @@
         <module>auth-service</module>
         <module>social-service</module>
         <module>user-service</module>
+        <module>scraper-service</module>
+        <module>scraper-service</module>
     </modules>
     <build>
         <plugins>

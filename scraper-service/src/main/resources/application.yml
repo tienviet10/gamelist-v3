@@ -6,4 +6,6 @@ spring:
 
 secrets:
   igdbClientKey: keyHere
-  something: sda
+  twitchLoginClientId: keyHere
+  twitchLoginClientSecret: keyHere
+  grant_type: client_credentials

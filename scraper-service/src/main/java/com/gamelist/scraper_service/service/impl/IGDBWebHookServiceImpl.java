@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
-public class ScraperServiceImpl implements ScraperService {
-    private static final Logger log = LoggerFactory.getLogger(ScraperServiceImpl.class);
+public class IGDBWebHookServiceImpl implements IGDBWebHookService {
+    private static final Logger log = LoggerFactory.getLogger(IGDBWebHookServiceImpl.class);
+
+
+
 }

@@ -10,5 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class ScraperProperties {
+
+    private String twitchLoginClientId;
+    private String twitchLoginClientSecret;
+    private String grant_type;
+
     private String igdbClientKey;
 }
