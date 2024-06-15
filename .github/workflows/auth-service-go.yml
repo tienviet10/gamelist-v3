@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./auth-service-go
-          file: ./auth-service-go/Dockerfile
+          file: Dockerfile
           load: true
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-auth-service
