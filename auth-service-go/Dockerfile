@@ -28,8 +28,6 @@ WORKDIR /root/
 COPY --from=builder /app/main .
 COPY --from=builder /app/.env .env
 
-# Expose the port
 EXPOSE 8082
 
-# Command to run the binary
 CMD ["./main"]
