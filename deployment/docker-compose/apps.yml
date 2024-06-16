@@ -63,6 +63,8 @@ services:
       resources:
         limits:
           memory: 700m
+    depends_on:
+      - config-server
     labels:
       logging: "promtail"
 

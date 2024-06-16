@@ -30,7 +30,7 @@ tasks:
       - "{{.MVNW}} -pl game-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl user-service spring-boot:build-image -DskipTests"
-      - "docker build ./auth-service-go -t tienviet/gamelist-auth-service"
+      - "docker build ./auth-service-go -t tienviet/gamelist-auth-service -f ./auth-service-go/Dockerfile.dev"
 
   start_infra:
     cmds:
@@ -89,6 +89,7 @@ tasks:
   db_reset:
     cmds:
       - task: restart_infra
+      - "{{.SLEEP_CMD}} 35"
       - "cd ./game-service && {{.MVNW}} spring-boot:run &"
       - "{{.SLEEP_CMD}} 15"
       - "{{.KILL_CMD}} -f game-service"
