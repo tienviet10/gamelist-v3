@@ -10,7 +10,7 @@ namespace user_service_dotnet.Entities
     public ObjectId Id { get; set; }
 
     [BsonElement("email")]
-    public String? Email { get; set; }
+    public required String Email { get; set; }
 
     [BsonElement("password")]
     public required string Password { get; set; }
