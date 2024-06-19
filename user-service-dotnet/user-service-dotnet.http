@@ -4,3 +4,8 @@ GET {{user_service_dotnet_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{user_service_dotnet_HostAddress}}/users/
+Accept: application/json
+
+###

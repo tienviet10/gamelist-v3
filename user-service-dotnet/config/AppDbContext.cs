@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using user_service_dotnet.Entities;
 
 
 namespace user_service_dotnet.config
@@ -16,6 +17,7 @@ namespace user_service_dotnet.config
       _database = client.GetDatabase(databaseName);
     }
 
-
+    public IMongoCollection<UserInfo> Users =>
+        _database.GetCollection<UserInfo>("users");
   }
 }
