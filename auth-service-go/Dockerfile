@@ -15,7 +15,7 @@ ARG VAR_JWT_SECRET
 ENV VAR_MONGO_DB=$VAR_MONGO_DB
 ENV VAR_JWT_SECRET=$VAR_JWT_SECRET
 
-RUN echo "VAR_MONGO_DB=${VAR_MONGO_DB}" >> .env && echo "VAR_MONGO_DB=${VAR_MONGO_DB}" >> .env >> .env && echo "VAR_JWT_SECRET=${VAR_JWT_SECRET}" >> .env
+RUN echo "VAR_MONGO_DB=${VAR_MONGO_DB}" >> .env && echo "VAR_MONGO_DB=${VAR_MONGO_DB}" >> .env && echo "VAR_JWT_SECRET=${VAR_JWT_SECRET}" >> .env
 
 RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o main .
 
