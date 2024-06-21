@@ -4,23 +4,28 @@ using user_service_dotnet.dtos;
 using user_service_dotnet.Entities;
 using user_service_dotnet.exception;
 using user_service_dotnet.Services;
-
+using System.Diagnostics;
 namespace user_service_dotnet.Controllers
 {
   [Route("api/v1/user")]
   public class UserController : ControllerBase
   {
     private readonly IUserService _userService;
+    private readonly ILogger<UserController> _logger; // Logger
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, ILogger<UserController> logger)
     {
       _userService = userService;
+      _logger = logger; // Initialize logger
     }
 
     [HttpGet("userinfo")]
     public async Task<ActionResult<CustomHttpResponse>> GetUser()
     {
       string userId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Getting user info for ID: {userId}, Trace ID: {traceId}");
 
       try
       {
