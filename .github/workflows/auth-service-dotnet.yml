@@ -1,14 +1,14 @@
-name: Auth Service
+name: User Service Dotnet
 
 on:
   push:
     paths:
-      - auth-service/**
+      - user-service-dotnet/**
     branches:
       - main
   pull_request:
     paths:
-      - auth-service/**
+      - user-service-dotnet/**
     branches:
       - main
 
@@ -17,23 +17,21 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      working-directory: ./auth-service
-      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-auth-service
+      working-directory: ./user-service-dotnet
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-user-service
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Java 21
-        uses: actions/setup-java@v4
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
+          dotnet-version: '8.0.x'
 
-      - name: Build with Maven
-        run: ./mvnw -ntp verify
+      - name: Build with .NET
+        run: dotnet build --configuration Release
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -42,7 +40,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Publish Docker Image
-        run: |
-          ./mvnw spring-boot:build-image -DskipTests
-          echo "Pushing the image $DOCKER_IMAGE_NAME to Docker Hub..."
-          docker push $DOCKER_IMAGE_NAME
+        uses: docker/build-push-action@v5
+        with:
+          context: ./user-service-dotnet
+          file: ./user-service-dotnet/Dockerfile
+          load: true
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-user-service
+          build_args: |
+            VAR_MONGO_DB=${{ secrets.VAR_MONGO_DB }}

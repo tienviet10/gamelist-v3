@@ -29,7 +29,7 @@ tasks:
       - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl game-service spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl user-service spring-boot:build-image -DskipTests"
+      - "docker build ./user-service-dotnet -t tienviet/gamelist-user-service -f ./user-service-dotnet/Dockerfile.dev"
       - "docker build ./auth-service-go -t tienviet/gamelist-auth-service -f ./auth-service-go/Dockerfile.dev"
 
   start_infra:

@@ -5,10 +5,10 @@ services:
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - GAME_SERVICE_URL=http://game-service:8080
+      - GAME_SERVICE_URL=http://game-service:8083
       - AUTH_SERVICE_URL=http://auth-service:8082
       - SOCIAL_SERVICE_URL=http://social-service:8081
-      - USER_SERVICE_URL=http://user-service:8083
+      - USER_SERVICE_URL=http://user-service:8080
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
@@ -57,7 +57,7 @@ services:
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=config-server
     ports:
-      - "8080:8080"
+      - "8083:8083"
     restart: unless-stopped
     deploy:
       resources:
@@ -92,27 +92,27 @@ services:
     labels:
       logging: "promtail"
 
-  user-service:
-    image: tienviet/gamelist-user-service
-    container_name: user-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/user-service
-      - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
-      - CONFIG_SERVER_URL=config-server
-    ports:
-      - "8083:8083"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    labels:
-      logging: "promtail"
+  #  user-service:
+  #    image: tienviet/gamelist-user-service
+  #    container_name: user-service
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=docker
+  #      - DB_URL=jdbc:postgresql://gamelist-dev-db:5432/postgres
+  #      - DB_USERNAME=postgres
+  #      - DB_PASSWORD=postgres
+  #      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/user-service
+  #      - MANAGEMENT_TRACING_ENABLED=true
+  #      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+  #      - CONFIG_SERVER_URL=config-server
+  #    ports:
+  #      - "8083:8083"
+  #    restart: unless-stopped
+  #    deploy:
+  #      resources:
+  #        limits:
+  #          memory: 700m
+  #    labels:
+  #      logging: "promtail"
 
   auth-service:
     image: tienviet/gamelist-auth-service
@@ -124,6 +124,28 @@ services:
       - PORT=8082
     ports:
       - "8082:8082"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  user-service:
+    image: tienviet/gamelist-user-service
+    container_name: user-service
+    build:
+      context: ./user-service-dotnet
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      - USER_SECRETS_ID=bd82e8a2-e889-4963-87e9-6740a1609d78
+    ports:
+      - "8080:8080"
+    volumes:
+      - $HOME/.microsoft/usersecrets/$USER_SECRETS_ID:/root/.microsoft/usersecrets/$USER_SECRETS_ID
     restart: unless-stopped
     deploy:
       resources:
