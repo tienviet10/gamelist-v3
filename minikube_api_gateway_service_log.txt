@@ -1,2 +1,0 @@
-http://127.0.0.1:52803
-! Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
