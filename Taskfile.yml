@@ -25,10 +25,10 @@ tasks:
 
   build:
     cmds:
-      - "{{.MVNW}} -pl config-server spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl game-service spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests"
+      - "{{.MVNW}} -pl config-server spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=image:tienviet/gamelist-config-server:latest"
+      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=image:tienviet/gamelist-api-gateway:latest"
+      - "{{.MVNW}} -pl game-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=image:tienviet/gamelist-game-service:latest"
+      - "{{.MVNW}} -pl social-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=image:tienviet/gamelist-social-service:latest"
       - "docker build ./user-service-dotnet -t tienviet/gamelist-user-service -f ./user-service-dotnet/Dockerfile.dev"
       - "docker build ./auth-service-go -t tienviet/gamelist-auth-service -f ./auth-service-go/Dockerfile.dev"
 
