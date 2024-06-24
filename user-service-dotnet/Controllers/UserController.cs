@@ -22,6 +22,7 @@ namespace user_service_dotnet.Controllers
     [HttpGet("userinfo")]
     public async Task<ActionResult<CustomHttpResponse>> GetUser()
     {
+      Console.WriteLine("GET /api/v1/user/userinfo");
       string userId = Request.Headers["userId"].ToString();
       var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
 

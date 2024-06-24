@@ -1,0 +1,39 @@
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: api-gateway
+     namespace: gamelist
+   spec:
+     replicas: 2
+     selector:
+       matchLabels:
+         app: api-gateway
+     template:
+       metadata:
+         labels:
+           app: api-gateway
+       spec:
+         restartPolicy: Always
+         containers:
+         - name: api-gateway
+           image: tienviet/gamelist-api-gateway:latest
+           imagePullPolicy: Always
+           ports:
+           - containerPort: 8989
+           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: GAME_SERVICE_URL
+              value: "http://game-service"
+            - name: AUTH_SERVICE_URL
+              value: "http://auth-service"
+            - name: SOCIAL_SERVICE_URL
+              value: "http://social-service"
+            - name: USER_SERVICE_URL
+              value: "http://user-service"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: "http://tempo"
+            - name: CONFIG_SERVER_URL
+              value: "config-server"

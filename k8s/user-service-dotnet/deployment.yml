@@ -1,0 +1,29 @@
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: user-service
+     namespace: gamelist
+   spec:
+     replicas: 2
+     selector:
+       matchLabels:
+         app: user-service
+     template:
+       metadata:
+         labels:
+           app: user-service
+       spec:
+         restartPolicy: Always
+         containers:
+         - name: user-service
+           image: tienviet/gamelist-user-service:latest
+           imagePullPolicy: Always
+           ports:
+           - containerPort: 8080
+           env:
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: USER_SECRETS_ID
+              value: "bd82e8a2-e889-4963-87e9-6740a1609d78"

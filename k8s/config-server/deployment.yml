@@ -1,0 +1,29 @@
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: config-server
+     namespace: gamelist
+   spec:
+     replicas: 2
+     selector:
+       matchLabels:
+         app: config-server
+     template:
+       metadata:
+         labels:
+           app: config-server
+       spec:
+         restartPolicy: Always
+         containers:
+         - name: config-server
+           image: tienviet/gamelist-config-server:latest
+           imagePullPolicy: Always
+           ports:
+           - containerPort: 8888
+           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: "http://tempo:9411"

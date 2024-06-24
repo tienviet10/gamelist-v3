@@ -9,7 +9,7 @@ namespace user_service_dotnet.Prometheus
         "Total number of HTTP requests",
         new CounterConfiguration
         {
-          LabelNames = new[] { "application", "method", "status", "uri" }
+          LabelNames = ["application", "method", "status", "uri"]
         });
   }
 }
