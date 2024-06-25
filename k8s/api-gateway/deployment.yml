@@ -17,24 +17,24 @@ spec:
       containers:
         - name: api-gateway
           image: tienviet/gamelist-api-gateway:latest
-          # imagePullPolicy: Always
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          # imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8989
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
             - name: GAME_SERVICE_URL
-              value: "http://game-service.gamelist"
+              value: "http://${GAME_SERVICE_SERVICE_HOST}:${GAME_SERVICE_PORT}"
             - name: AUTH_SERVICE_URL
-              value: "http://auth-service.gamelist"
+              value: "http://${AUTH_SERVICE_SERVICE_HOST}:${AUTH_SERVICE_PORT}"
             - name: SOCIAL_SERVICE_URL
-              value: "http://social-service.gamelist"
+              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:${SOCIAL_SERVICE_PORT}"
             - name: USER_SERVICE_URL
-              value: "http://user-service.gamelist"
+              value: "http://${USER_SERVICE_SERVICE_HOST}:${USER_SERVICE_PORT}"
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
-              value: "http://tempo.gamelist"
+              value: "http://${TEMPO_SERVICE_HOST}:${TEMPO_PORT}"
             - name: CONFIG_SERVER_URL
-              value: "http://config-server.gamelist"
+              value: "http://${CONFIG_SERVER_SERVICE_HOST}:${CONFIG_SERVER_SERVICE_PORT}"

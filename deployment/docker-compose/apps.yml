@@ -11,7 +11,7 @@ services:
       - USER_SERVICE_URL=http://user-service:8080
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
-      - CONFIG_SERVER_URL=http://config-server:8888
+      - CONFIG_SERVER_SERVICE_HOST=http://config-server:8888
     ports:
       - "8989:8989"
     restart: unless-stopped
