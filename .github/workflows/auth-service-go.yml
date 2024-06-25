@@ -47,6 +47,6 @@ jobs:
           load: true
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-auth-service
-          build_args: |
+          build-args: |
             VAR_MONGO_DB=${{ secrets.VAR_MONGO_DB }}
             VAR_JWT_SECRET=${{ secrets.VAR_JWT_SECRET }}

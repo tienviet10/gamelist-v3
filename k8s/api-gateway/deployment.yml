@@ -25,13 +25,13 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
             - name: GAME_SERVICE_URL
-              value: "http://${GAME_SERVICE_SERVICE_HOST}:${GAME_SERVICE_PORT}"
+              value: "http://${GAME_SERVICE_SERVICE_HOST}:${GAME_SERVICE_SERVICE_PORT}"
             - name: AUTH_SERVICE_URL
-              value: "http://${AUTH_SERVICE_SERVICE_HOST}:${AUTH_SERVICE_PORT}"
+              value: "http://${AUTH_SERVICE_SERVICE_HOST}:${AUTH_SERVICE_SERVICE_PORT}"
             - name: SOCIAL_SERVICE_URL
-              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:${SOCIAL_SERVICE_PORT}"
+              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:${SOCIAL_SERVICE_SERVICE_PORT}"
             - name: USER_SERVICE_URL
-              value: "http://${USER_SERVICE_SERVICE_HOST}:${USER_SERVICE_PORT}"
+              value: "http://${USER_SERVICE_SERVICE_HOST}:${USER_SERVICE_SERVICE_PORT}"
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
