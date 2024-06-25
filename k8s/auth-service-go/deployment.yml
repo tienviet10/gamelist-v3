@@ -23,8 +23,3 @@
            env:
             - name: PORT
               value: "8082"
-            - name: VAR_MONGO_DB
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: connectionString

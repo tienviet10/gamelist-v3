@@ -27,8 +27,3 @@
               value: "Development"
             - name: USER_SECRETS_ID
               value: "bd82e8a2-e889-4963-87e9-6740a1609d78"
-            - name: VAR_MONGO_DB
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: connectionString

@@ -13,7 +13,6 @@ namespace user_service_dotnet.config
       var dbConnectionUrl = Environment.GetEnvironmentVariable("VAR_MONGO_DB");
       if (string.IsNullOrEmpty(dbConnectionUrl))
       {
-        // dbConnectionUrl = configuration.GetConnectionString("MongoDB");
         dbConnectionUrl = configuration["ConnectionStrings:MongoDb"];
         Console.WriteLine($"Connection string: {dbConnectionUrl}");
       }
