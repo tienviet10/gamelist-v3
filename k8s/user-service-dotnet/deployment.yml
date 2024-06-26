@@ -27,3 +27,10 @@
               value: "Development"
             - name: USER_SECRETS_ID
               value: "bd82e8a2-e889-4963-87e9-6740a1609d78"
+           resources:
+             requests:
+               memory: "512Mi"
+               cpu: "500m"
+             limits:
+               memory: "1Gi"
+               cpu: "1000m"

@@ -79,7 +79,7 @@ services:
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=http://config-server:8888
       - GAME_SERVICE_URL=http://api-gateway:8989/game-service
-      - GO_SERVICE_URL=http://api-gateway:8989/go-service
+    #      - GO_SERVICE_URL=http://api-gateway:8989/go-service
     ports:
       - "8081:8081"
     restart: unless-stopped

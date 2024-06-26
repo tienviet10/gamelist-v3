@@ -1,37 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway
+  name: game-service
   namespace: gamelist
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: api-gateway
+      app: game-service
   template:
     metadata:
       labels:
-        app: api-gateway
+        app: game-service
     spec:
       restartPolicy: Always
       containers:
-        - name: api-gateway
-          image: tienviet/gamelist-api-gateway:latest
+        - name: game-service
+          image: tienviet/gamelist-game-service:latest
           imagePullPolicy: Always
-          # imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8989
+            - containerPort: 8083
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
-            - name: GAME_SERVICE_URL
-              value: "http://${GAME_SERVICE_SERVICE_HOST}:${GAME_SERVICE_SERVICE_PORT}"
-            - name: AUTH_SERVICE_URL
-              value: "http://${AUTH_SERVICE_SERVICE_HOST}:${AUTH_SERVICE_SERVICE_PORT}"
-            - name: SOCIAL_SERVICE_URL
-              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:${SOCIAL_SERVICE_SERVICE_PORT}"
-            - name: USER_SERVICE_URL
-              value: "http://${USER_SERVICE_SERVICE_HOST}:${USER_SERVICE_SERVICE_PORT}"
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-url
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password
+            - name: SWAGGER_API_GATEWAY_URL
+              value: "http://${API_GATEWAY_SERVICE_HOST}:${API_GATEWAY_SERVICE_PORT}/game-service"
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT

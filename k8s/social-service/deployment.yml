@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: social-service
+  namespace: gamelist
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: social-service
+  template:
+    metadata:
+      labels:
+        app: social-service
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: social-service
+          image: tienviet/gamelist-social-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-url
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password
+            - name: SWAGGER_API_GATEWAY_URL
+              value: "http://${API_GATEWAY_SERVICE_HOST}:${API_GATEWAY_SERVICE_PORT}/social-service"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: "http://${TEMPO_SERVICE_HOST}:${TEMPO_PORT}"
+            - name: CONFIG_SERVER_URL
+              value: "http://${CONFIG_SERVER_SERVICE_HOST}:${CONFIG_SERVER_SERVICE_PORT}"
+            - name: GAME_SERVICE_URL
+              value: "http://${API_GATEWAY_SERVICE_HOST}:${API_GATEWAY_SERVICE_PORT}/game-service"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
