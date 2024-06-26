@@ -58,7 +58,7 @@ app.Use(async (context, next) =>
 app.UseMetricServer();
 app.UseHttpMetrics();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
