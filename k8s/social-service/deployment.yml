@@ -8,12 +8,21 @@ spec:
   selector:
     matchLabels:
       app: social-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: social-service
     spec:
+      schedulerName: default-scheduler
       restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       containers:
         - name: social-service
           image: tienviet/gamelist-social-service:latest
@@ -39,19 +48,20 @@ spec:
                   name: db-secret
                   key: db-password
             - name: SWAGGER_API_GATEWAY_URL
-              value: "http://${API_GATEWAY_SERVICE_HOST}:${API_GATEWAY_SERVICE_PORT}/social-service"
+              value: "http://${API_GATEWAY_SERVICE_HOST}:80/social-service"
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
               value: "http://${TEMPO_SERVICE_HOST}:${TEMPO_PORT}"
             - name: CONFIG_SERVER_URL
-              value: "http://${CONFIG_SERVER_SERVICE_HOST}:${CONFIG_SERVER_SERVICE_PORT}"
+              value: "http://${CONFIG_SERVER_SERVICE_HOST}:80"
             - name: GAME_SERVICE_URL
-              value: "http://${API_GATEWAY_SERVICE_HOST}:${API_GATEWAY_SERVICE_PORT}/game-service"
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "500m"
-            limits:
-              memory: "1Gi"
-              cpu: "1000m"
+              value: "http://${API_GATEWAY_SERVICE_HOST}:80/game-service"
+          resources: {}
+          # resources:
+          #   requests:
+          #     memory: "512Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "1Gi"
+          #     cpu: "1000m"

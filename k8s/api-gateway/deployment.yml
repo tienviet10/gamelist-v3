@@ -8,12 +8,21 @@ spec:
   selector:
     matchLabels:
       app: api-gateway
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: api-gateway
     spec:
+      schedulerName: default-scheduler
       restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       containers:
         - name: api-gateway
           image: tienviet/gamelist-api-gateway:latest
@@ -25,23 +34,24 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
             - name: GAME_SERVICE_URL
-              value: "http://${GAME_SERVICE_SERVICE_HOST}:${GAME_SERVICE_SERVICE_PORT}"
+              value: "http://${GAME_SERVICE_SERVICE_HOST}:80"
             - name: AUTH_SERVICE_URL
-              value: "http://${AUTH_SERVICE_SERVICE_HOST}:${AUTH_SERVICE_SERVICE_PORT}"
+              value: "http://${AUTH_SERVICE_SERVICE_HOST}:80"
             - name: SOCIAL_SERVICE_URL
-              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:${SOCIAL_SERVICE_SERVICE_PORT}"
+              value: "http://${SOCIAL_SERVICE_SERVICE_HOST}:80"
             - name: USER_SERVICE_URL
-              value: "http://${USER_SERVICE_SERVICE_HOST}:${USER_SERVICE_SERVICE_PORT}"
+              value: "http://${USER_SERVICE_SERVICE_HOST}:80"
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
               value: "http://${TEMPO_SERVICE_HOST}:${TEMPO_PORT}"
             - name: CONFIG_SERVER_URL
-              value: "http://${CONFIG_SERVER_SERVICE_HOST}:${CONFIG_SERVER_SERVICE_PORT}"
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "500m"
-            limits:
-              memory: "1Gi"
-              cpu: "1000m"
+              value: "http://${CONFIG_SERVER_SERVICE_HOST}:80"
+          resources: {}
+          # resources:
+          #   requests:
+          #     memory: "512Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "1Gi"
+          #     cpu: "1000m"

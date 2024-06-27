@@ -8,12 +8,21 @@
      selector:
        matchLabels:
          app: auth-service
+     strategy:
+       rollingUpdate:
+         maxSurge: 25%
+         maxUnavailable: 25%
+       type: RollingUpdate
      template:
        metadata:
          labels:
            app: auth-service
        spec:
+         schedulerName: default-scheduler
          restartPolicy: Always
+         dnsPolicy: ClusterFirst
+         securityContext: {}
+         terminationGracePeriodSeconds: 30
          containers:
          - name: auth-service
            image: tienviet/gamelist-auth-service:latest
@@ -23,10 +32,11 @@
            env:
             - name: PORT
               value: "8082"
-           resources:
-             requests:
-               memory: "512Mi"
-               cpu: "500m"
-             limits:
-               memory: "1Gi"
-               cpu: "1000m"
+           resources: {}
+          #  resources:
+          #    requests:
+          #      memory: "512Mi"
+          #      cpu: "500m"
+          #    limits:
+          #      memory: "1Gi"
+          #      cpu: "1000m"

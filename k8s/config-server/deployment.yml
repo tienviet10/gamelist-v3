@@ -27,10 +27,11 @@
               value: "true"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
               value: "http://tempo:9411"
-           resources:
-             requests:
-               memory: "512Mi"
-               cpu: "500m"
-             limits:
-               memory: "1Gi"
-               cpu: "1000m"
+           resources: {}
+          # resources:
+          #   requests:
+          #     memory: "512Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "1Gi"
+          #     cpu: "1000m"
