@@ -1,6 +1,5 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +13,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity(name = "game_journals")
 public class GameJournal extends InteractiveEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("game_journals")
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "user_id")
+    private String userId;
 }

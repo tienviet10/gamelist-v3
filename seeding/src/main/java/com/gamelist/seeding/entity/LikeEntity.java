@@ -21,11 +21,11 @@ public class LikeEntity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @ManyToOne(
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "interactive_entity_id")
