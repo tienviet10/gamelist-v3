@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func GenerateToken(userId int, email string) (string, error) {
+func GenerateToken(userId string, email string) (string, error) {
 	var jwtKey = []byte(viper.GetString("VAR_JWT_SECRET"))
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":   userId,

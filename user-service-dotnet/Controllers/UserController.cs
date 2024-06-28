@@ -30,7 +30,7 @@ namespace user_service_dotnet.Controllers
 
       try
       {
-        UserInfoDTO userDto = await _userService.GetUserById("666a602d5d13cfef6ed583ac");
+        UserInfoDTO userDto = await _userService.GetUserById(userId);
 
         return Ok(new CustomHttpResponse
         {
