@@ -52,7 +52,6 @@ namespace user_service_dotnet.Controllers
     [HttpGet("listorder")]
     public async Task<ActionResult<CustomHttpResponse<object>>> GetUserListOrder()
     {
-      Console.WriteLine("Getting user list order");
       string userId = Request.Headers["userId"].ToString();
       var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
 
