@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using user_service_dotnet.config;
 using user_service_dotnet.dtos;
+using user_service_dotnet.Dtos;
 using user_service_dotnet.Entities;
 using user_service_dotnet.exception;
 
@@ -35,6 +36,20 @@ namespace user_service_dotnet.Services.impl
       };
 
       return userDto;
+    }
+
+    public async Task<UserListOrderDTO> GetUserListOrderById(string userId)
+    {
+      ObjectId objectId = new(userId);
+      FilterDefinition<UserInfo> filter = Builders<UserInfo>.Filter.Eq("_id", objectId);
+      UserInfo userListOrder = await _context.Users.Find(filter).FirstOrDefaultAsync() ?? throw new UserNotFoundException("User not found. Id: " + userId);
+
+      UserListOrderDTO userListOrderDto = new()
+      {
+        ListsOrder = userListOrder.ListsOrder
+      };
+
+      return userListOrderDto;
     }
   }
 }

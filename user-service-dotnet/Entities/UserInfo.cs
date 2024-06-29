@@ -38,5 +38,8 @@ namespace user_service_dotnet.Entities
 
     [BsonElement("username")]
     public required string Username { get; set; }
+
+    [BsonElement("_class")]
+    public string UserClass { get; set; } = "com.gamelist.seeding.entity.User";
   }
 }

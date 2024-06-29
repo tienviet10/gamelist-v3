@@ -16,7 +16,7 @@ public interface UserGameService {
 
     Set<UserGame> findAllUserGamesByUserId(String userId);
 
-    UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId);
+    UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId, String authorizationHeader);
 
     UserGame findUserGameByGameId(Long gameId, String userId);
 

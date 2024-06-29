@@ -1,5 +1,7 @@
 package com.gamelist.game_service.service.impl;
 
+import com.gamelist.game_service.clients.user.HttpResponseModel;
+import com.gamelist.game_service.clients.user.UserServiceClient;
 import com.gamelist.game_service.dto.GameDTO;
 import com.gamelist.game_service.dto.UserGamesSummaryDTO;
 import com.gamelist.game_service.entity.Game;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 public class UserGameServiceImpl implements UserGameService {
     //    TODO: Maybe called User Repository from a different container
     //    private final UserRepository userRepository;
+    private final UserServiceClient client;
     private final UserGameRepository userGameRepository;
     private final GameRepository gameRepository;
     private final LikeRepository likeRepository;
@@ -161,7 +164,7 @@ public class UserGameServiceImpl implements UserGameService {
     }
 
     @Override
-    public UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId) {
+    public UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId, String authorizationHeader) {
         List<Game> playingGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Playing);
         List<GameDTO> playingGameDTOs = gameMapper.gamesToGameDTOs(playingGames);
         List<Game> completedGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Completed);
@@ -204,9 +207,11 @@ public class UserGameServiceImpl implements UserGameService {
                 + justAddedGameDTOs.size();
         userGamesSummary.setTotalCount(totalCount);
 
-        //        TODO: GET THIS LIST FROM USER REPOSITORY
-        //        String listsOrder = userRepository.findListsOrderById(userId);
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
+        Optional<HttpResponseModel> result = client.getUserInfoById(userId, authorizationHeader);
+        if (result.isPresent()) {
+            listsOrder = result.get().data().get("listsOrder").toString();
+        }
         userGamesSummary.setListsOrder(listsOrder);
 
         return userGamesSummary;

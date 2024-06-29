@@ -56,6 +56,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=http://config-server:8888
+      - USER_SERVICE_URL=http://api-gateway:8989/user-service
     ports:
       - "8083:8083"
     restart: unless-stopped

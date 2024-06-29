@@ -27,7 +27,6 @@ public class GameController {
             @RequestBody(required = false) GameQueryFilters gameQueryFilters,
             @RequestHeader(name = "userId", required = false) String userId
             //            @RequestHeader(name = "email", required = false) String email
-            //            @RequestHeader(name = "Authorization", required = false) String authorizationHeader
             ) {
         log.info("getGames called with userId: {}", userId);
         List<GameDTO> games = gameService.getAllGames(gameQueryFilters, userId);

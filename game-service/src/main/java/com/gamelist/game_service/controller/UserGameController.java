@@ -40,9 +40,11 @@ public class UserGameController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(@RequestHeader(name = "userId") String userId) {
+    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(
+            @RequestHeader(name = "userId") String userId,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
         log.info("getAllUserGameByUserIdByStatus called with userId: {}", userId);
-        UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId);
+        UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId, authorizationHeader);
 
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
