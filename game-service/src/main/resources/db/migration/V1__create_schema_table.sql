@@ -1,149 +1,167 @@
-CREATE TABLE IF NOT EXISTS games (
-  avg_score FLOAT,
-  bannerURL VARCHAR(255),
-  description VARCHAR(2000),
-  imageURL VARCHAR(255),
-  name VARCHAR(255),
-  releaseDate TIMESTAMP,
-  total_rating INTEGER,
-  id BIGINT NOT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS games
+(
+    avg_score    FLOAT,
+    bannerURL    VARCHAR(255),
+    description  VARCHAR(2000),
+    imageURL     VARCHAR(255),
+    name         VARCHAR(255),
+    releaseDate  TIMESTAMP,
+    total_rating INTEGER,
+    id           BIGINT NOT NULL,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS genres (
-  id BIGINT NOT NULL,
-  created_at TIMESTAMP,
-  name VARCHAR(255) UNIQUE,
-  updated_at TIMESTAMP,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS genres
+(
+    id         BIGINT NOT NULL,
+    created_at TIMESTAMP,
+    name       VARCHAR(255) UNIQUE,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS platforms (
-  id BIGINT NOT NULL,
-  created_at TIMESTAMP,
-  name VARCHAR(255) UNIQUE,
-  updated_at TIMESTAMP,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS platforms
+(
+    id         BIGINT NOT NULL,
+    created_at TIMESTAMP,
+    name       VARCHAR(255) UNIQUE,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS tags (
-  id BIGINT NOT NULL,
-  created_at TIMESTAMP,
-  name VARCHAR(255) UNIQUE,
-  updated_at TIMESTAMP,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS tags
+(
+    id         BIGINT NOT NULL,
+    created_at TIMESTAMP,
+    name       VARCHAR(255) UNIQUE,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS posts (
-  text VARCHAR(255),
-  post_id BIGINT NOT NULL,
-  user_id VARCHAR(128),
-  PRIMARY KEY (post_id)
+CREATE TABLE IF NOT EXISTS posts
+(
+    text    VARCHAR(255),
+    post_id BIGINT NOT NULL,
+    user_id VARCHAR(128),
+    PRIMARY KEY (post_id)
 );
 
-CREATE TABLE IF NOT EXISTS games_genres (
-  game_id BIGINT NOT NULL,
-  genre_id BIGINT NOT NULL,
-  PRIMARY KEY (game_id, genre_id)
+CREATE TABLE IF NOT EXISTS games_genres
+(
+    game_id  BIGINT NOT NULL,
+    genre_id BIGINT NOT NULL,
+    PRIMARY KEY (game_id, genre_id)
 );
 
-CREATE TABLE IF NOT EXISTS games_platforms (
-  game_id BIGINT NOT NULL,
-  platform_id BIGINT NOT NULL,
-  PRIMARY KEY (game_id, platform_id)
+CREATE TABLE IF NOT EXISTS games_platforms
+(
+    game_id     BIGINT NOT NULL,
+    platform_id BIGINT NOT NULL,
+    PRIMARY KEY (game_id, platform_id)
 );
 
-CREATE TABLE IF NOT EXISTS games_tags (
-  game_id BIGINT NOT NULL,
-  tag_id BIGINT NOT NULL,
-  PRIMARY KEY (game_id, tag_id)
+CREATE TABLE IF NOT EXISTS games_tags
+(
+    game_id BIGINT NOT NULL,
+    tag_id  BIGINT NOT NULL,
+    PRIMARY KEY (game_id, tag_id)
 );
 
-CREATE TABLE IF NOT EXISTS interactive_entities (
-  id BIGINT NOT NULL,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS interactive_entities
+(
+    id         BIGINT NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS like_entities (
-  id BIGINT NOT NULL,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  interactive_entity_id BIGINT NOT NULL,
-  user_id VARCHAR(128),
-  PRIMARY KEY (id),
-  UNIQUE (user_id, interactive_entity_id),
-  FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
+CREATE TABLE IF NOT EXISTS like_entities
+(
+    id                    BIGINT NOT NULL,
+    created_at            TIMESTAMP,
+    updated_at            TIMESTAMP,
+    interactive_entity_id BIGINT NOT NULL,
+    user_id               VARCHAR(128),
+    PRIMARY KEY (id),
+    UNIQUE (user_id, interactive_entity_id),
+    FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
 );
 
-CREATE TABLE IF NOT EXISTS status_updates (
-  game_status VARCHAR(255) CHECK (
-    game_status IN (
-      'Playing',
-      'Completed',
-      'Paused',
-      'Planning',
-      'Dropped',
-      'Inactive',
-      'JustAdded'
-    )
-  ),
-  status_update_id BIGINT NOT NULL,
-  user_game_id BIGINT,
-  PRIMARY KEY (status_update_id)
+CREATE TABLE IF NOT EXISTS user_followers
+(
+    follower_id  BIGINT NOT NULL,
+    following_id BIGINT NOT NULL,
+    PRIMARY KEY (follower_id, following_id)
 );
 
-CREATE TABLE IF NOT EXISTS user_followers (
-  follower_id BIGINT NOT NULL,
-  following_id BIGINT NOT NULL,
-  PRIMARY KEY (follower_id, following_id)
+CREATE TABLE IF NOT EXISTS user_games
+(
+    id             BIGINT       NOT NULL,
+    completed_date TIMESTAMP,
+    created_at     TIMESTAMP,
+    game_note      VARCHAR(255),
+    game_status    VARCHAR(255) CHECK (
+        game_status IN (
+                        'Playing',
+                        'Completed',
+                        'Paused',
+                        'Planning',
+                        'Dropped',
+                        'Inactive',
+                        'JustAdded'
+            )
+        ),
+    private        BOOLEAN,
+    rating         INTEGER,
+    start_date     TIMESTAMP,
+    updated_at     TIMESTAMP,
+    game_id        BIGINT       NOT NULL,
+    user_id        VARCHAR(128) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) REFERENCES games (id)
 );
 
-CREATE TABLE IF NOT EXISTS user_games (
-  id BIGINT NOT NULL,
-  completed_date TIMESTAMP,
-  created_at TIMESTAMP,
-  game_note VARCHAR(255),
-  game_status VARCHAR(255) CHECK (
-    game_status IN (
-      'Playing',
-      'Completed',
-      'Paused',
-      'Planning',
-      'Dropped',
-      'Inactive',
-      'JustAdded'
-    )
-  ),
-  private BOOLEAN,
-  rating INTEGER,
-  start_date TIMESTAMP,
-  updated_at TIMESTAMP,
-  game_id BIGINT NOT NULL,
-  user_id VARCHAR(128) NOT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS status_updates
+(
+    game_status      VARCHAR(255) CHECK (
+        game_status IN (
+                        'Playing',
+                        'Completed',
+                        'Paused',
+                        'Planning',
+                        'Dropped',
+                        'Inactive',
+                        'JustAdded'
+            )
+        ),
+    status_update_id BIGINT NOT NULL,
+    user_game_id     BIGINT,
+    PRIMARY KEY (status_update_id),
+    FOREIGN KEY (user_game_id) REFERENCES user_games (id)
 );
 
-CREATE TABLE IF NOT EXISTS user_roles (
-  user_id VARCHAR(128) NOT NULL,
-  roles VARCHAR(255) CHECK (roles IN ('ROLE_USER', 'ROLE_ADMIN'))
+CREATE TABLE IF NOT EXISTS user_roles
+(
+    user_id VARCHAR(128) NOT NULL,
+    roles   VARCHAR(255) CHECK (roles IN ('ROLE_USER', 'ROLE_ADMIN'))
 );
 
-CREATE TABLE IF NOT EXISTS comments (
-  text VARCHAR(255),
-  comment_id BIGINT NOT NULL,
-  interactive_entity_id BIGINT,
-  user_id VARCHAR(128),
-  PRIMARY KEY (comment_id),
-  FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
+CREATE TABLE IF NOT EXISTS comments
+(
+    text                  VARCHAR(255),
+    comment_id            BIGINT NOT NULL,
+    interactive_entity_id BIGINT,
+    user_id               VARCHAR(128),
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
 );
 
-CREATE TABLE IF NOT EXISTS game_journals (
-  content VARCHAR(255),
-  game_journal_id BIGINT NOT NULL,
-  user_id VARCHAR(128),
-  PRIMARY KEY (game_journal_id)
+CREATE TABLE IF NOT EXISTS game_journals
+(
+    content         VARCHAR(255),
+    game_journal_id BIGINT NOT NULL,
+    user_id         VARCHAR(128),
+    PRIMARY KEY (game_journal_id)
 );
 
 -- Add indexes

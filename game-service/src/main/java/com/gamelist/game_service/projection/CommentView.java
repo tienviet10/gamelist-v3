@@ -1,15 +1,17 @@
 package com.gamelist.game_service.projection;
 
-import com.gamelist.game_service.entity.GameStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface StatusUpdateView {
+public interface CommentView {
+
     Long getId();
 
-    UserGameBasicView getUserGame();
+    String getUserId();
 
-    GameStatus getGameStatus();
+    String getText();
+
+    void setText(String text);
 
     LocalDateTime getCreatedAt();
 

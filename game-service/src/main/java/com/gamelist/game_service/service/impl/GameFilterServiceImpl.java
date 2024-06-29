@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GameFilterServiceImpl implements GameFilterService {
-    //    private final Logger logger = LoggerFactory.getLogger(GameFilterServiceImpl.class);
     private final GenreRepository genreRepository;
     private final PlatformRepository platformRepository;
     private final TagRepository tagRepository;

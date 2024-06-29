@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/games")
-// @CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
     private final GameServiceImpl gameService;
@@ -25,9 +25,10 @@ public class GameController {
     @PostMapping
     public ResponseEntity<HttpResponse> getGames(
             @RequestBody(required = false) GameQueryFilters gameQueryFilters,
-            @RequestHeader(name = "userId", required = false) Long userId,
+            @RequestHeader(name = "userId", required = false) String userId
             //            @RequestHeader(name = "email", required = false) String email
-            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+            //            @RequestHeader(name = "Authorization", required = false) String authorizationHeader
+            ) {
         log.info("getGames called with userId: {}", userId);
         List<GameDTO> games = gameService.getAllGames(gameQueryFilters, userId);
         return ResponseEntity.ok(HttpResponse.builder()
