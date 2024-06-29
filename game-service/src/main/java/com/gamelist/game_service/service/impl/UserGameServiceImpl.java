@@ -15,12 +15,11 @@ import com.gamelist.game_service.repository.LikeRepository;
 import com.gamelist.game_service.repository.StatusUpdateRepository;
 import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.UserGameService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -80,9 +79,7 @@ public class UserGameServiceImpl implements UserGameService {
             Game game = gameRepository
                     .findById(userGame.getGameId())
                     .orElseThrow(
-                            () -> new ResourceNotFoundException("Game not found with ID: " +
-                                    userGame.getGameId()));
-
+                            () -> new ResourceNotFoundException("Game not found with ID: " + userGame.getGameId()));
 
             UserGame newUserGame = UserGame.builder()
                     .game(game)
@@ -107,8 +104,7 @@ public class UserGameServiceImpl implements UserGameService {
     public UserGame updateUserGameById(EditUserGameRequest userGame, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
-        Optional<UserGame> userGameOptional = userGameRepository.findByGameIdAndUserId(userGame.getGameId(),
-                userId);
+        Optional<UserGame> userGameOptional = userGameRepository.findByGameIdAndUserId(userGame.getGameId(), userId);
 
         if (userGameOptional.isPresent()) {
             UserGame responseData = userGameOptional.get();
@@ -208,8 +204,8 @@ public class UserGameServiceImpl implements UserGameService {
                 + justAddedGameDTOs.size();
         userGamesSummary.setTotalCount(totalCount);
 
-//        TODO: GET THIS LIST FROM USER REPOSITORY
-//        String listsOrder = userRepository.findListsOrderById(userId);
+        //        TODO: GET THIS LIST FROM USER REPOSITORY
+        //        String listsOrder = userRepository.findListsOrderById(userId);
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
         userGamesSummary.setListsOrder(listsOrder);
 
@@ -252,8 +248,7 @@ public class UserGameServiceImpl implements UserGameService {
             UserGame responseData = userGameOptional.get();
             return resetUserGameAndStatusUpdate(responseData);
         }
-        throw new ResourceNotFoundException("UserGame not found with Game ID: " + gameId + " and User ID: " +
-                userId);
+        throw new ResourceNotFoundException("UserGame not found with Game ID: " + gameId + " and User ID: " + userId);
     }
 
     private UserGame resetUserGameAndStatusUpdate(UserGame userGame) {

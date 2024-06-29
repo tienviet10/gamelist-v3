@@ -6,17 +6,16 @@ import com.gamelist.game_service.exception.InternalServerErrorException;
 import com.gamelist.game_service.model.EditUserGameRequest;
 import com.gamelist.game_service.model.HttpResponse;
 import com.gamelist.game_service.service.UserGameService;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,8 +40,7 @@ public class UserGameController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(@RequestHeader(name = "userId") String
-                                                                               userId) {
+    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(@RequestHeader(name = "userId") String userId) {
         log.info("getAllUserGameByUserIdByStatus called with userId: {}", userId);
         UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId);
 
@@ -71,8 +69,8 @@ public class UserGameController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpResponse> createUserGame(@RequestBody EditUserGameRequest userGame,
-                                                       @RequestHeader(name = "userId") String userId) {
+    public ResponseEntity<HttpResponse> createUserGame(
+            @RequestBody EditUserGameRequest userGame, @RequestHeader(name = "userId") String userId) {
         log.info("createUserGame called with userId: {}", userId);
         UserGame createdUserGame = userGameService.createUserGame(userGame, userId);
 
@@ -91,8 +89,8 @@ public class UserGameController {
     }
 
     @PutMapping
-    public ResponseEntity<HttpResponse> updateUserGame(@RequestBody EditUserGameRequest userGame,
-                                                       @RequestHeader(name = "userId") String userId) {
+    public ResponseEntity<HttpResponse> updateUserGame(
+            @RequestBody EditUserGameRequest userGame, @RequestHeader(name = "userId") String userId) {
         log.info("updateUserGame called with userId: {}", userId);
         UserGame updatedUserGame = userGameService.updateUserGameById(userGame, userId);
 
