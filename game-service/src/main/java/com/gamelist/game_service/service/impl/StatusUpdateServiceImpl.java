@@ -3,9 +3,10 @@ package com.gamelist.game_service.service.impl;
 import com.gamelist.game_service.projection.StatusUpdateView;
 import com.gamelist.game_service.repository.StatusUpdateRepository;
 import com.gamelist.game_service.service.StatusUpdateService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,6 @@ public class StatusUpdateServiceImpl implements StatusUpdateService {
 
     @Override
     public List<StatusUpdateView> findAllStatusUpdatesByUserId(String userId) {
-        System.out.println("findAllStatusUpdatesByUserId called with userId: " + userId);
         return statusUpdateRepository.findAllProjectedByUserId(userId);
     }
 }
