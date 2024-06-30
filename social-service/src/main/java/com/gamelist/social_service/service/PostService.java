@@ -2,9 +2,8 @@ package com.gamelist.social_service.service;
 
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.projection.PostView;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface PostService {

@@ -8,11 +8,10 @@ import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.projection.PostView;
 import com.gamelist.social_service.repository.PostRepository;
 import com.gamelist.social_service.service.PostService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -82,8 +81,8 @@ public class PostServiceImpl implements PostService {
             throw new InvalidInputException("Text input value is invalid");
         }
 
-//       TODO: Check if User exist
-//        User userFromDB = userRepository.findById(userId).get();
+        //       TODO: Check if User exist
+        //        User userFromDB = userRepository.findById(userId).get();
         post.setUserId(userId);
         postRepository.save(post);
 
