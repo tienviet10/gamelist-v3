@@ -3,8 +3,6 @@ package com.gamelist.social_service.controller;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponse;
 import com.gamelist.social_service.service.InteractiveEntityService;
-import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class InteractiveEntityController {
     @GetMapping("/forum-pageable")
     @Transactional
     public ResponseEntity<HttpResponse> getAllPostAndStatusUpdatePageable(
-            @RequestParam(value = "startingId", required = false) Long startingId,
+            @RequestParam(value = "startingId", required = false, defaultValue = "0") Long startingId,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
         log.info("getAllPostAndStatusUpdatePageable called with startingId: {}", startingId);
         PostAndStatusUpdateResponse postAndStatusUpdateResponse;
@@ -48,8 +49,8 @@ public class InteractiveEntityController {
     @GetMapping("/user-social/pageable")
     @Transactional
     public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserIdPageable(
-            @RequestHeader(name = "userId") Long userId,
-            @RequestParam(value = "startingId", required = false) Long startingId,
+            @RequestHeader(name = "userId") String userId,
+            @RequestParam(value = "startingId", required = false, defaultValue = "0") Long startingId,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
         log.info("getPostAndStatusUpdateByUserIdPageable called with userId: {}", userId);
         PostAndStatusUpdateResponse postAndStatusUpdateResponse;
@@ -59,7 +60,8 @@ public class InteractiveEntityController {
                     interactiveEntityService.getPostAndStatusUpdateByUserIdFirstPage(userId, limit);
         else
             postAndStatusUpdateResponse =
-                    interactiveEntityService.getPostAndStatusUpdateByUserIdAndStartingId(userId, startingId, limit);
+                    interactiveEntityService.getPostAndStatusUpdateByUserIdAndStartingId(userId, startingId,
+                            limit);
 
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
@@ -72,7 +74,8 @@ public class InteractiveEntityController {
 
     @GetMapping("/user-social")
     @Transactional
-    public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserId(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserId(@RequestHeader(name = "userId") String
+                                                                               userId) {
         log.info("getPostAndStatusUpdateByUserId called with userId: {}", userId);
         PostAndStatusUpdateResponse postAndStatusUpdateResponse =
                 interactiveEntityService.getPostAndStatusUpdateByUserId(userId);

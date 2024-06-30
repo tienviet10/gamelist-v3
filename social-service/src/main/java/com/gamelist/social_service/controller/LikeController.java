@@ -26,7 +26,8 @@ public class LikeController {
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createLike(
-            @RequestHeader(name = "userId") Long userId, @RequestBody CreateLikeEntityRequest createLikeEntityRequest) {
+            @RequestHeader(name = "userId") String userId,
+            @RequestBody CreateLikeEntityRequest createLikeEntityRequest) {
         log.info("createLike called with userId: {}", userId);
         LikeEntityView like = likeService.createLike(userId, createLikeEntityRequest.getInteractiveEntityId());
 
@@ -43,7 +44,7 @@ public class LikeController {
     @DeleteMapping("/{requestedId}")
     @Transactional
     public ResponseEntity<HttpResponse> deleteLike(
-            @RequestHeader(name = "userId") Long userId, @PathVariable Long requestedId) {
+            @RequestHeader(name = "userId") String userId, @PathVariable Long requestedId) {
         log.info("deleteLike called with userId: {}", userId);
         likeService.deleteLikeById(userId, requestedId);
 

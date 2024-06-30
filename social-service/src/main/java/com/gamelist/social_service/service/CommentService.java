@@ -4,9 +4,9 @@ import com.gamelist.social_service.projection.CommentView;
 
 public interface CommentService {
 
-    CommentView createComment(Long userId, Long interactiveEntityId, String text);
+    CommentView createComment(String userId, Long interactiveEntityId, String text);
 
-    void deleteCommentById(Long userId, Long commentId);
+    void deleteCommentById(String userId, Long commentId);
 
-    CommentView updateCommentById(Long userId, Long interactiveEntityId, String text);
+    CommentView updateCommentById(String userId, Long commentId, String text);
 }

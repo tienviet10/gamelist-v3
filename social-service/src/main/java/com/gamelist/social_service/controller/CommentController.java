@@ -26,7 +26,7 @@ public class CommentController {
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createComment(
-            @RequestHeader(name = "userId") Long userId, @RequestBody CreateCommentRequest createCommentRequest) {
+            @RequestHeader(name = "userId") String userId, @RequestBody CreateCommentRequest createCommentRequest) {
         log.info("createComment called with userId: {}", userId);
         CommentView comment = commentService.createComment(
                 userId, createCommentRequest.getInteractiveEntityId(), createCommentRequest.getText());
@@ -44,7 +44,7 @@ public class CommentController {
     @DeleteMapping("/{requestedId}")
     @Transactional
     public ResponseEntity<HttpResponse> deleteComment(
-            @RequestHeader(name = "userId") Long userId, @PathVariable Long requestedId) {
+            @RequestHeader(name = "userId") String userId, @PathVariable Long requestedId) {
         log.info("deleteComment called with userId: {}", userId);
         commentService.deleteCommentById(userId, requestedId);
 
@@ -59,7 +59,7 @@ public class CommentController {
     @PutMapping("/{requestedId}")
     @Transactional
     public ResponseEntity<HttpResponse> updateComment(
-            @RequestHeader(name = "userId") Long userId,
+            @RequestHeader(name = "userId") String userId,
             @PathVariable Long requestedId,
             @RequestBody CreateCommentRequest createCommentRequest) {
         log.info("updateComment called with userId: {}", userId);

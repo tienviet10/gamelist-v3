@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "user", target = "user")
+    @Mapping(source = "userId", target = "userId")
     @Mapping(source = "text", target = "text")
     @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "likes", target = "likes")

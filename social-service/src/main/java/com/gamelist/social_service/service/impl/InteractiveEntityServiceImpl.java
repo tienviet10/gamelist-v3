@@ -10,12 +10,13 @@ import com.gamelist.social_service.mapper.StatusUpdateMapper;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponse;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.InteractiveEntityService;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     private final StatusUpdateMapper statusUpdateMapper;
 
     @Override
-    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(Long userId) {
+    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(String userId) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
@@ -38,7 +39,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
 
     @Override
     public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdAndStartingId(
-            Long userId, Long startingId, Integer limit) {
+            String userId, Long startingId, Integer limit) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
@@ -50,7 +51,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     }
 
     @Override
-    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(Long userId, Integer limit) {
+    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(String userId, Integer limit) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
@@ -84,12 +85,14 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     }
 
     private PostAndStatusUpdateResponse handleGetPostAndStatusUpdateResponse(
-            List<PostDTO> posts, List<StatusUpdateDTO> statusUpdates, List<InteractiveEntity> postsAndStatusUpdates) {
+            List<PostDTO> posts, List<StatusUpdateDTO> statusUpdates, List<InteractiveEntity>
+            postsAndStatusUpdates) {
         for (InteractiveEntity postOrStatusUpdate : postsAndStatusUpdates) {
             if (postOrStatusUpdate instanceof Post) {
                 posts.add(postMapper.postToPostDTO((Post) postOrStatusUpdate));
             } else if (postOrStatusUpdate instanceof StatusUpdate) {
-                statusUpdates.add(statusUpdateMapper.statusUpdateToStatusUpdateDTO((StatusUpdate) postOrStatusUpdate));
+                statusUpdates.add(statusUpdateMapper.statusUpdateToStatusUpdateDTO((StatusUpdate)
+                        postOrStatusUpdate));
             }
         }
 

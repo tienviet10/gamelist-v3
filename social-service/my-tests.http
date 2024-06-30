@@ -1,0 +1,38 @@
+@hostname = http://localhost:8082
+
+###
+post {{hostname}}/register
+Content-Type: application/json
+
+{
+    "email": "m@gmail.com",
+    "password": "123456",
+    "username": "Mm"
+}
+
+###
+post {{hostname}}/register
+Content-Type: application/json
+
+{
+    "email": "m@gmail.com",
+    "password": "123456"
+}
+
+###
+post {{hostname}}/login
+Content-Type: application/json
+
+{
+    "email": "v@gmail.com",
+    "password": "123456"
+}
+
+###
+post {{hostname}}/login
+Content-Type: application/json
+
+{
+    "email": "v@gmail.com",
+    "password": "1234567"
+}
