@@ -41,5 +41,8 @@ namespace user_service_dotnet.Entities
 
     [BsonElement("_class")]
     public string UserClass { get; set; } = "com.gamelist.seeding.entity.User";
+
+    public List<ObjectId> Following { get; set; } = new List<ObjectId>();
+    public List<ObjectId> Followers { get; set; } = new List<ObjectId>();
   }
 }

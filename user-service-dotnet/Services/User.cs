@@ -7,5 +7,9 @@ namespace user_service_dotnet.Services
   {
     Task<UserInfoDTO> GetUserById(string userId);
     Task<UserListOrderDTO> GetUserListOrderById(string userId);
+    Task<UserFollowDTO> GetAllFollowById(string userId);
+    Task<UserBasicInfoDTO> FollowUser(string followerUserId, string followedUserId);
+    Task<UserBasicInfoDTO> UnfollowUser(string followerUserId, string followedUserId);
+    Task<UserBasicInfoDTO> RemoveFollower(string followedUserId, string followerUserId);
   }
 }

@@ -77,5 +77,121 @@ namespace user_service_dotnet.Controllers
         return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
       }
     }
+
+    [HttpGet("all-follow")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> GetAllFollow()
+    {
+      string userId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Getting all follow for ID: {userId}, Trace ID: {traceId}");
+
+      try
+      {
+        UserFollowDTO userFollowDto = await _userService.GetAllFollowById(userId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "User follow found",
+          DeveloperMessage = "User follow found successfully",
+          Path = "/api/v1/user/all-follow",
+          RequestMethod = "PUT",
+          Data = new { user = userFollowDto }
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
+
+    [HttpPost("follows/{followedUserId}")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> FollowUser(string followedUserId)
+    {
+      string followerUserId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Following user with ID: {followedUserId}, Trace ID: {traceId}");
+
+      try
+      {
+        UserBasicInfoDTO userDto = await _userService.FollowUser(followerUserId, followedUserId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "User followed",
+          DeveloperMessage = "User followed successfully",
+          Path = $"/api/v1/user/follows/{followedUserId}",
+          RequestMethod = "PUT",
+          Data = userDto
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
+
+    [HttpDelete("unfollow/{followedUserId}")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> UnfollowUser(string followedUserId)
+    {
+      string followerUserId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Unfollowing user with ID: {followedUserId}, Trace ID: {traceId}");
+
+      try
+      {
+        UserBasicInfoDTO userDto = await _userService.UnfollowUser(followerUserId, followedUserId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "User unfollowed",
+          DeveloperMessage = "User unfollowed successfully",
+          Path = $"/api/v1/user/unfollow/{followedUserId}",
+          RequestMethod = "DELETE",
+          Data = userDto
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
+
+    [HttpDelete("remove-follower/{followerUserId}")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> RemoveFollower(string followerUserId)
+    {
+      string followedUserId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Removing follower with ID: {followerUserId}, Trace ID: {traceId}");
+
+      try
+      {
+        UserBasicInfoDTO userDto = await _userService.RemoveFollower(followedUserId, followerUserId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "Follower removed",
+          DeveloperMessage = "Follower removed successfully",
+          Path = $"/api/v1/user/remove-follower/{followerUserId}",
+          RequestMethod = "DELETE",
+          Data = userDto
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
   }
 }
