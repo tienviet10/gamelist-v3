@@ -99,7 +99,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	token, err := helpers.GenerateToken(1, user.Email)
+	token, err := helpers.GenerateToken(user.ID.Hex(), user.Email)
 	if err != nil {
 		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error generating token")
 		return
@@ -142,7 +142,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := helpers.GenerateToken(1, foundUser.Email)
+	token, err := helpers.GenerateToken(foundUser.ID.Hex(), foundUser.Email)
 	if err != nil {
 		helpers.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error", "Error generating token")
 		return

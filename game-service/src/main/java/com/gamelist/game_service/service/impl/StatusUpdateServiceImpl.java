@@ -14,7 +14,7 @@ public class StatusUpdateServiceImpl implements StatusUpdateService {
     private final StatusUpdateRepository statusUpdateRepository;
 
     @Override
-    public List<StatusUpdateView> findAllStatusUpdatesByUserId(Long userId) {
+    public List<StatusUpdateView> findAllStatusUpdatesByUserId(String userId) {
         return statusUpdateRepository.findAllProjectedByUserId(userId);
     }
 }

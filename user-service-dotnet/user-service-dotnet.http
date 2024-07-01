@@ -16,3 +16,8 @@ userId: 666a602d5d13cfef6ed583ac
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/userinfo
 Accept: application/json
 userId: 666a602d5d13cfef6ed583a
+
+###
+GET {{user_service_dotnet_HostAddress}}/api/v1/user/user-exist
+Accept: application/json
+userId: 6681815dde5f55798637ef04

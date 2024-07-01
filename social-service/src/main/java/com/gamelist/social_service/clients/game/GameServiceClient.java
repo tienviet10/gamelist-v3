@@ -19,7 +19,6 @@ public class GameServiceClient {
     @CircuitBreaker(name = "game-service")
     @Retry(name = "game-service", fallbackMethod = "getGameByCodeFallback")
     public Optional<HttpResponseModel> getGameById(Long gameId) {
-        log.info("getGameById called in GameServiceClient with gameId: {}", gameId);
         var gameByCode = Objects.requireNonNull(restClient
                 .get()
                 .uri("/games/{gameId}", gameId)

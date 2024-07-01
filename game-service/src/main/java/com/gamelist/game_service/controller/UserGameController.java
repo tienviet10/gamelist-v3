@@ -26,7 +26,7 @@ public class UserGameController {
     private final UserGameService userGameService;
 
     @GetMapping
-    public ResponseEntity<HttpResponse> getAllUserGameByUserId(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getAllUserGameByUserId(@RequestHeader(name = "userId") String userId) {
         log.info("getAllUserGameByUserId called with userId: {}", userId);
         Set<UserGame> userGames = userGameService.findAllUserGamesByUserId(userId);
 
@@ -40,9 +40,11 @@ public class UserGameController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getAllUserGameByUserIdByStatus(
+            @RequestHeader(name = "userId") String userId,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
         log.info("getAllUserGameByUserIdByStatus called with userId: {}", userId);
-        UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId);
+        UserGamesSummaryDTO userGames = userGameService.findAllUserGamesByUserIdByStatus(userId, authorizationHeader);
 
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
@@ -55,7 +57,7 @@ public class UserGameController {
 
     @GetMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> findUserGameByGameId(
-            @PathVariable("requestedId") Long requestedId, @RequestHeader(name = "userId") Long userId) {
+            @PathVariable("requestedId") Long requestedId, @RequestHeader(name = "userId") String userId) {
         log.info("findUserGameByGameId called with gameId: {}", requestedId);
         UserGame userGame = userGameService.findUserGameByGameId(requestedId, userId);
 
@@ -69,7 +71,8 @@ public class UserGameController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpResponse> createUserGame(@RequestBody EditUserGameRequest userGame, Long userId) {
+    public ResponseEntity<HttpResponse> createUserGame(
+            @RequestBody EditUserGameRequest userGame, @RequestHeader(name = "userId") String userId) {
         log.info("createUserGame called with userId: {}", userId);
         UserGame createdUserGame = userGameService.createUserGame(userGame, userId);
 
@@ -84,19 +87,12 @@ public class UserGameController {
                             .build());
         } else {
             throw new InternalServerErrorException("Error creating UserGame");
-            //          When the userGame can not be created, return an error message 500
-            //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-            //                    HttpResponse.builder()
-            //                            .timeStamp(LocalDateTime.now().toString())
-            //                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            //                            .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            //                            .message("Error creating UserGame")
-            //                            .build());
         }
     }
 
     @PutMapping
-    public ResponseEntity<HttpResponse> updateUserGame(@RequestBody EditUserGameRequest userGame, Long userId) {
+    public ResponseEntity<HttpResponse> updateUserGame(
+            @RequestBody EditUserGameRequest userGame, @RequestHeader(name = "userId") String userId) {
         log.info("updateUserGame called with userId: {}", userId);
         UserGame updatedUserGame = userGameService.updateUserGameById(userGame, userId);
 
@@ -112,7 +108,7 @@ public class UserGameController {
 
     @DeleteMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> deleteUserGameByGameId(
-            @PathVariable("requestedId") Long requestedId, Long userId) {
+            @PathVariable("requestedId") Long requestedId, @RequestHeader(name = "userId") String userId) {
         log.info("deleteUserGameByGameId called with userId: {}", userId);
         UserGame deletedUserGame = userGameService.deleteUserGameByGameId(requestedId, userId);
 

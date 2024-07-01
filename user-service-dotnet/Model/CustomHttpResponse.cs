@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace user_service_dotnet.Controllers
 {
-  public class CustomHttpResponse
+  public class CustomHttpResponse<T>
   {
 
     public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
 
     public int StatusCode { get; set; }
 
-    public HttpStatusCode Status { get; set; }
+    public String Status { get; set; } = HttpStatusCode.OK.ToString();
 
     public string Message { get; set; }
 
@@ -23,6 +23,6 @@ namespace user_service_dotnet.Controllers
 
     public string RequestMethod { get; set; }
 
-    public Dictionary<string, object> Data { get; set; }
+    public T Data { get; set; }
   }
 }

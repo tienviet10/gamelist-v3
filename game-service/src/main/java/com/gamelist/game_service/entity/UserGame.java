@@ -1,7 +1,6 @@
 package com.gamelist.game_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -47,10 +46,12 @@ public class UserGame {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    //    @JsonIgnore
+    //    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    //    private User user;
+    @Column(name = "user_id")
+    private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JsonBackReference

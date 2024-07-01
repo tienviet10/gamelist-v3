@@ -1,13 +1,21 @@
 package com.gamelist.game_service.service.impl;
 
+import com.gamelist.game_service.clients.user.HttpResponseModel;
+import com.gamelist.game_service.clients.user.UserServiceClient;
 import com.gamelist.game_service.dto.GameDTO;
 import com.gamelist.game_service.dto.UserGamesSummaryDTO;
-import com.gamelist.game_service.entity.*;
+import com.gamelist.game_service.entity.Game;
+import com.gamelist.game_service.entity.GameStatus;
+import com.gamelist.game_service.entity.StatusUpdate;
+import com.gamelist.game_service.entity.UserGame;
 import com.gamelist.game_service.exception.InvalidTokenException;
 import com.gamelist.game_service.exception.ResourceNotFoundException;
 import com.gamelist.game_service.mapper.GameMapper;
 import com.gamelist.game_service.model.EditUserGameRequest;
-import com.gamelist.game_service.repository.*;
+import com.gamelist.game_service.repository.GameRepository;
+import com.gamelist.game_service.repository.LikeRepository;
+import com.gamelist.game_service.repository.StatusUpdateRepository;
+import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.UserGameService;
 import java.util.List;
 import java.util.Optional;
@@ -18,33 +26,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserGameServiceImpl implements UserGameService {
-    //    TODO: Maybe called User Repository from a different container
-    private final UserRepository userRepository;
+    private final UserServiceClient client;
     private final UserGameRepository userGameRepository;
     private final GameRepository gameRepository;
     private final LikeRepository likeRepository;
     private final StatusUpdateRepository statusUpdateRepository;
     private final GameMapper gameMapper;
 
-    //    @Override
-    //    public UserGame findUserGameById(Long requestedId, User principal) {
-    //        if (principal == null) {
-    //            throw new InvalidTokenException("Invalid principal user");
-    //        }
-    //
-    //        Optional<UserGame> userGame = userGameRepository.findByGameIdAndUserId(requestedId, principal.getId());
-    //
-    //        if (userGame.isPresent()) {
-    //            return userGame.get();
-    //        }
-    //
-    //        throw new ResourceNotFoundException("UserGame not found with ID: " + requestedId + " and UserID: " +
-    // principal.getId());
-    //    }
-    //
-
     @Override
-    public UserGame createUserGame(EditUserGameRequest userGame, Long userId) {
+    public UserGame createUserGame(EditUserGameRequest userGame, String userId) {
         if (userId == null) {
             throw new InvalidTokenException("Invalid token");
         }
@@ -53,7 +43,6 @@ public class UserGameServiceImpl implements UserGameService {
         StatusUpdate statusUpdate = new StatusUpdate();
 
         if (existingUserGame != null) {
-            // If the UserGame already exists, update the existing instance
             if (existingUserGame.getGameStatus() != userGame.getGameStatus()) {
                 statusUpdate.setUserGame(existingUserGame);
                 statusUpdate.setGameStatus(userGame.getGameStatus());
@@ -75,11 +64,9 @@ public class UserGameServiceImpl implements UserGameService {
                     .orElseThrow(
                             () -> new ResourceNotFoundException("Game not found with ID: " + userGame.getGameId()));
 
-            User principal = new User();
-            principal.setId(userId);
             UserGame newUserGame = UserGame.builder()
                     .game(game)
-                    .user(principal)
+                    .userId(userId)
                     .gameStatus(userGame.getGameStatus())
                     .isPrivate(userGame.getIsPrivate())
                     .rating(userGame.getRating())
@@ -97,7 +84,7 @@ public class UserGameServiceImpl implements UserGameService {
     }
 
     @Override
-    public UserGame updateUserGameById(EditUserGameRequest userGame, Long userId) {
+    public UserGame updateUserGameById(EditUserGameRequest userGame, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         Optional<UserGame> userGameOptional = userGameRepository.findByGameIdAndUserId(userGame.getGameId(), userId);
@@ -126,27 +113,8 @@ public class UserGameServiceImpl implements UserGameService {
                 "UserGame not found with ID: " + userGame.getGameId() + " and UserID: " + userId);
     }
 
-    //    @Override
-    //    public UserGame deleteUserGameById(Long requestedId, User principal) {
-    //        if (principal == null) throw new InvalidTokenException("Invalid token");
-    //
-    //        Optional<UserGame> userGameOptional = userGameRepository.findById(requestedId);
-    //
-    //        if (userGameOptional.isPresent()) {
-    //            UserGame responseData = userGameOptional.get();
-    //            User user = responseData.getUser();
-    //
-    //            if (principal.getId().equals(user.getId())) {
-    //                return resetUserGameAndStatusUpdate(responseData);
-    //            }
-    //            throw new InvalidAuthorizationException("Invalid authorization");
-    //        }
-    //
-    //        throw new ResourceNotFoundException("UserGame not found with ID: " + requestedId);
-    //    }
-    //
     @Override
-    public Set<UserGame> findAllUserGamesByUserId(Long userId) {
+    public Set<UserGame> findAllUserGamesByUserId(String userId) {
         Optional<Set<UserGame>> optionalUserGames = userGameRepository.findAllByUserId(userId);
 
         if (optionalUserGames.isPresent()) {
@@ -157,7 +125,7 @@ public class UserGameServiceImpl implements UserGameService {
     }
 
     @Override
-    public UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(Long userId) {
+    public UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId, String authorizationHeader) {
         List<Game> playingGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Playing);
         List<GameDTO> playingGameDTOs = gameMapper.gamesToGameDTOs(playingGames);
         List<Game> completedGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Completed);
@@ -200,14 +168,18 @@ public class UserGameServiceImpl implements UserGameService {
                 + justAddedGameDTOs.size();
         userGamesSummary.setTotalCount(totalCount);
 
-        String listsOrder = userRepository.findListsOrderById(userId);
+        String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
+        Optional<HttpResponseModel> result = client.getUserInfoById(authorizationHeader);
+        if (result.isPresent()) {
+            listsOrder = result.get().data().get("listsOrder").toString();
+        }
         userGamesSummary.setListsOrder(listsOrder);
 
         return userGamesSummary;
     }
 
     @Override
-    public UserGame findUserGameByGameId(Long gameId, Long userId) {
+    public UserGame findUserGameByGameId(Long gameId, String userId) {
         Optional<UserGame> userGameOptional = userGameRepository.findByGameIdAndUserId(gameId, userId);
 
         if (userGameOptional.isPresent()) {
@@ -219,9 +191,6 @@ public class UserGameServiceImpl implements UserGameService {
             return userGameOptional.get();
         }
 
-        User newUser = new User();
-        newUser.setId(userId);
-
         return UserGame.builder()
                 .gameStatus(GameStatus.Inactive)
                 .gameNote("")
@@ -231,12 +200,12 @@ public class UserGameServiceImpl implements UserGameService {
                         .findById(gameId)
                         .orElseThrow(() -> new ResourceNotFoundException("Game can not find by ID: " + gameId)))
                 .rating(null)
-                .user(newUser)
+                .userId(userId)
                 .build();
     }
 
     @Override
-    public UserGame deleteUserGameByGameId(Long gameId, Long userId) {
+    public UserGame deleteUserGameByGameId(Long gameId, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         Optional<UserGame> userGameOptional = userGameRepository.findByGameIdAndUserId(gameId, userId);
@@ -264,7 +233,7 @@ public class UserGameServiceImpl implements UserGameService {
         return userGameRepository.save(userGame);
     }
 
-    private void applyGameAddedAndLikeToGameDTOs(List<GameDTO> gameDTOs, Long userId) {
+    private void applyGameAddedAndLikeToGameDTOs(List<GameDTO> gameDTOs, String userId) {
         for (GameDTO gameDTO : gameDTOs) {
             if (userId == null) {
                 gameDTO.setGameAdded(false);

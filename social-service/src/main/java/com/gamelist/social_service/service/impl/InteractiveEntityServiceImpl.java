@@ -26,7 +26,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     private final StatusUpdateMapper statusUpdateMapper;
 
     @Override
-    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(Long userId) {
+    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(String userId) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
 
     @Override
     public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdAndStartingId(
-            Long userId, Long startingId, Integer limit) {
+            String userId, Long startingId, Integer limit) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     }
 
     @Override
-    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(Long userId, Integer limit) {
+    public PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(String userId, Integer limit) {
         List<PostDTO> posts = new ArrayList<>();
         List<StatusUpdateDTO> statusUpdates = new ArrayList<>();
 

@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 public interface LikeEntityView {
     Long getId();
 
-    UserBasicView getUser();
+    //    UserBasicView getUser();
+    String getUserId();
 
-    void setUser(UserBasicView user);
+    //    void setUser(UserBasicView user);
 
     LocalDateTime getUpdatedAt();
 }

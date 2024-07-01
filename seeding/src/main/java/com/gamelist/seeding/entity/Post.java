@@ -1,7 +1,8 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,12 +18,6 @@ public class Post extends InteractiveEntity {
 
     private String text;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-//            TODO: Commented out to seed database
-//            cascade = CascadeType.PERSIST
-    )
-    @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "user_id")
+    private String userId;
 }

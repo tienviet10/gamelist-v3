@@ -1,0 +1,105 @@
+@social_service = http://localhost:8989/social-service
+
+###
+post {{social_service}}/api/v1/likes
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+{
+    "interactiveEntityId": 2
+}
+
+###
+delete {{social_service}}/api/v1/likes/1
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+post {{social_service}}/api/v1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODAzODgxLCJpYXQiOjE3MTk4MDAyODEsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODE4MTVkZGU1ZjU1Nzk4NjM3ZWYwNCJ9.bll09OFLgCEq8vnYtGcRV_omq03vwlXNAm7icdQNd0g
+
+{
+    "interactiveEntityId": 4,
+    "text": "Hello US 44444444"
+}
+
+###
+delete {{social_service}}/api/v1/comments/1253
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+put {{social_service}}/api/v1/comments/1252
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+{
+    "interactiveEntityId": 2,
+    "text": "Hello world 2222222"
+}
+
+###
+get {{social_service}}/api/v1/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5Nzg5MDU4LCJpYXQiOjE3MTk3ODU0NTgsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODE4MTVkZGU1ZjU1Nzk4NjM3ZWYwNCJ9.F9h8o4S_9DhC5NZ65bDk2rlFNr6XKlO9qHc903mR7xE
+
+###
+get {{social_service}}/api/v1/posts/all
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+get {{social_service}}/api/v1/posts/527
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+post {{social_service}}/api/v1/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5Nzg5MDU4LCJpYXQiOjE3MTk3ODU0NTgsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODE4MTVkZGU1ZjU1Nzk4NjM3ZWYwNCJ9.F9h8o4S_9DhC5NZ65bDk2rlFNr6XKlO9qHc903mR7xE
+
+{
+  "userId": "667f8a18a83a400a8cc15a80",
+  "text": "This is a postttttt 12345!"
+}
+
+###
+put {{social_service}}/api/v1/posts/527
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+
+{
+  "userId": "667f8a18a83a400a8cc15a80",
+  "text": "This is a postttttt editttttt!"
+}
+
+
+###
+delete {{social_service}}/api/v1/posts/528
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+
+###
+get {{social_service}}/api/v1/interactive-entities/forum-pageable
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+get {{social_service}}/api/v1/interactive-entities/user-social/pageable
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+
+###
+get {{social_service}}/api/v1/interactive-entities/user-social
+Content-Type: application/json
+userId: 667f8a18a83a400a8cc15a80
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU

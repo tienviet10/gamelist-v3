@@ -1,12 +1,13 @@
 package com.gamelist.social_service.service.impl;
 
+import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.*;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.projection.LikeEntityView;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.repository.LikeRepository;
-import com.gamelist.social_service.repository.UserRepository;
 import com.gamelist.social_service.service.LikeService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,26 +18,29 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
-    private final UserRepository userRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
+    private final UserServiceClient userServiceClient;
 
     @Override
-    public LikeEntityView createLike(Long userId, Long interactiveEntityId) {
-        // Check if the user has already liked the InteractiveEntity
+    public LikeEntityView createLike(String userId, String authorizationHeader, Long interactiveEntityId) {
         boolean alreadyLiked = likeRepository.existsByUserIdAndInteractiveEntityId(userId, interactiveEntityId);
 
         if (alreadyLiked) {
             throw new InvalidInputException("You have already liked this entity.");
         }
 
-        User owner = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Optional<HttpResponseGeneralModel<Boolean>> userExist =
+                userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+            throw new InvalidInputException("User does not exists");
+        }
 
         LikeEntity like = new LikeEntity();
 
         Optional<InteractiveEntity> interactiveEntityOptional =
                 interactiveEntityRepository.findById(interactiveEntityId);
 
-        like.setUser(owner);
+        like.setUserId(userId);
 
         if (interactiveEntityOptional.isEmpty()) {
             throw new ResourceNotFoundException("The entity is not found");
@@ -62,7 +66,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     @Transactional
-    public void deleteLikeById(Long userId, Long interactiveEntityId) {
+    public void deleteLikeById(String userId, Long interactiveEntityId) {
         boolean alreadyLiked = likeRepository.existsByUserIdAndInteractiveEntityId(userId, interactiveEntityId);
 
         if (!alreadyLiked) {

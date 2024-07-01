@@ -7,7 +7,8 @@ public interface CommentView {
 
     Long getId();
 
-    UserBasicView getUser();
+    //    UserBasicView getUser();
+    String getUserId();
 
     String getText();
 

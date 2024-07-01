@@ -7,6 +7,7 @@ import com.gamelist.seeding.entity.*;
 import com.gamelist.seeding.repository.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,10 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-//@Profile("dev")
 @RequiredArgsConstructor
 public class SeedService {
-    private final UserRepository userRepository;
+    private final MongoTemplate mongoTemplate;
+    private final UserMongoRepository userMongoRepository;
     private final PostRepository postRepository;
     private final GameRepository gameRepository;
     private final GenreRepository genreRepository;
@@ -36,25 +37,31 @@ public class SeedService {
     @PostConstruct
     @Transactional
     public void seedDatabase() {
+        seedUsersIfEmpty();
         seedPlatformsIfEmpty();
         seedGenresIfEmpty();
         seedTagsIfEmpty();
         seedGamesIfEmpty();
-        seedUsersIfEmpty();
         seedUserGamesIfEmpty();
         seedPostsIfEmpty();
         seedGameJournalsIfEmpty();
     }
 
+    @Transactional
     public void seedUsersIfEmpty() {
-        if (userRepository.count() == 0) {
+        if (userMongoRepository.count() == 0) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-
                 InputStream inputStream = getClass().getResourceAsStream("/json/users.json");
                 List<User> users = objectMapper.readValue(inputStream, new TypeReference<>() {
                 });
-                userRepository.saveAll(users);
+
+                users.forEach(user -> {
+                    user.setCreatedAt(LocalDateTime.now());
+                    user.setUpdatedAt(LocalDateTime.now());
+                });
+
+                userMongoRepository.saveAll(users);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -181,70 +188,72 @@ public class SeedService {
     @Transactional
     public void seedGameJournalsIfEmpty() {
         if (gameJournalRepository.count() == 0) {
-            for (int i = 1; i < 4; i++) {
-                User user = userRepository.findById((long) i).get();
-                List<GameJournal> gameJournals = new ArrayList<>();
-                for (int j = 1; j < 6; j++) {
-                    try {
+            List<User> users = userMongoRepository.findAll();
 
+            List<GameJournal> gameJournals = new ArrayList<>();
+
+            for (User user : users) {
+                for (int j = 1; j <= 5; j++) {
+                    try {
                         GameJournal gameJournal = new GameJournal();
-                        gameJournal.setContent("This is the body of game journal " + j + " by user " + i + " .");
-                        gameJournal.setUser(user);
+                        gameJournal.setContent("This is the body of game journal " + j + " by user " + user.getId() + ".");
+                        gameJournal.setUserId(user.getId());
 
                         gameJournals.add(gameJournal);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                gameJournalRepository.saveAll(gameJournals);
             }
+
+            gameJournalRepository.saveAll(gameJournals);
         }
     }
 
     @Transactional
     public void seedPostsIfEmpty() {
         if (postRepository.count() == 0) {
+            List<User> users = userMongoRepository.findAll();
+            List<Post> posts = new ArrayList<>();
 
-            for (int i = 1; i < 4; i++) {
-                User user = userRepository.findById((long) i).get();
-                List<Post> posts = new ArrayList<>();
-                for (int j = 1; j < 101; j++) {
+            for (User user : users) {
+                for (int j = 1; j <= 100; j++) {
                     try {
-
                         Post post = new Post();
-                        post.setText("This is a post " + j + " by user " + i + " .");
-                        post.setUser(user);
+                        post.setText("This is a post " + j + " by user " + user.getId() + ".");
+                        post.setUserId(user.getId());
 
                         posts.add(post);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                postRepository.saveAll(posts);
             }
 
+            postRepository.saveAll(posts);
         }
     }
 
     @Transactional
     public void seedUserGamesIfEmpty() {
         if (userGameRepository.count() == 0) {
-            for (int i = 1; i < 4; i++) {
-                User user = userRepository.findById((long) i).get();
-                List<UserGame> userGames = new ArrayList<>();
-                List<StatusUpdate> statusUpdates = new ArrayList<>();
-                for (int j = 1; j < 76; j++) {
-                    try {
+            List<User> users = userMongoRepository.findAll();
 
+            List<UserGame> userGames = new ArrayList<>();
+            List<StatusUpdate> statusUpdates = new ArrayList<>();
+
+            for (User user : users) {
+                for (int j = 1; j <= 75; j++) {
+                    try {
                         UserGame userGame = new UserGame();
                         userGame.setCreatedAt(LocalDateTime.now());
                         userGame.setUpdatedAt(LocalDateTime.now());
                         userGame.setGameStatus(GameStatus.values()[j % 3]);
                         userGame.setIsPrivate(false);
-                        userGame.setUser(user);
+                        userGame.setUserId(user.getId());
                         userGame.setGame(gameRepository.findAllGamesOrderedById().get(j - 1));
                         userGame.setRating(5);
-                        userGame.setGameNote("This is a game review for game " + j + " by user " + i + " .");
+                        userGame.setGameNote("This is a game review for game " + j + " by user " + user.getId() + ".");
                         userGames.add(userGame);
 
                         StatusUpdate statusUpdate = new StatusUpdate();
@@ -255,9 +264,10 @@ public class SeedService {
                         e.printStackTrace();
                     }
                 }
-                userGameRepository.saveAll(userGames);
-                statusUpdateRepository.saveAll(statusUpdates);
             }
+
+            userGameRepository.saveAll(userGames);
+            statusUpdateRepository.saveAll(statusUpdates);
         }
     }
 }

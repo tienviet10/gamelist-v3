@@ -2,6 +2,7 @@ package com.gamelist.game_service.projection;
 
 import com.gamelist.game_service.entity.GameStatus;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface StatusUpdateView {
     Long getId();
@@ -12,7 +13,7 @@ public interface StatusUpdateView {
 
     LocalDateTime getCreatedAt();
 
-    //    List<LikeEntityView> getLikes();
-    //
-    //    List<CommentView> getComments();
+    List<LikeEntityView> getLikes();
+
+    List<CommentView> getComments();
 }

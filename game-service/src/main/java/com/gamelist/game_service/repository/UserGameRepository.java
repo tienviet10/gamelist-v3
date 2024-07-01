@@ -8,14 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserGameRepository extends JpaRepository<UserGame, Long> {
-    UserGame findFirstByUserIdAndGameId(Long userId, Long gameId);
+    UserGame findFirstByUserIdAndGameId(String userId, Long gameId);
 
-    Optional<Set<UserGame>> findAllByUserId(Long userId);
+    Optional<Set<UserGame>> findAllByUserId(String userId);
 
-    Optional<UserGame> findByGameIdAndUserId(Long gameId, Long userId);
+    Optional<UserGame> findByGameIdAndUserId(Long gameId, String userId);
 
     @Query("SELECT CASE WHEN COUNT(ug) > 0 THEN true ELSE false END FROM user_games ug " + "WHERE ug.game.id = :gameId "
-            + "AND ug.user.id = :userId "
+            + "AND ug.userId = :userId "
             + "AND ug.gameStatus != 'Inactive'")
-    boolean existsByGameIdAndUserIdAndGameStatusNotInactive(@Param("gameId") Long gameId, @Param("userId") Long userId);
+    boolean existsByGameIdAndUserIdAndGameStatusNotInactive(
+            @Param("gameId") Long gameId, @Param("userId") String userId);
 }

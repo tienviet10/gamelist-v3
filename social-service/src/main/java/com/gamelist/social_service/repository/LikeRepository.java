@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     LikeEntityView findProjectedById(Long likeEntityId);
 
-    boolean existsByUserIdAndInteractiveEntityId(Long userId, Long interactiveEntityId);
+    boolean existsByUserIdAndInteractiveEntityId(String userId, Long interactiveEntityId);
 
-    void deleteByUserIdAndInteractiveEntityId(Long userId, Long interactiveEntityId);
+    void deleteByUserIdAndInteractiveEntityId(String userId, Long interactiveEntityId);
 }

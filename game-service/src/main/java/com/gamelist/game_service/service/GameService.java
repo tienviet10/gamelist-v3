@@ -7,5 +7,5 @@ import java.util.List;
 public interface GameService {
     GameDTO getAGame(Long gameId);
 
-    List<GameDTO> getAllGames(GameQueryFilters gameQueryFilters, Long userId);
+    List<GameDTO> getAllGames(GameQueryFilters gameQueryFilters, String userId);
 }

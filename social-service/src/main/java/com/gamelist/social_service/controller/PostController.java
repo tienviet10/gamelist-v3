@@ -24,7 +24,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<HttpResponse> getAllPostsByUser(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getAllPostsByUser(@RequestHeader(name = "userId") String userId) {
         log.info("getAllPostsByUser called with userId: {}", userId);
         List<PostView> posts = postService.findAllPostsByUserId(userId);
 
@@ -38,7 +38,7 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<HttpResponse> getAllPosts(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getAllPosts(@RequestHeader(name = "userId") String userId) {
         log.info("getAllPosts called with userId: {}", userId);
         List<PostView> posts = postService.findAllPosts(userId);
 
@@ -53,7 +53,7 @@ public class PostController {
 
     @GetMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> findPostById(
-            @PathVariable Long requestedId, @RequestHeader(name = "userId") Long userId) {
+            @PathVariable Long requestedId, @RequestHeader(name = "userId") String userId) {
         log.info("findPostById called with postId: {}", requestedId);
         PostView post = postService.findPostById(requestedId, userId);
 
@@ -68,9 +68,11 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<HttpResponse> createPost(
-            @RequestBody Post post, @RequestHeader(name = "userId") Long userId) {
+            @RequestBody Post post,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
+            @RequestHeader(name = "userId") String userId) {
         log.info("createPost called with userId: {}", userId);
-        PostView createdPost = postService.createPost(post, userId);
+        PostView createdPost = postService.createPost(authorizationHeader, post, userId);
 
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
@@ -84,7 +86,7 @@ public class PostController {
 
     @PutMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> updatePost(
-            @PathVariable Long requestedId, @RequestBody Post post, @RequestHeader(name = "userId") Long userId) {
+            @PathVariable Long requestedId, @RequestBody Post post, @RequestHeader(name = "userId") String userId) {
         log.info("updatePost called with userId: {}", userId);
         PostView updatedPost = postService.updatePostById(requestedId, post, userId);
 
@@ -99,7 +101,7 @@ public class PostController {
 
     @DeleteMapping("/{requestedId}")
     public ResponseEntity<HttpResponse> deletePostById(
-            @PathVariable Long requestedId, @RequestHeader(name = "userId") Long userId) {
+            @PathVariable Long requestedId, @RequestHeader(name = "userId") String userId) {
         log.info("deletePostById called with userId: {}", userId);
         postService.deletePostById(requestedId, userId);
 

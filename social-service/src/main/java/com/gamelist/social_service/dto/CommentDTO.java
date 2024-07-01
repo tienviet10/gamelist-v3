@@ -10,7 +10,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class CommentDTO {
     private Long id;
-    private UserBasicDTO user;
+    //    private UserBasicDTO user;
+    private String userId;
     private String text;
     private String createdAt;
     private String updatedAt;

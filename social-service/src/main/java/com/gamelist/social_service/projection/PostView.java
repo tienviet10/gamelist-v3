@@ -6,7 +6,8 @@ import java.util.List;
 public interface PostView {
     Long getId();
 
-    UserBasicView getUser();
+    //    UserBasicView getUser();
+    String getUserId();
 
     String getText();
 

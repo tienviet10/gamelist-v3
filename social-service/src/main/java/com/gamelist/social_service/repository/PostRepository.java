@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<List<PostView>> findAllProjectedByUserId(Long userId);
+    Optional<List<PostView>> findAllProjectedByUserId(String userId);
 
     Optional<PostView> findProjectedById(Long postId);
 

@@ -10,5 +10,6 @@ import lombok.experimental.SuperBuilder;
 public class UserGameDTO {
     private Long id;
     private GameBasicDTO game;
-    private UserBasicDTO user;
+    //    private UserBasicDTO user;
+    private String userId;
 }

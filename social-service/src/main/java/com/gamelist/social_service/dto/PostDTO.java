@@ -12,7 +12,8 @@ import lombok.experimental.SuperBuilder;
 public class PostDTO {
 
     private Long id;
-    private UserBasicDTO user;
+    //    private UserBasicDTO user;
+    private String userId;
     private String text;
     private LocalDateTime createdAt;
     private List<LikeEntityDTO> likes;

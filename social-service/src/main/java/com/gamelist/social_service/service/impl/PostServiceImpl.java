@@ -1,15 +1,14 @@
 package com.gamelist.social_service.service.impl;
 
+import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.Post;
-import com.gamelist.social_service.entity.User;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.InvalidTokenException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.projection.PostView;
-import com.gamelist.social_service.projection.UserBasicView;
 import com.gamelist.social_service.repository.PostRepository;
-import com.gamelist.social_service.repository.UserRepository;
 import com.gamelist.social_service.service.PostService;
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +19,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final UserServiceClient userServiceClient;
 
     @Override
-    public PostView updatePostById(Long requestedId, Post post, Long userId) {
+    public PostView updatePostById(Long requestedId, Post post, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         Optional<PostView> postOptional = postRepository.findProjectedById(requestedId);
@@ -36,9 +35,9 @@ public class PostServiceImpl implements PostService {
         if (post.getText() == null || post.getText().isEmpty()) {
             throw new InvalidInputException("Text input value is invalid");
         }
-        UserBasicView postOwner = responseData.getUser();
+        String postOwner = responseData.getUserId();
 
-        if (!userId.equals(postOwner.getId())) {
+        if (!userId.equals(postOwner)) {
             throw new InvalidAuthorizationException("Invalid authorization");
         }
 
@@ -53,7 +52,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostById(Long requestedId, Long userId) {
+    public void deletePostById(Long requestedId, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
         Optional<Post> postOptional = postRepository.findById(requestedId);
         if (postOptional.isEmpty()) {
@@ -61,9 +60,9 @@ public class PostServiceImpl implements PostService {
         }
 
         Post responseData = postOptional.get();
-        User postOwner = responseData.getUser();
+        String postOwner = responseData.getUserId();
 
-        if (!userId.equals(postOwner.getId())) {
+        if (!userId.equals(postOwner)) {
             throw new InvalidAuthorizationException("Invalid authorization");
         }
 
@@ -71,23 +70,29 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostView> findAllPosts(Long userId) {
+    public List<PostView> findAllPosts(String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         return postRepository.findAllPosts();
     }
 
     @Override
-    public PostView createPost(Post post, Long userId) {
+    public PostView createPost(String authorizationHeader, Post post, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         if (post.getText() == null || post.getText().isEmpty()) {
             throw new InvalidInputException("Text input value is invalid");
         }
-        User userFromDB = userRepository.findById(userId).get();
-        post.setUser(userFromDB);
-        postRepository.save(post);
 
+        Optional<HttpResponseGeneralModel<Boolean>> userExist =
+                userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+            throw new InvalidInputException("User does not exists");
+        }
+
+        post.setUserId(userId);
+
+        postRepository.save(post);
         Optional<PostView> postOptional = postRepository.findProjectedById(post.getId());
 
         if (postOptional.isEmpty()) {
@@ -98,7 +103,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostView findPostById(Long requestedId, Long userId) {
+    public PostView findPostById(Long requestedId, String userId) {
         if (userId == null) {
             throw new InvalidTokenException("Invalid token");
         }
@@ -106,9 +111,9 @@ public class PostServiceImpl implements PostService {
 
         if (postOptional.isPresent()) {
             PostView responseData = postOptional.get();
-            UserBasicView user = responseData.getUser();
+            String user = responseData.getUserId();
 
-            if (userId.equals(user.getId())) {
+            if (userId.equals(user)) {
                 return responseData;
             }
             throw new InvalidTokenException("Invalid token");
@@ -118,7 +123,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostView> findAllPostsByUserId(Long userId) {
+    public List<PostView> findAllPostsByUserId(String userId) {
         if (userId == null) {
             throw new InvalidTokenException("Invalid token");
         }

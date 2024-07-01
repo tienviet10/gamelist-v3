@@ -22,7 +22,7 @@ public class StatusUpdateController {
     private final StatusUpdateService statusUpdateService;
 
     @GetMapping
-    public ResponseEntity<HttpResponse> getAllStatusUpdatesByUser(@RequestHeader(name = "userId") Long userId) {
+    public ResponseEntity<HttpResponse> getAllStatusUpdatesByUser(@RequestHeader(name = "userId") String userId) {
         log.info("getAllStatusUpdatesByUser called with userId: {}", userId);
         List<StatusUpdateView> statusUpdateViewList = statusUpdateService.findAllStatusUpdatesByUserId(userId);
 

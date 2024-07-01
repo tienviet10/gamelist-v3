@@ -38,7 +38,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDTO> getAllGames(GameQueryFilters gameQueryFilters, Long userId) {
+    public List<GameDTO> getAllGames(GameQueryFilters gameQueryFilters, String userId) {
         if (gameQueryFilters == null) {
             gameQueryFilters = new GameQueryFilters();
             gameQueryFilters.setLimit(DEFAULT_QUERY_LIMIT);

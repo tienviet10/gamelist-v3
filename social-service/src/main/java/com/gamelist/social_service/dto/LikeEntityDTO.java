@@ -10,7 +10,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class LikeEntityDTO {
     private Long id;
-    private UserBasicDTO user;
+    //    private UserBasicDTO user;
+    private String userId;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
 }

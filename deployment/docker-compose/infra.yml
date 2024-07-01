@@ -37,3 +37,23 @@ services:
           memory: 700m
     labels:
       logging: "promtail"
+
+  gamelist-mongo-db:
+    image: mongo:latest
+    container_name: gamelist-mongo-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+      - MONGO_INITDB_DATABASE=gamelist
+    ports:
+      - "27017:27017"
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+    healthcheck:
+      test: [ "CMD","mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
