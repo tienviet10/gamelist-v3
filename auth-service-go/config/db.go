@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/spf13/viper"
@@ -15,7 +16,8 @@ type DatabaseConfiguration struct {
 
 func DbConfiguration() string {
 	connectionString := viper.GetString("VAR_MONGO_DB")
-
+	// Print connection string
+	log.Println("Connection string: ", connectionString)
 	return connectionString
 }
 

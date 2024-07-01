@@ -1,5 +1,4 @@
-@social_service = http://localhost:8989/social-service
-
+@social_service = http://api-gateway:8989/social-service
 ###
 post {{social_service}}/api/v1/likes
 Content-Type: application/json
@@ -19,11 +18,11 @@ userId: 667f8a18a83a400a8cc15a80
 ###
 post {{social_service}}/api/v1/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODAzODgxLCJpYXQiOjE3MTk4MDAyODEsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODE4MTVkZGU1ZjU1Nzk4NjM3ZWYwNCJ9.bll09OFLgCEq8vnYtGcRV_omq03vwlXNAm7icdQNd0g
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODE0MDAzLCJpYXQiOjE3MTk4MTA0MDMsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODIzNDU0NmIxZjU0MWZiZGQ1YWI3ZiJ9.M30saihHA4WXieivH9HalLBkLz4ofVwA14z7e7UM-6k
 
 {
-    "interactiveEntityId": 4,
-    "text": "Hello US 44444444"
+    "interactiveEntityId": 5,
+    "text": "Hello US 5555555"
 }
 
 ###
