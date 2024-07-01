@@ -193,5 +193,34 @@ namespace user_service_dotnet.Controllers
         return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
       }
     }
+
+    [HttpGet("user-exist")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> UserExist()
+    {
+      string checkingUserId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Check if a user with ID exists: {checkingUserId}, Trace ID: {traceId}");
+
+      try
+      {
+        bool userExist = await _userService.UserExist(checkingUserId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "User exists",
+          DeveloperMessage = "Check the user successfully",
+          Path = $"/api/v1/user/user-exist",
+          RequestMethod = "GET",
+          Data = userExist
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
   }
 }

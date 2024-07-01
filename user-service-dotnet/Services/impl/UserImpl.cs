@@ -56,7 +56,7 @@ namespace user_service_dotnet.Services.impl
     {
       var objectId = new ObjectId(userId);
       var user = await _context.Users.Find(u => u.Id == objectId).FirstOrDefaultAsync() ?? throw new KeyNotFoundException("User not found");
-      // Retrieve all following users in one query
+
       var followingUsers = await _context.Users.Find(u => user.Following.Contains(u.Id)).ToListAsync();
       var followingDto = followingUsers.Select(followingUser => new UserBasicInfoDTO
       {
@@ -180,6 +180,17 @@ namespace user_service_dotnet.Services.impl
         BannerPicture = followerUser.BannerPicture,
         UserPicture = followerUser.UserPicture
       };
+    }
+
+    public async Task<bool> UserExist(string checkingUserExist)
+    {
+      var checkingUserObjId = new ObjectId(checkingUserExist);
+      var checkedUserDB = await _context.Users.Find(u => u.Id == checkingUserObjId).FirstOrDefaultAsync();
+      if (checkedUserDB == null)
+      {
+        return false;
+      }
+      return true;
     }
   }
 }

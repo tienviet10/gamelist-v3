@@ -87,13 +87,6 @@ CREATE TABLE IF NOT EXISTS like_entities
     FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
 );
 
-CREATE TABLE IF NOT EXISTS user_followers
-(
-    follower_id  BIGINT NOT NULL,
-    following_id BIGINT NOT NULL,
-    PRIMARY KEY (follower_id, following_id)
-);
-
 CREATE TABLE IF NOT EXISTS user_games
 (
     id             BIGINT       NOT NULL,

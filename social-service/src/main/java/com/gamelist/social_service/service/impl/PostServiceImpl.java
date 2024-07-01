@@ -1,5 +1,7 @@
 package com.gamelist.social_service.service.impl;
 
+import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final UserServiceClient userServiceClient;
 
     @Override
     public PostView updatePostById(Long requestedId, Post post, String userId) {
@@ -74,18 +77,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostView createPost(Post post, String userId) {
+    public PostView createPost(String authorizationHeader, Post post, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         if (post.getText() == null || post.getText().isEmpty()) {
             throw new InvalidInputException("Text input value is invalid");
         }
 
-        //       TODO: Check if User exist
-        //        User userFromDB = userRepository.findById(userId).get();
-        post.setUserId(userId);
-        postRepository.save(post);
+        Optional<HttpResponseGeneralModel<Boolean>> userExist =
+                userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+            throw new InvalidInputException("User does not exists");
+        }
 
+        post.setUserId(userId);
+
+        postRepository.save(post);
         Optional<PostView> postOptional = postRepository.findProjectedById(post.getId());
 
         if (postOptional.isEmpty()) {

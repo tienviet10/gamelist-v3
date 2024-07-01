@@ -47,6 +47,11 @@ spec:
               value: "http://${TEMPO_SERVICE_HOST}:${TEMPO_PORT}"
             - name: CONFIG_SERVER_URL
               value: "http://${CONFIG_SERVER_SERVICE_HOST}:80"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt-key
           resources: {}
           # resources:
           #   requests:

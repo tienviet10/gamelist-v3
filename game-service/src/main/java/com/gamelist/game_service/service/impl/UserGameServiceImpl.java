@@ -26,31 +26,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserGameServiceImpl implements UserGameService {
-    //    TODO: Maybe called User Repository from a different container
-    //    private final UserRepository userRepository;
     private final UserServiceClient client;
     private final UserGameRepository userGameRepository;
     private final GameRepository gameRepository;
     private final LikeRepository likeRepository;
     private final StatusUpdateRepository statusUpdateRepository;
     private final GameMapper gameMapper;
-
-    //    @Override
-    //    public UserGame findUserGameById(Long requestedId, User principal) {
-    //        if (principal == null) {
-    //            throw new InvalidTokenException("Invalid principal user");
-    //        }
-    //
-    //        Optional<UserGame> userGame = userGameRepository.findByGameIdAndUserId(requestedId, principal.getId());
-    //
-    //        if (userGame.isPresent()) {
-    //            return userGame.get();
-    //        }
-    //
-    //        throw new ResourceNotFoundException("UserGame not found with ID: " + requestedId + " and UserID: " +
-    // principal.getId());
-    //    }
-    //
 
     @Override
     public UserGame createUserGame(EditUserGameRequest userGame, String userId) {
@@ -62,7 +43,6 @@ public class UserGameServiceImpl implements UserGameService {
         StatusUpdate statusUpdate = new StatusUpdate();
 
         if (existingUserGame != null) {
-            // If the UserGame already exists, update the existing instance
             if (existingUserGame.getGameStatus() != userGame.getGameStatus()) {
                 statusUpdate.setUserGame(existingUserGame);
                 statusUpdate.setGameStatus(userGame.getGameStatus());
@@ -133,25 +113,6 @@ public class UserGameServiceImpl implements UserGameService {
                 "UserGame not found with ID: " + userGame.getGameId() + " and UserID: " + userId);
     }
 
-    //    @Override
-    //    public UserGame deleteUserGameById(Long requestedId, User principal) {
-    //        if (principal == null) throw new InvalidTokenException("Invalid token");
-    //
-    //        Optional<UserGame> userGameOptional = userGameRepository.findById(requestedId);
-    //
-    //        if (userGameOptional.isPresent()) {
-    //            UserGame responseData = userGameOptional.get();
-    //            User user = responseData.getUser();
-    //
-    //            if (principal.getId().equals(user.getId())) {
-    //                return resetUserGameAndStatusUpdate(responseData);
-    //            }
-    //            throw new InvalidAuthorizationException("Invalid authorization");
-    //        }
-    //
-    //        throw new ResourceNotFoundException("UserGame not found with ID: " + requestedId);
-    //    }
-    //
     @Override
     public Set<UserGame> findAllUserGamesByUserId(String userId) {
         Optional<Set<UserGame>> optionalUserGames = userGameRepository.findAllByUserId(userId);
@@ -208,7 +169,7 @@ public class UserGameServiceImpl implements UserGameService {
         userGamesSummary.setTotalCount(totalCount);
 
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
-        Optional<HttpResponseModel> result = client.getUserInfoById(userId, authorizationHeader);
+        Optional<HttpResponseModel> result = client.getUserInfoById(authorizationHeader);
         if (result.isPresent()) {
             listsOrder = result.get().data().get("listsOrder").toString();
         }

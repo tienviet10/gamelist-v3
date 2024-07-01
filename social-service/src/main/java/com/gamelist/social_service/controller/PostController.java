@@ -68,9 +68,11 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<HttpResponse> createPost(
-            @RequestBody Post post, @RequestHeader(name = "userId") String userId) {
+            @RequestBody Post post,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
+            @RequestHeader(name = "userId") String userId) {
         log.info("createPost called with userId: {}", userId);
-        PostView createdPost = postService.createPost(post, userId);
+        PostView createdPost = postService.createPost(authorizationHeader, post, userId);
 
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()

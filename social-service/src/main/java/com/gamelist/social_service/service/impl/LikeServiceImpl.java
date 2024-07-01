@@ -1,5 +1,7 @@
 package com.gamelist.social_service.service.impl;
 
+import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.*;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
@@ -17,18 +19,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
+    private final UserServiceClient userServiceClient;
 
     @Override
-    public LikeEntityView createLike(String userId, Long interactiveEntityId) {
-        // Check if the user has already liked the InteractiveEntity
+    public LikeEntityView createLike(String userId, String authorizationHeader, Long interactiveEntityId) {
         boolean alreadyLiked = likeRepository.existsByUserIdAndInteractiveEntityId(userId, interactiveEntityId);
 
         if (alreadyLiked) {
             throw new InvalidInputException("You have already liked this entity.");
         }
-        //        TODO: Check if user exist
-        //        User owner = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not
-        // found"));
+
+        Optional<HttpResponseGeneralModel<Boolean>> userExist =
+                userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+            throw new InvalidInputException("User does not exists");
+        }
 
         LikeEntity like = new LikeEntity();
 

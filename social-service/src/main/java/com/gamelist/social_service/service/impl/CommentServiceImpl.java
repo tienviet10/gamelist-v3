@@ -1,8 +1,11 @@
 package com.gamelist.social_service.service.impl;
 
+import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.InteractiveEntity;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
+import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.repository.CommentRepository;
@@ -10,6 +13,7 @@ import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.CommentService;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +23,19 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
+    private final UserServiceClient userServiceClient;
 
     @Override
-    public CommentView createComment(String userId, Long interactiveEntityId, String text) {
+    public CommentView createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text) {
         InteractiveEntity interactiveEntity = interactiveEntityRepository
                 .findById(interactiveEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Interactive entity not found"));
-        //      TODO: Check if user exist
-        //        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not
-        // found"));
 
+        Optional<HttpResponseGeneralModel<Boolean>> userExist =
+                userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+            throw new InvalidInputException("User does not exists");
+        }
         Comment comment = Comment.builder()
                 .text(text)
                 .userId(userId)

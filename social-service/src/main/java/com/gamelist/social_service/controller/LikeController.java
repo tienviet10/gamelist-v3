@@ -27,9 +27,11 @@ public class LikeController {
     @Transactional
     public ResponseEntity<HttpResponse> createLike(
             @RequestHeader(name = "userId") String userId,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @RequestBody CreateLikeEntityRequest createLikeEntityRequest) {
         log.info("createLike called with userId: {}", userId);
-        LikeEntityView like = likeService.createLike(userId, createLikeEntityRequest.getInteractiveEntityId());
+        LikeEntityView like =
+                likeService.createLike(userId, authorizationHeader, createLikeEntityRequest.getInteractiveEntityId());
 
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()

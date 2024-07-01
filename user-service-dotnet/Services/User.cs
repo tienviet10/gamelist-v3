@@ -11,5 +11,6 @@ namespace user_service_dotnet.Services
     Task<UserBasicInfoDTO> FollowUser(string followerUserId, string followedUserId);
     Task<UserBasicInfoDTO> UnfollowUser(string followerUserId, string followedUserId);
     Task<UserBasicInfoDTO> RemoveFollower(string followedUserId, string followerUserId);
+    Task<bool> UserExist(string checkingUserExist);
   }
 }

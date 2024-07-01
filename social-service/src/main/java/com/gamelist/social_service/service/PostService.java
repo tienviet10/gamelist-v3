@@ -12,7 +12,7 @@ public interface PostService {
 
     PostView findPostById(Long requestedId, String userId);
 
-    PostView createPost(Post post, String userId);
+    PostView createPost(String authorizationHeader, Post post, String userId);
 
     PostView updatePostById(Long requestedId, Post post, String userId);
 

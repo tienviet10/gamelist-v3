@@ -26,10 +26,15 @@ public class CommentController {
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createComment(
-            @RequestHeader(name = "userId") String userId, @RequestBody CreateCommentRequest createCommentRequest) {
+            @RequestHeader(name = "userId") String userId,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
+            @RequestBody CreateCommentRequest createCommentRequest) {
         log.info("createComment called with userId: {}", userId);
         CommentView comment = commentService.createComment(
-                userId, createCommentRequest.getInteractiveEntityId(), createCommentRequest.getText());
+                userId,
+                authorizationHeader,
+                createCommentRequest.getInteractiveEntityId(),
+                createCommentRequest.getText());
 
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
