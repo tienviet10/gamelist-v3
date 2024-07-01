@@ -1,4 +1,4 @@
-@user_service_dotnet_HostAddress = http://localhost:8080
+@user_service_dotnet_HostAddress = http://api-gateway:8989/user-service
 
 GET {{user_service_dotnet_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -10,7 +10,7 @@ Accept: application/json
 ###
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/userinfo
 Accept: application/json
-userId: 666a602d5d13cfef6ed583ac
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODEzOTA0LCJpYXQiOjE3MTk4MTAzMDQsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODIzNDU0NmIxZjU0MWZiZGQ1YWI3ZiJ9.tPkG_A7mYD_0SZgkrXVd7Z_3Nn91RD7kA9AxSTTcZm8
 
 ###
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/userinfo

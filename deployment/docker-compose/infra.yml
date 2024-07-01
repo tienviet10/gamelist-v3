@@ -45,6 +45,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootpassword
       - MONGO_INITDB_DATABASE=gamelist
+    expose:
+      - "27017"
     ports:
       - "27017:27017"
     deploy:

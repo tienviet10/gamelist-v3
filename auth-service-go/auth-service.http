@@ -1,4 +1,15 @@
-@hostname = http://localhost:8082
+@hostname = http://api-gateway:8989/auth-service
+
+###
+post {{hostname}}/register
+Content-Type: application/json
+
+{
+    "email": "m@gmail.com",
+    "password": "123456",
+    "username": "Mm"
+}
+
 
 ###
 post {{hostname}}/login
