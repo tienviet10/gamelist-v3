@@ -45,6 +45,7 @@ public class InteractiveEntityController {
                 .build());
     }
 
+    //    TODO: Improve this endpoint to return userinfo
     @GetMapping("/user-social/pageable")
     @Transactional
     public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserIdPageable(

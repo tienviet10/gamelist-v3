@@ -1,4 +1,4 @@
-@user_service_dotnet_HostAddress = http://api-gateway:8989/user-service
+@user_service_dotnet_HostAddress = http://127.0.0.1:54792/user-service
 
 GET {{user_service_dotnet_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -10,7 +10,7 @@ Accept: application/json
 ###
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/userinfo
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODEzOTA0LCJpYXQiOjE3MTk4MTAzMDQsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODIzNDU0NmIxZjU0MWZiZGQ1YWI3ZiJ9.tPkG_A7mYD_0SZgkrXVd7Z_3Nn91RD7kA9AxSTTcZm8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODk5NDI2LCJpYXQiOjE3MTk4OTU4MjYsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODI1MTU0NzM1NDM2MDc5YTIwN2Y5NCJ9.ffgWlAqm3st4-VoJbJLvxQS84rFDG9DMic3FRwhZCZs
 
 ###
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/userinfo
@@ -20,4 +20,12 @@ userId: 666a602d5d13cfef6ed583a
 ###
 GET {{user_service_dotnet_HostAddress}}/api/v1/user/user-exist
 Accept: application/json
-userId: 6681815dde5f55798637ef04
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODk5NDI2LCJpYXQiOjE3MTk4OTU4MjYsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODI1MTU0NzM1NDM2MDc5YTIwN2Y5NCJ9.ffgWlAqm3st4-VoJbJLvxQS84rFDG9DMic3FRwhZCZs
+
+###
+POST {{user_service_dotnet_HostAddress}}/api/v1/user/follows/66825154735436079a207f96
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODI0NjQxLCJpYXQiOjE3MTk4MjEwNDEsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODI1MTU0NzM1NDM2MDc5YTIwN2Y5NCJ9.WO5dfK088pq96rQCEtlF9-mKFgyov3Akuh1WUO0EPg0
+
+###
+DELETE  {{user_service_dotnet_HostAddress}}/api/v1/user/unfollow/66825154735436079a207f96
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODI0NjQxLCJpYXQiOjE3MTk4MjEwNDEsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODI1MTU0NzM1NDM2MDc5YTIwN2Y5NCJ9.WO5dfK088pq96rQCEtlF9-mKFgyov3Akuh1WUO0EPg0

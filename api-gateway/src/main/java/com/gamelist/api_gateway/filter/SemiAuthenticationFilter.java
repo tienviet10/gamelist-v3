@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SemiAuthenticationFilter extends AbstractGatewayFilterFactory<SemiAuthenticationFilter.Config> {
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(SemiAuthenticationFilter.class);
     private final RouteValidator validator;
     private final JwtUtil jwtUtil;
 

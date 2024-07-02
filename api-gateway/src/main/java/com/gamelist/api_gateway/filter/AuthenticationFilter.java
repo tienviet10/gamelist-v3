@@ -39,10 +39,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
-                    log.info("Validating token");
-                    log.info("Token: {}", authHeader);
                     jwtUtil.validateToken(authHeader);
-                    log.info("Token is valid");
                     request = exchange.getRequest()
                             .mutate()
                             .header("userId", jwtUtil.extractUserId(authHeader))
