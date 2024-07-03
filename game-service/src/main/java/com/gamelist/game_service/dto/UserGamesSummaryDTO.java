@@ -11,22 +11,22 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public class UserGamesSummaryDTO {
-    private List<GameDTO> playing;
+    private List<UserGamesDTO> playing;
     private int playingCount;
 
-    private List<GameDTO> completed;
+    private List<UserGamesDTO> completed;
     private int completedCount;
 
-    private List<GameDTO> paused;
+    private List<UserGamesDTO> paused;
     private int pausedCount;
 
-    private List<GameDTO> planning;
+    private List<UserGamesDTO> planning;
     private int planningCount;
 
-    private List<GameDTO> dropped;
+    private List<UserGamesDTO> dropped;
     private int droppedCount;
 
-    private List<GameDTO> justAdded;
+    private List<UserGamesDTO> justAdded;
     private int justAddedCount;
 
     private int totalCount;

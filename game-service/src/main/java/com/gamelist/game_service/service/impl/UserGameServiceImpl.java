@@ -2,7 +2,7 @@ package com.gamelist.game_service.service.impl;
 
 import com.gamelist.game_service.clients.user.HttpResponseModel;
 import com.gamelist.game_service.clients.user.UserServiceClient;
-import com.gamelist.game_service.dto.GameDTO;
+import com.gamelist.game_service.dto.UserGamesDTO;
 import com.gamelist.game_service.dto.UserGamesSummaryDTO;
 import com.gamelist.game_service.entity.Game;
 import com.gamelist.game_service.entity.GameStatus;
@@ -11,12 +11,15 @@ import com.gamelist.game_service.entity.UserGame;
 import com.gamelist.game_service.exception.InvalidTokenException;
 import com.gamelist.game_service.exception.ResourceNotFoundException;
 import com.gamelist.game_service.mapper.GameMapper;
+import com.gamelist.game_service.mapper.UserGameMapper;
 import com.gamelist.game_service.model.EditUserGameRequest;
+import com.gamelist.game_service.projection.UserGameProjection;
 import com.gamelist.game_service.repository.GameRepository;
 import com.gamelist.game_service.repository.LikeRepository;
 import com.gamelist.game_service.repository.StatusUpdateRepository;
 import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.UserGameService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -32,6 +35,7 @@ public class UserGameServiceImpl implements UserGameService {
     private final LikeRepository likeRepository;
     private final StatusUpdateRepository statusUpdateRepository;
     private final GameMapper gameMapper;
+    private final UserGameMapper userGameMapper;
 
     @Override
     public UserGame createUserGame(EditUserGameRequest userGame, String userId) {
@@ -126,26 +130,26 @@ public class UserGameServiceImpl implements UserGameService {
 
     @Override
     public UserGamesSummaryDTO findAllUserGamesByUserIdByStatus(String userId, String authorizationHeader) {
-        List<Game> playingGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Playing);
-        List<GameDTO> playingGameDTOs = gameMapper.gamesToGameDTOs(playingGames);
-        List<Game> completedGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Completed);
-        List<GameDTO> completedGameDTOs = gameMapper.gamesToGameDTOs(completedGames);
-        List<Game> pausedGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Paused);
-        List<GameDTO> pausedGameDTOs = gameMapper.gamesToGameDTOs(pausedGames);
-        List<Game> planningGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Planning);
-        List<GameDTO> planningGameDTOs = gameMapper.gamesToGameDTOs(planningGames);
-        List<Game> dropGames = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.Dropped);
-        List<GameDTO> dropGameDTOs = gameMapper.gamesToGameDTOs(dropGames);
-        List<Game> justAdded = gameRepository.findGamesByUserIdAndStatus(userId, GameStatus.JustAdded);
-        List<GameDTO> justAddedGameDTOs = gameMapper.gamesToGameDTOs(justAdded);
+        List<UserGameProjection> userGames = userGameRepository.findUserGamesByUserId(userId);
+        List<UserGamesDTO> gameDTOs = userGameMapper.userGameProjectionsToGameDTOs(userGames);
+        List<UserGamesDTO> playingGameDTOs = new ArrayList<>();
+        List<UserGamesDTO> completedGameDTOs = new ArrayList<>();
+        List<UserGamesDTO> pausedGameDTOs = new ArrayList<>();
+        List<UserGamesDTO> planningGameDTOs = new ArrayList<>();
+        List<UserGamesDTO> droppedGameDTOs = new ArrayList<>();
+        List<UserGamesDTO> justAddedGameDTOs = new ArrayList<>();
 
-        applyGameAddedAndLikeToGameDTOs(playingGameDTOs, userId);
-        applyGameAddedAndLikeToGameDTOs(completedGameDTOs, userId);
-        applyGameAddedAndLikeToGameDTOs(pausedGameDTOs, userId);
-        applyGameAddedAndLikeToGameDTOs(planningGameDTOs, userId);
-        applyGameAddedAndLikeToGameDTOs(dropGameDTOs, userId);
-        applyGameAddedAndLikeToGameDTOs(justAddedGameDTOs, userId);
-
+        for (UserGamesDTO gameDTO : gameDTOs) {
+            switch (gameDTO.getGameStatus()) {
+                case Playing -> playingGameDTOs.add(gameDTO);
+                case Completed -> completedGameDTOs.add(gameDTO);
+                case Paused -> pausedGameDTOs.add(gameDTO);
+                case Planning -> planningGameDTOs.add(gameDTO);
+                case Dropped -> droppedGameDTOs.add(gameDTO);
+                case JustAdded -> justAddedGameDTOs.add(gameDTO);
+                default -> {}
+            }
+        }
         UserGamesSummaryDTO userGamesSummary = new UserGamesSummaryDTO();
         userGamesSummary.setPlaying(playingGameDTOs);
         userGamesSummary.setPlayingCount(playingGameDTOs.size());
@@ -155,8 +159,8 @@ public class UserGameServiceImpl implements UserGameService {
         userGamesSummary.setPausedCount(pausedGameDTOs.size());
         userGamesSummary.setPlanning(planningGameDTOs);
         userGamesSummary.setPlanningCount(planningGameDTOs.size());
-        userGamesSummary.setDropped(dropGameDTOs);
-        userGamesSummary.setDroppedCount(dropGameDTOs.size());
+        userGamesSummary.setDropped(droppedGameDTOs);
+        userGamesSummary.setDroppedCount(droppedGameDTOs.size());
         userGamesSummary.setJustAdded(justAddedGameDTOs);
         userGamesSummary.setJustAddedCount(justAddedGameDTOs.size());
 
@@ -164,7 +168,7 @@ public class UserGameServiceImpl implements UserGameService {
                 + completedGameDTOs.size()
                 + pausedGameDTOs.size()
                 + planningGameDTOs.size()
-                + dropGameDTOs.size()
+                + droppedGameDTOs.size()
                 + justAddedGameDTOs.size();
         userGamesSummary.setTotalCount(totalCount);
 
@@ -231,19 +235,5 @@ public class UserGameServiceImpl implements UserGameService {
         statusUpdate.setGameStatus(userGame.getGameStatus());
         statusUpdateRepository.save(statusUpdate);
         return userGameRepository.save(userGame);
-    }
-
-    private void applyGameAddedAndLikeToGameDTOs(List<GameDTO> gameDTOs, String userId) {
-        for (GameDTO gameDTO : gameDTOs) {
-            if (userId == null) {
-                gameDTO.setGameAdded(false);
-                gameDTO.setGameLiked(false);
-                continue;
-            }
-
-            gameDTO.setGameAdded(
-                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(), userId));
-            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId, gameDTO.getId()));
-        }
     }
 }

@@ -1,9 +1,9 @@
-@social_service = http://api-gateway:8989/social-service
+@social_service = http://localhost:8989/social-service
 ###
 post {{social_service}}/api/v1/likes
 Content-Type: application/json
 # userId: 667f8a18a83a400a8cc15a80
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5ODIxNzc4LCJpYXQiOjE3MTk4MTgxNzgsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODI1MTU0NzM1NDM2MDc5YTIwN2Y5NCJ9.x8rfR_3DPKTzqAc7bVxCp9gEhTFTdiqxiOpXPKnxWdI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5OTg5OTQyLCJpYXQiOjE3MTk5ODYzNDIsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2ODIzNDU0NmIxZjU0MWZiZGQ1YWI3ZiJ9._91ig3WjJCjZWaOpcizFFxlXFXk8R7T_86or94VOVaY
 
 {
   "interactiveEntityId": 2
@@ -12,8 +12,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21ha
 ###
 delete {{social_service}}/api/v1/likes/1
 Content-Type: application/json
-userId: 667f8a18a83a400a8cc15a80
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
+# userId: 667f8a18a83a400a8cc15a80
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZAZ21haWwuY29tIiwiZXhwIjoxNzE5NjkyNzEwLCJpYXQiOjE3MTk2ODkxMTAsImlzcyI6ImdhbWVsaXN0LWF1dGgtc2VydmljZSIsInN1YiI6IjY2N2Y4YTE4YTgzYTQwMGE4Y2MxNWE4MCJ9.ux7iZZ4awjXEGuEMeqyNLVOMDgyJGgJON1vInLAlnhU
 
 ###
 post {{social_service}}/api/v1/comments
