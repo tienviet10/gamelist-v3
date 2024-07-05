@@ -1,12 +1,14 @@
 package com.gamelist.social_service.service.impl;
 
-import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserInfoResponse;
 import com.gamelist.social_service.clients.user.UserServiceClient;
+import com.gamelist.social_service.dto.PostDTO;
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.InvalidTokenException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
+import com.gamelist.social_service.mapper.PostMapper;
 import com.gamelist.social_service.projection.PostView;
 import com.gamelist.social_service.repository.PostRepository;
 import com.gamelist.social_service.service.PostService;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserServiceClient userServiceClient;
+    private final PostMapper postMapper;
 
     @Override
     public PostView updatePostById(Long requestedId, Post post, String userId) {
@@ -77,20 +80,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostView createPost(String authorizationHeader, Post post, String userId) {
+    public PostDTO createPost(String authorizationHeader, Post post, String userId) {
         if (userId == null) throw new InvalidTokenException("Invalid token");
 
         if (post.getText() == null || post.getText().isEmpty()) {
             throw new InvalidInputException("Text input value is invalid");
         }
 
-        Optional<HttpResponseGeneralModel<Boolean>> userExist =
-                userServiceClient.checkedIfUserExists(authorizationHeader);
-        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
-            throw new InvalidInputException("User does not exists");
+        Optional<UserInfoResponse> userDTO = userServiceClient.getUserInfoById(authorizationHeader, userId);
+        if (userDTO.isEmpty()) {
+            throw new RuntimeException("User not found");
         }
-
-        post.setUserId(userId);
 
         postRepository.save(post);
         Optional<PostView> postOptional = postRepository.findProjectedById(post.getId());
@@ -99,7 +99,9 @@ public class PostServiceImpl implements PostService {
             throw new ResourceNotFoundException("Post not found with ID: " + post.getId());
         }
 
-        return postOptional.get();
+        PostDTO newPost = postMapper.postViewToPostDTO(postOptional.get());
+        newPost.setUser(userDTO.get().getData());
+        return newPost;
     }
 
     @Override

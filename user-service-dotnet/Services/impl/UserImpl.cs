@@ -21,6 +21,22 @@ namespace user_service_dotnet.Services.impl
       _context = context;
     }
 
+    public async Task<UserBasicInfoWithoutIdDTO> GetUserBasicInfoById(string userId)
+    {
+      ObjectId objectId = new(userId);
+      FilterDefinition<UserInfo> filter = Builders<UserInfo>.Filter.Eq("_id", objectId);
+      UserInfo user = await _context.Users.Find(filter).FirstOrDefaultAsync() ?? throw new UserNotFoundException("User not found. Id: " + userId);
+
+      UserBasicInfoWithoutIdDTO userDto = new()
+      {
+        Username = user.Username,
+        BannerPicture = user.BannerPicture,
+        UserPicture = user.UserPicture
+      };
+
+      return userDto;
+    }
+
     public async Task<UserInfoDTO> GetUserById(string userId)
     {
       ObjectId objectId = new(userId);

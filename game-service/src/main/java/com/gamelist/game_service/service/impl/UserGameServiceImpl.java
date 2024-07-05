@@ -10,12 +10,10 @@ import com.gamelist.game_service.entity.StatusUpdate;
 import com.gamelist.game_service.entity.UserGame;
 import com.gamelist.game_service.exception.InvalidTokenException;
 import com.gamelist.game_service.exception.ResourceNotFoundException;
-import com.gamelist.game_service.mapper.GameMapper;
 import com.gamelist.game_service.mapper.UserGameMapper;
 import com.gamelist.game_service.model.EditUserGameRequest;
 import com.gamelist.game_service.projection.UserGameProjection;
 import com.gamelist.game_service.repository.GameRepository;
-import com.gamelist.game_service.repository.LikeRepository;
 import com.gamelist.game_service.repository.StatusUpdateRepository;
 import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.UserGameService;
@@ -32,9 +30,7 @@ public class UserGameServiceImpl implements UserGameService {
     private final UserServiceClient client;
     private final UserGameRepository userGameRepository;
     private final GameRepository gameRepository;
-    private final LikeRepository likeRepository;
     private final StatusUpdateRepository statusUpdateRepository;
-    private final GameMapper gameMapper;
     private final UserGameMapper userGameMapper;
 
     @Override
@@ -173,7 +169,7 @@ public class UserGameServiceImpl implements UserGameService {
         userGamesSummary.setTotalCount(totalCount);
 
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
-        Optional<HttpResponseModel> result = client.getUserInfoById(authorizationHeader);
+        Optional<HttpResponseModel> result = client.getUserCategoryListsInfoById(authorizationHeader);
         if (result.isPresent()) {
             listsOrder = result.get().data().get("listsOrder").toString();
         }

@@ -6,6 +6,7 @@ namespace user_service_dotnet.Services
   public interface IUserService
   {
     Task<UserInfoDTO> GetUserById(string userId);
+    Task<UserBasicInfoWithoutIdDTO> GetUserBasicInfoById(string userId);
     Task<UserListOrderDTO> GetUserListOrderById(string userId);
     Task<UserFollowDTO> GetAllFollowById(string userId);
     Task<UserBasicInfoDTO> FollowUser(string followerUserId, string followedUserId);

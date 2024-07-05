@@ -1,6 +1,5 @@
 package com.gamelist.social_service.clients.user;
 
-import com.gamelist.social_service.clients.HttpResponseGeneralModel;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import java.util.Objects;
@@ -23,18 +22,37 @@ public class UserServiceClient {
 
     @CircuitBreaker(name = "user-service")
     @Retry(name = "user-service", fallbackMethod = "checkedUserExistsFallback")
-    public Optional<HttpResponseGeneralModel<Boolean>> checkedIfUserExists(String authorizationHeader) {
-        HttpResponseGeneralModel<Boolean> userExists = Objects.requireNonNull(restUserServiceClient
+    public Optional<UserExistResponse> checkedIfUserExists(String authorizationHeader) {
+        UserExistResponse userExists = Objects.requireNonNull(restUserServiceClient
                 .get()
                 .uri("/api/v1/user/user-exist")
                 .header("Authorization", authorizationHeader)
                 .retrieve()
-                .toEntity(HttpResponseGeneralModel.class)
+                .toEntity(UserExistResponse.class)
                 .getBody());
         return Optional.of(userExists);
     }
 
-    Optional<HttpResponseGeneralModel> checkedUserExistsFallback(Throwable t) {
+    @CircuitBreaker(name = "user-service")
+    @Retry(name = "user-service", fallbackMethod = "getUserByCodeFallback")
+    public Optional<UserInfoResponse> getUserInfoById(String authorizationHeader, String userInfoId) {
+        UserInfoResponse userById = Objects.requireNonNull(restUserServiceClient
+                .get()
+                .uri("/api/v1/user/userinfo/{userInfoId}", userInfoId)
+                .header("Authorization", authorizationHeader)
+                .retrieve()
+                .toEntity(UserInfoResponse.class)
+                .getBody());
+
+        return Optional.of(userById);
+    }
+
+    Optional<UserInfoResponse> getUserByCodeFallback(Throwable t) {
+        log.error("getUserByCodeFallback called with userId: ", t);
+        return Optional.empty();
+    }
+
+    Optional<UserExistResponse> checkedUserExistsFallback(Throwable t) {
         log.error("getUserByCodeFallback called with userId: ", t);
         return Optional.empty();
     }

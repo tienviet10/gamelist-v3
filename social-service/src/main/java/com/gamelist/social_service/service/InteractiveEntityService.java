@@ -4,14 +4,16 @@ import com.gamelist.social_service.model.PostAndStatusUpdateResponse;
 
 public interface InteractiveEntityService {
 
-    PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(String userId);
+    PostAndStatusUpdateResponse getPostAndStatusUpdateByUserId(String authorizationHeader, String userId);
 
     PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdAndStartingId(
-            String userId, Long startingId, Integer limit);
+            String authorizationHeader, String userId, Long startingId, Integer limit);
 
-    PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(String userId, Integer limit);
+    PostAndStatusUpdateResponse getPostAndStatusUpdateByUserIdFirstPage(
+            String authorizationHeader, String userId, Integer limit);
 
-    PostAndStatusUpdateResponse getAllPostAndStatusUpdatesFirstPage(Integer limit);
+    PostAndStatusUpdateResponse getAllPostAndStatusUpdatesFirstPage(String authorizationHeader, Integer limit);
 
-    PostAndStatusUpdateResponse getAllPostAndStatusUpdatesByStartingId(Long startingId, Integer limit);
+    PostAndStatusUpdateResponse getAllPostAndStatusUpdatesByStartingId(
+            String authorizationHeader, Long startingId, Integer limit);
 }

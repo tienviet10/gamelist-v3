@@ -4,6 +4,7 @@ import com.gamelist.social_service.dto.CommentDTO;
 import com.gamelist.social_service.dto.PostDTO;
 import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.Post;
+import com.gamelist.social_service.projection.PostView;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +19,7 @@ public interface PostMapper {
     @Mapping(source = "comments", target = "comments")
     PostDTO postToPostDTO(Post post);
 
-    //    @Mapping(target = "post.comments", ignore = true)
+    PostDTO postViewToPostDTO(PostView post);
+
     List<CommentDTO> commentListToCommentDTOList(List<Comment> comments);
 }

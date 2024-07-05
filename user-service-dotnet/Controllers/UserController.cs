@@ -20,6 +20,35 @@ namespace user_service_dotnet.Controllers
       _logger = logger;
     }
 
+    [HttpGet("userinfo/{userInfoId}")]
+    public async Task<ActionResult<CustomHttpResponse<object>>> GetUserInfo(string userInfoId)
+    {
+      string userId = Request.Headers["userId"].ToString();
+      var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
+
+      _logger.LogInformation($"Getting user info for ID: {userId}, Trace ID: {traceId}");
+
+      try
+      {
+        UserBasicInfoWithoutIdDTO userDto = await _userService.GetUserBasicInfoById(userInfoId);
+
+        return Ok(new CustomHttpResponse<object>
+        {
+          StatusCode = 200,
+          Status = HttpStatusCode.OK.ToString(),
+          Message = "User found",
+          DeveloperMessage = "User found successfully",
+          Path = "/api/v1/user/userinfo",
+          RequestMethod = "GET",
+          Data = userDto
+        });
+      }
+      catch (UserNotFoundException ex)
+      {
+        return NotFound(new ErrorDetails(DateTime.UtcNow, ex.Message, "No user found with the provided userId"));
+      }
+    }
+
     [HttpGet("userinfo")]
     public async Task<ActionResult<CustomHttpResponse<object>>> GetUser()
     {

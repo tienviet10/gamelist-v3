@@ -1,6 +1,6 @@
 package com.gamelist.social_service.service.impl;
 
-import com.gamelist.social_service.clients.HttpResponseGeneralModel;
+import com.gamelist.social_service.clients.user.UserExistResponse;
 import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.InteractiveEntity;
@@ -31,9 +31,8 @@ public class CommentServiceImpl implements CommentService {
                 .findById(interactiveEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Interactive entity not found"));
 
-        Optional<HttpResponseGeneralModel<Boolean>> userExist =
-                userServiceClient.checkedIfUserExists(authorizationHeader);
-        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().data())) {
+        Optional<UserExistResponse> userExist = userServiceClient.checkedIfUserExists(authorizationHeader);
+        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().getData())) {
             throw new InvalidInputException("User does not exists");
         }
         Comment comment = Comment.builder()

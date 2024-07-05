@@ -18,7 +18,7 @@ public class UserServiceClient {
 
     @CircuitBreaker(name = "user-service")
     @Retry(name = "user-service", fallbackMethod = "getUserByCodeFallback")
-    public Optional<HttpResponseModel> getUserInfoById(String authorizationHeader) {
+    public Optional<HttpResponseModel> getUserCategoryListsInfoById(String authorizationHeader) {
         var userById = Objects.requireNonNull(restClient
                 .get()
                 .uri("/api/v1/user/listorder")

@@ -24,16 +24,18 @@ public class InteractiveEntityController {
     @GetMapping("/forum-pageable")
     @Transactional
     public ResponseEntity<HttpResponse> getAllPostAndStatusUpdatePageable(
+            @RequestHeader(name = "Authorization") String authorizationHeader,
             @RequestParam(value = "startingId", required = false, defaultValue = "0") Long startingId,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
         log.info("getAllPostAndStatusUpdatePageable called with startingId: {}", startingId);
         PostAndStatusUpdateResponse postAndStatusUpdateResponse;
 
         if (startingId == 0) {
-            postAndStatusUpdateResponse = interactiveEntityService.getAllPostAndStatusUpdatesFirstPage(limit);
-        } else {
             postAndStatusUpdateResponse =
-                    interactiveEntityService.getAllPostAndStatusUpdatesByStartingId(startingId, limit);
+                    interactiveEntityService.getAllPostAndStatusUpdatesFirstPage(authorizationHeader, limit);
+        } else {
+            postAndStatusUpdateResponse = interactiveEntityService.getAllPostAndStatusUpdatesByStartingId(
+                    authorizationHeader, startingId, limit);
         }
 
         return ResponseEntity.ok(HttpResponse.builder()
@@ -49,6 +51,7 @@ public class InteractiveEntityController {
     @GetMapping("/user-social/pageable")
     @Transactional
     public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserIdPageable(
+            @RequestHeader(name = "Authorization") String authorizationHeader,
             @RequestHeader(name = "userId") String userId,
             @RequestParam(value = "startingId", required = false, defaultValue = "0") Long startingId,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
@@ -56,11 +59,11 @@ public class InteractiveEntityController {
         PostAndStatusUpdateResponse postAndStatusUpdateResponse;
 
         if (startingId == 0)
-            postAndStatusUpdateResponse =
-                    interactiveEntityService.getPostAndStatusUpdateByUserIdFirstPage(userId, limit);
+            postAndStatusUpdateResponse = interactiveEntityService.getPostAndStatusUpdateByUserIdFirstPage(
+                    authorizationHeader, userId, limit);
         else
-            postAndStatusUpdateResponse =
-                    interactiveEntityService.getPostAndStatusUpdateByUserIdAndStartingId(userId, startingId, limit);
+            postAndStatusUpdateResponse = interactiveEntityService.getPostAndStatusUpdateByUserIdAndStartingId(
+                    authorizationHeader, userId, startingId, limit);
 
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
@@ -73,10 +76,12 @@ public class InteractiveEntityController {
 
     @GetMapping("/user-social")
     @Transactional
-    public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserId(@RequestHeader(name = "userId") String userId) {
+    public ResponseEntity<HttpResponse> getPostAndStatusUpdateByUserId(
+            @RequestHeader(name = "Authorization") String authorizationHeader,
+            @RequestHeader(name = "userId") String userId) {
         log.info("getPostAndStatusUpdateByUserId called with userId: {}", userId);
         PostAndStatusUpdateResponse postAndStatusUpdateResponse =
-                interactiveEntityService.getPostAndStatusUpdateByUserId(userId);
+                interactiveEntityService.getPostAndStatusUpdateByUserId(authorizationHeader, userId);
 
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())

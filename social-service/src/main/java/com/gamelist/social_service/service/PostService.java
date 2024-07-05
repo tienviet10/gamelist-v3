@@ -1,5 +1,6 @@
 package com.gamelist.social_service.service;
 
+import com.gamelist.social_service.dto.PostDTO;
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.projection.PostView;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PostService {
 
     PostView findPostById(Long requestedId, String userId);
 
-    PostView createPost(String authorizationHeader, Post post, String userId);
+    PostDTO createPost(String authorizationHeader, Post post, String userId);
 
     PostView updatePostById(Long requestedId, Post post, String userId);
 

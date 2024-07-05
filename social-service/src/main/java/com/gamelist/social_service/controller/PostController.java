@@ -1,5 +1,6 @@
 package com.gamelist.social_service.controller;
 
+import com.gamelist.social_service.dto.PostDTO;
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.PostView;
@@ -72,7 +73,7 @@ public class PostController {
             @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @RequestHeader(name = "userId") String userId) {
         log.info("createPost called with userId: {}", userId);
-        PostView createdPost = postService.createPost(authorizationHeader, post, userId);
+        PostDTO createdPost = postService.createPost(authorizationHeader, post, userId);
 
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
