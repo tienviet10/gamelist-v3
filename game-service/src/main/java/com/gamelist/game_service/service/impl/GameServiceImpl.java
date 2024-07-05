@@ -15,11 +15,10 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,9 +62,11 @@ public class GameServiceImpl implements GameService {
                 continue;
             }
 
-//            gameDTO.setGameAdded(
-//                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(), userId));
-//            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId, gameDTO.getId()));
+            //            gameDTO.setGameAdded(
+            //                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(),
+            // userId));
+            //            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId,
+            // gameDTO.getId()));
         }
 
         return gameDTOs;
