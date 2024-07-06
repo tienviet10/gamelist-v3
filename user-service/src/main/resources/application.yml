@@ -3,3 +3,6 @@ spring:
     name: user-service
   config:
     import: optional:configserver:http://${CONFIG_SERVER_URL:localhost}:8888
+
+settings:
+  access_token: mn1pm8dmvdrj4l5hhwgphqm8t5pd1w

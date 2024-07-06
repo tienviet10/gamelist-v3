@@ -69,7 +69,7 @@ public class Game extends InteractiveEntity {
                 @Index(name = "game_genres_gameId", columnList = "game_id"),
                 @Index(name = "game_genres_genreId", columnList = "genre_id")
             })
-    private Set<Genre> genres = new HashSet<>();
+    private Set<Genre> genres;
 
     //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -81,7 +81,7 @@ public class Game extends InteractiveEntity {
                 @Index(name = "game_platforms_gameId", columnList = "game_id"),
                 @Index(name = "game_platforms_platformId", columnList = "platform_id")
             })
-    private Set<Platform> platforms = new HashSet<>();
+    private Set<Platform> platform;
 
     //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -93,7 +93,7 @@ public class Game extends InteractiveEntity {
                 @Index(name = "game_tags_gameId", columnList = "game_id"),
                 @Index(name = "game_tags_tagId", columnList = "tag_id")
             })
-    private Set<Tag> tags = new HashSet<>();
+    private Set<Tag> tags;
 
     @JsonIgnore
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)

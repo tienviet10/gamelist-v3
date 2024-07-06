@@ -1,90 +1,200 @@
 [
   {
-    "id": 20,
-    "name": "Thriller"
-  },
-  {
-    "id": 18,
-    "name": "Science fiction"
-  },
-  {
     "id": 1,
-    "name": "Action"
-  },
-  {
-    "id": 19,
-    "name": "Horror"
-  },
-  {
-    "id": 21,
-    "name": "Survival"
+    "created_at": 1322605337,
+    "name": "Action",
+    "slug": "action",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/action",
+    "checksum": "63242b90-6c5a-a452-ea8e-b3fa57c471cb"
   },
   {
     "id": 17,
-    "name": "Fantasy"
+    "created_at": 1322605338,
+    "name": "Fantasy",
+    "slug": "fantasy",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/fantasy",
+    "checksum": "b6d748ab-ffea-b342-fc2c-19e5184d873d"
+  },
+  {
+    "id": 18,
+    "created_at": 1322605338,
+    "name": "Science fiction",
+    "slug": "science-fiction",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/science-fiction",
+    "checksum": "fa5fd07e-6958-d075-7bd7-5ddcd1d7a851"
+  },
+  {
+    "id": 19,
+    "created_at": 1322605338,
+    "name": "Horror",
+    "slug": "horror",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/horror",
+    "checksum": "ad416a06-2677-767c-e681-733b6b359941"
+  },
+  {
+    "id": 20,
+    "created_at": 1322605338,
+    "name": "Thriller",
+    "slug": "thriller",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/thriller",
+    "checksum": "b1d0437e-10f2-25ca-2c58-ec00822976a2"
+  },
+  {
+    "id": 21,
+    "created_at": 1322605338,
+    "name": "Survival",
+    "slug": "survival",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/survival",
+    "checksum": "281d97a3-55d1-9f1c-da59-2bd46bd72082"
   },
   {
     "id": 22,
-    "name": "Historical"
+    "created_at": 1322605338,
+    "name": "Historical",
+    "slug": "historical",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/historical",
+    "checksum": "a55bdc22-0a80-dde9-19d0-91ea05465e2c"
   },
   {
     "id": 23,
-    "name": "Stealth"
+    "created_at": 1322605338,
+    "name": "Stealth",
+    "slug": "stealth",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/stealth",
+    "checksum": "7411a3e1-62d8-c41f-6e54-c687356298dd"
   },
   {
     "id": 27,
-    "name": "Comedy"
+    "created_at": 1322605339,
+    "name": "Comedy",
+    "slug": "comedy",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/comedy",
+    "checksum": "1a1392df-91c8-09d9-1809-d511fb625f14"
   },
   {
     "id": 28,
-    "name": "Business"
+    "created_at": 1322605339,
+    "name": "Business",
+    "slug": "business",
+    "updated_at": 1323289216,
+    "url": "https://www.igdb.com/themes/business",
+    "checksum": "02848c11-76e8-7de6-ed7b-1d751f2166cf"
   },
   {
     "id": 31,
-    "name": "Drama"
+    "created_at": 1323610197,
+    "name": "Drama",
+    "slug": "drama",
+    "updated_at": 1323610197,
+    "url": "https://www.igdb.com/themes/drama",
+    "checksum": "e4d6d3b5-a5c1-eb91-563f-8b7a3ec41355"
   },
   {
     "id": 32,
-    "name": "Non-fiction"
-  },
-  {
-    "id": 35,
-    "name": "Kids"
+    "created_at": 1323635380,
+    "name": "Non-fiction",
+    "slug": "non-fiction",
+    "updated_at": 1323635380,
+    "url": "https://www.igdb.com/themes/non-fiction",
+    "checksum": "cbcf8201-fae5-6988-eef2-97a2e1e464e2"
   },
   {
     "id": 33,
-    "name": "Sandbox"
-  },
-  {
-    "id": 38,
-    "name": "Open world"
-  },
-  {
-    "id": 39,
-    "name": "Warfare"
-  },
-  {
-    "id": 41,
-    "name": "4X (explore, expand, exploit, and exterminate)"
+    "created_at": 1326545059,
+    "name": "Sandbox",
+    "slug": "sandbox",
+    "updated_at": 1326545059,
+    "url": "https://www.igdb.com/themes/sandbox",
+    "checksum": "6fa12ea2-e5d5-e1ca-79e3-868dcb9e8b14"
   },
   {
     "id": 34,
-    "name": "Educational"
+    "created_at": 1326829751,
+    "name": "Educational",
+    "slug": "educational",
+    "updated_at": 1326829751,
+    "url": "https://www.igdb.com/themes/educational",
+    "checksum": "ab00595c-ec49-62a1-ca16-aef0a843cc09"
   },
   {
-    "id": 43,
-    "name": "Mystery"
+    "id": 35,
+    "created_at": 1326829940,
+    "name": "Kids",
+    "slug": "kids",
+    "updated_at": 1326829940,
+    "url": "https://www.igdb.com/themes/kids",
+    "checksum": "ff413502-960b-8226-6dc5-752b7b34a4d6"
+  },
+  {
+    "id": 38,
+    "created_at": 1345486426,
+    "name": "Open world",
+    "slug": "open-world",
+    "updated_at": 1345486426,
+    "url": "https://www.igdb.com/themes/open-world",
+    "checksum": "c9da22ae-1a95-0f92-d71e-56b8e03dbbbe"
+  },
+  {
+    "id": 39,
+    "created_at": 1345493134,
+    "name": "Warfare",
+    "slug": "warfare",
+    "updated_at": 1345493134,
+    "url": "https://www.igdb.com/themes/warfare",
+    "checksum": "114a8b89-175a-4a73-9499-3d0725e26e50"
   },
   {
     "id": 40,
-    "name": "Party"
+    "created_at": 1356889401,
+    "name": "Party",
+    "slug": "party",
+    "updated_at": 1356889401,
+    "url": "https://www.igdb.com/themes/party",
+    "checksum": "aff4c88a-bdb3-c936-c363-b9f07119b5c4"
   },
   {
-    "id": 44,
-    "name": "Romance"
+    "id": 41,
+    "created_at": 1357170973,
+    "name": "4X (explore, expand, exploit, and exterminate)",
+    "slug": "4x-explore-expand-exploit-and-exterminate",
+    "updated_at": 1357170973,
+    "url": "https://www.igdb.com/themes/4x-explore-expand-exploit-and-exterminate",
+    "checksum": "46a2e602-598b-0cda-6106-eebe497a1491"
   },
   {
     "id": 42,
-    "name": "Erotic"
+    "created_at": 1463742381,
+    "name": "Erotic",
+    "slug": "erotic",
+    "updated_at": 1463742381,
+    "url": "https://www.igdb.com/themes/erotic",
+    "checksum": "d06ceaa3-2e51-47d9-720c-666694cd8ee9"
+  },
+  {
+    "id": 43,
+    "created_at": 1465256057,
+    "name": "Mystery",
+    "slug": "mystery",
+    "updated_at": 1465256057,
+    "url": "https://www.igdb.com/themes/mystery",
+    "checksum": "33150f13-e62c-55e3-eb3f-6f487faf2ded"
+  },
+  {
+    "id": 44,
+    "created_at": 1588855294,
+    "name": "Romance",
+    "slug": "romance",
+    "updated_at": 1588855294,
+    "url": "https://www.igdb.com/themes/romance",
+    "checksum": "ab7f7f42-f382-0bb9-d247-5b97eb0af054"
   }
 ]

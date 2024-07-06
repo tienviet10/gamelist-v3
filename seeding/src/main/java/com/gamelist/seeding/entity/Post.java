@@ -15,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Entity(name = "posts")
 public class Post extends InteractiveEntity {
 
+    @Column(nullable = false)
     private String text;
 
     @ManyToOne(
@@ -23,6 +24,6 @@ public class Post extends InteractiveEntity {
 //            cascade = CascadeType.PERSIST
     )
     @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 }

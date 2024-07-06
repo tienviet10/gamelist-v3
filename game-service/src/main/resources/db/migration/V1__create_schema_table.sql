@@ -45,6 +45,22 @@ CREATE TABLE IF NOT EXISTS platforms
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS platform_categories
+(
+    id         BIGINT NOT NULL,
+    name       VARCHAR(255) UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS platform_families
+(
+    id         BIGINT NOT NULL,
+    name       VARCHAR(255) UNIQUE,
+    slug       VARCHAR(255) UNIQUE,
+    checksum   UUID UNIQUE,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS tags
 (
     id         BIGINT NOT NULL,

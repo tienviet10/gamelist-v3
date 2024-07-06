@@ -22,12 +22,16 @@ import java.util.Set;
 public class Tag {
 
     @Id
-    //    @GeneratedValue
-    @JsonProperty("id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
+    private String slug;
+
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    private Set<Game> games = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -36,7 +40,4 @@ public class Tag {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    private Set<Game> games = new HashSet<>();
 }

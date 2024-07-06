@@ -20,8 +20,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Platform {
 
     @Id
-    //    @GeneratedValue
-    @JsonProperty("id")
     private Long id;
 
     @Column(unique = true)

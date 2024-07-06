@@ -1,0 +1,29 @@
+[
+  {
+    "id": 2,
+    "name": "Korea",
+    "category": "locale",
+    "identifier": "ko-KR",
+    "created_at": 1654688003,
+    "updated_at": 1654688003,
+    "checksum": "2dac4ca8-c65b-df2a-821b-fcd7313e0448"
+  },
+  {
+    "id": 3,
+    "name": "Japan",
+    "category": "locale",
+    "identifier": "ja-JP",
+    "created_at": 1654688003,
+    "updated_at": 1654688003,
+    "checksum": "30a70790-d254-52df-e438-99ee4529669d"
+  },
+  {
+    "id": 4,
+    "name": "Europe",
+    "category": "continent",
+    "identifier": "EU",
+    "created_at": 1654688003,
+    "updated_at": 1654688164,
+    "checksum": "6302d19c-7e50-64c5-531f-0bc406ca90ab"
+  }
+]

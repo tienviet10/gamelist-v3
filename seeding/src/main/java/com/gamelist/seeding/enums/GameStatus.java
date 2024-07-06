@@ -1,4 +1,4 @@
-package com.gamelist.seeding.entity;
+package com.gamelist.seeding.enums;
 
 public enum GameStatus {
     Playing,

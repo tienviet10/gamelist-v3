@@ -84,10 +84,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "following_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"follower_id", "following_id"}),
             indexes = @Index(columnList = "follower_id, following_id", unique = true))
-    private Set<User> followers = new HashSet<>();
+    private Set<User> followers;
 
     @ManyToMany(mappedBy = "followers")
-    private Set<User> following = new HashSet<>();
+    private Set<User> following;
 
     //    @Override
     //    public Collection<? extends GrantedAuthority> getAuthorities() {

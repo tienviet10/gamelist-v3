@@ -18,8 +18,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Genre {
 
     @Id
-    //    @GeneratedValue
-    @JsonProperty("id")
     private Long id;
 
     @Column(unique = true)
@@ -34,5 +32,5 @@ public class Genre {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
-    private Set<Game> games = new HashSet<>();
+    private Set<Game> games;
 }

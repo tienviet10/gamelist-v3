@@ -1,14 +1,12 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -19,12 +17,16 @@ import java.util.Set;
 public class Genre {
 
     @Id
-    //    @GeneratedValue
-    @JsonProperty("id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
+    private String slug;
+
+    @Column(unique = true, nullable = false)
+    private UUID checksum;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -35,5 +37,5 @@ public class Genre {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
-    private Set<Game> games = new HashSet<>();
+    private Set<Game> games;
 }

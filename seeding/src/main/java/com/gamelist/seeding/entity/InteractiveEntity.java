@@ -19,9 +19,8 @@ import java.util.List;
 @Entity(name = "interactive_entities")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InteractiveEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
     @CreationTimestamp
@@ -35,8 +34,8 @@ public abstract class InteractiveEntity {
     @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<LikeEntity> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Comment> comments = new ArrayList<>();
 
     public void addLike(LikeEntity likeEntity) {
         likes.add(likeEntity);
@@ -48,13 +47,13 @@ public abstract class InteractiveEntity {
         likeEntity.setInteractiveEntity(null);
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setInteractiveEntity(this);
-    }
-
-    public void removeComment(Comment comment) {
-        comments.remove(comment);
-        comment.setInteractiveEntity(null);
-    }
+//    public void addComment(Comment comment) {
+//        comments.add(comment);
+//        comment.setInteractiveEntity(this);
+//    }
+//
+//    public void removeComment(Comment comment) {
+//        comments.remove(comment);
+//        comment.setInteractiveEntity(null);
+//    }
 }

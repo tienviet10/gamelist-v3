@@ -2,13 +2,13 @@ version: '3'
 
 vars:
   GOOS: "{{default OS .GOOS}}"
-  MVNW: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
+  MVNW: '{{if eq .GOOS "windows"}}mvn{{else}}./mvnw{{end}}'
   DC_DIR: "deployment/docker-compose"
   INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
   APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
   MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
-  KILL_CMD: '{{if eq .GOOS "windows"}}taskkill /f /im{{else}}pkill{{end}}'
+  KILL_CMD: '{{if eq .GOOS "windows"}}taskkill{{else}}pkill{{end}}'
 
 tasks:
   default:
@@ -80,10 +80,10 @@ tasks:
 
   db_reset:
     cmds:
-      - task: restart_infra
-      - "cd ./game-service && {{.MVNW}} spring-boot:run &"
-      - "{{.SLEEP_CMD}} 15"
-      - "{{.KILL_CMD}} -f game-service"
+#      - task: restart_infra
+#      - "cd ./game-service && {{.MVNW}} spring-boot:run &"
+#      - "{{.SLEEP_CMD}} 15"
+#      - "{{.KILL_CMD}} -f game-service"
       - "cd ./seeding && {{.MVNW}} spring-boot:run"
 
   sleep:

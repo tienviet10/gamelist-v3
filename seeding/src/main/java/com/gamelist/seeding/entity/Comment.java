@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity(name = "comments")
 public class Comment extends InteractiveEntity {
+
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)

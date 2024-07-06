@@ -1,17 +1,16 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gamelist.seeding.enums.*;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -21,12 +20,39 @@ import java.util.Set;
 public class Platform {
 
     @Id
-    //    @GeneratedValue
-    @JsonProperty("id")
     private Long id;
 
-    @Column(unique = true)
+    private String abbreviation;
+
+    private int generation;
+    private String summary;
+
+    @Column(name = "alternative_name")
+    private String alternativeName;
+
+    @Column(name = "category")
+    @Enumerated(EnumType.ORDINAL)
+    private PlatformCategoryType platformCategoryType;
+
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
+    private String slug;
+
+    @Column(unique = true, nullable = false)
+    private UUID checksum;
+
+    @OneToOne
+    @JoinColumn(name = "platform_family")
+    private PlatformFamily platformFamily;
+
+    @OneToOne
+    @JoinColumn(name = "platform_logo")
+    private PlatformLogo platformLogo;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<PlatformVersion> platformVersions = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -35,7 +61,4 @@ public class Platform {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToMany(mappedBy = "platforms", fetch = FetchType.LAZY)
-    private Set<Game> games = new HashSet<>();
 }

@@ -1,9 +1,9 @@
 package com.gamelist.seeding;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.*;
+import com.fasterxml.jackson.databind.*;
 import com.gamelist.seeding.entity.*;
+import com.gamelist.seeding.enums.*;
 import com.gamelist.seeding.repository.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,10 @@ public class SeedService {
     private final GenreRepository genreRepository;
     private final TagRepository tagRepository;
     private final PlatformRepository platformRepository;
+
+//    private final PlatformCategoriesRepository platformCategoriesRepository;
+//    private final PlatformFamiliesRepository platformFamiliesRepository;
+
     private final UserGameRepository userGameRepository;
     private final GameJournalRepository gameJournalRepository;
     private final StatusUpdateRepository statusUpdateRepository;
@@ -36,14 +40,16 @@ public class SeedService {
     @PostConstruct
     @Transactional
     public void seedDatabase() {
-        seedPlatformsIfEmpty();
-        seedGenresIfEmpty();
-        seedTagsIfEmpty();
-        seedGamesIfEmpty();
-        seedUsersIfEmpty();
-        seedUserGamesIfEmpty();
-        seedPostsIfEmpty();
-        seedGameJournalsIfEmpty();
+//        seedPlatformsIfEmpty();
+//        seedPlatformsCategoriesIfEmpty();
+//        seedPlatformFamiliesIfEmpty();
+//        seedGenresIfEmpty();
+//        seedTagsIfEmpty();
+//        seedGamesIfEmpty();
+//        seedUsersIfEmpty();
+//        seedUserGamesIfEmpty();
+//        seedPostsIfEmpty();
+//        seedGameJournalsIfEmpty();
     }
 
     public void seedUsersIfEmpty() {
@@ -60,6 +66,38 @@ public class SeedService {
             }
         }
     }
+//
+//    @Transactional
+//    public void seedPlatformsCategoriesIfEmpty() {
+//        if (platformCategoriesRepository.count() == 0) {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            try {
+//                InputStream inputStream = getClass().getResourceAsStream("/json/platform_categories.json");
+//                List<PlatformCategory> platforms = objectMapper.readValue(inputStream, new TypeReference<>() {
+//                });
+//
+//                platformCategoriesRepository.saveAll(platforms);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    @Transactional
+//    public void seedPlatformFamiliesIfEmpty() {
+//        if (platformFamiliesRepository.count() == 0) {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            try {
+//                InputStream inputStream = getClass().getResourceAsStream("/json/platform_families.json");
+//                List<PlatformFamily> platforms = objectMapper.readValue(inputStream, new TypeReference<>() {
+//                });
+//
+//                platformFamiliesRepository.saveAll(platforms);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     @Transactional
     public void seedPlatformsIfEmpty() {
@@ -124,12 +162,12 @@ public class SeedService {
                     Game game = new Game();
                     game.setId(gameNode.get("id").asLong());
                     game.setName(gameNode.get("name").asText());
-                    game.setDescription(gameNode.get("summary").asText());
-                    game.setImageURL("https:" + gameNode.get("cover").asText());
-                    game.setReleaseDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(gameNode.get("first_release_date").asLong()), ZoneId.systemDefault()));
+                    game.setSummary(gameNode.get("summary").asText());
+//                    game.setImageURL("https:" + gameNode.get("cover").asText());
+//                    game.setReleaseDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(gameNode.get("first_release_date").asLong()), ZoneId.systemDefault()));
                     game.setAvgScore(Math.round(gameNode.get("total_rating").asDouble() * 10.0) / 10.0);
-                    game.setTotalRating(gameNode.get("total_rating_count").asInt());
-                    game.setBannerURL("https:" + gameNode.get("screenshots").get(0).asText());
+//                    game.setTotalRating(gameNode.get("total_rating_count").asInt());
+//                    game.setBannerURL("https:" + gameNode.get("screenshots").get(0).asText());
 
                     List<Genre> genres = new ArrayList<>();
                     JsonNode genresNode = gameNode.get("genres");
