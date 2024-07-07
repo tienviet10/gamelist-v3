@@ -2,7 +2,6 @@ package com.gamelist.seeding.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gamelist.seeding.enums.*;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
@@ -93,52 +92,128 @@ public class Game extends InteractiveEntity {
 
     // One To Many
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Franchise> franchises = new HashSet<>();
-
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Artwork> artworks = new HashSet<>();
 
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AlternativeName> alternativeNames = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<GameEngine> gameEngines = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<GameMode> gameModes = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<PlayerPerspective> playerPerspectives = new HashSet<>();
-
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<GameLocalization> gameLocalization = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("game")
+    @Column(name = "user_games")
+    private Set<UserGame> userGames = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "games_franchises",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "franchise_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_franchises", columnList = "game_id, franchise_id", unique = true)
+            })
+    private Set<Franchise> franchises = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_game_engine",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "game_engine_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_game_engine", columnList = "game_id, game_engine_id", unique = true)
+            })
+    private Set<GameEngine> gameEngines = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_game_mode",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "game_mode_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_game_mode", columnList = "game_id, game_mode_id", unique = true)
+            })
+    private Set<GameMode> gameModes = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_player_perspectives",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "player_perspective_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_player_perspectives", columnList = "game_id, player_perspective_id", unique = true)
+            })
+    private Set<PlayerPerspective> playerPerspectives = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_release_dates",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "release_date_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_release_dates", columnList = "game_id, release_date_id", unique = true)
+            })
     private Set<ReleaseDate> releaseDates = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_involved_companies",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "involved_company_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_involved_companies", columnList = "game_id, involved_company_id", unique = true)
+            })
     private Set<InvolvedCompany> involvedCompanies = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_keywords",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_keywords", columnList = "game_id, keyword_id", unique = true)
+            })
     private Set<Keyword> keywords = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_language_supports",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "language_support_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_language_supports", columnList = "game_id, language_support_id", unique = true)
+            })
     private Set<LanguageSupport> languageSupports = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "games_multiplayer_mods",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "multiplayer_mode_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_games_multiplayer_mods", columnList = "game_id, multiplayer_mode_id", unique = true)
+            })
     private Set<MultiplayerMode> multiplayerModes = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "game_websites",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_game_websites", columnList = "game_id, website_id", unique = true)
+            })
     private Set<Website> websites = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "game_ports",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "game_port_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "ported_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_game_ports", columnList = "game_id, game_port_id", unique = true)
+                    @Index(name = "idx_game_ports", columnList = "game_id, ported_game_id", unique = true)
             })
     private Set<Game> ports = new HashSet<>();
 
@@ -146,9 +221,9 @@ public class Game extends InteractiveEntity {
     @JoinTable(
             name = "game_remakes",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "game_remake_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "remake_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_game_remakes", columnList = "game_id, game_remake_id", unique = true)
+                    @Index(name = "idx_game_remakes", columnList = "game_id, remake_game_id", unique = true)
             })
     private Set<Game> remakes = new HashSet<>();
 
@@ -156,9 +231,9 @@ public class Game extends InteractiveEntity {
     @JoinTable(
             name = "game_remasters",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "game_remaster_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "remaster_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_game_remasters", columnList = "game_id, game_remake_id", unique = true)
+                    @Index(name = "idx_game_remasters", columnList = "game_id, remaster_game_id", unique = true)
             })
     private Set<Game> remasters = new HashSet<>();
 
@@ -177,9 +252,9 @@ public class Game extends InteractiveEntity {
     @JoinTable(
             name = "game_bundles",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "bundle_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "bundle_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_game_bundles", columnList = "game_id, bundle_id", unique = true)
+                    @Index(name = "idx_game_bundles", columnList = "game_id, bundle_game_id", unique = true)
             })
     private Set<Game> bundles = new HashSet<>();
 
@@ -187,9 +262,9 @@ public class Game extends InteractiveEntity {
     @JoinTable(
             name = "game_dlc",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "game_dlc_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "dlc_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_game_dlc", columnList = "game_id, game_dlc_id", unique = true)
+                    @Index(name = "idx_game_dlc", columnList = "game_id, dlc_game_id", unique = true)
             })
     private Set<Game> dlc = new HashSet<>();
 
@@ -227,21 +302,22 @@ public class Game extends InteractiveEntity {
     @JoinTable(
             name = "standalone_game_expansions",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "standalone_game_expansion_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "standalone_expansion_game_id", referencedColumnName = "id", nullable = false),
             indexes = {
-                    @Index(name = "idx_standalone_game_expansions", columnList = "game_id, standalone_game_expansion_id", unique = true)
+                    @Index(name = "idx_standalone_game_expansions", columnList = "game_id, standalone_expansion_game_id", unique = true)
             })
     private Set<Game> standaloneExpansions = new HashSet<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("game")
-    @Column(name = "user_games")
-    private Set<UserGame> userGames = new HashSet<>();
 
     // Many to Many
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "game_screenshots",
+            joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "screenshot_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_game_screenshots", columnList = "game_id, screenshot_id", unique = true)
+            })
     private Set<Screenshot> screenshots = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -260,8 +336,7 @@ public class Game extends InteractiveEntity {
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"),
             indexes = {
-                    @Index(name = "game_genres_gameId", columnList = "game_id"),
-                    @Index(name = "game_genres_genreId", columnList = "genre_id")
+                    @Index(name = "idx_games_genres", columnList = "game_id, genre_id", unique = true)
             })
     private Set<Genre> genres = new HashSet<>();
 
@@ -271,8 +346,7 @@ public class Game extends InteractiveEntity {
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "platform_id", referencedColumnName = "id"),
             indexes = {
-                    @Index(name = "game_platforms_gameId", columnList = "game_id"),
-                    @Index(name = "game_platforms_platformId", columnList = "platform_id")
+                    @Index(name = "idx_games_platforms", columnList = "game_id, platform_id", unique = true)
             })
     private Set<Platform> platforms = new HashSet<>();
 
@@ -282,8 +356,7 @@ public class Game extends InteractiveEntity {
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
             indexes = {
-                    @Index(name = "game_tags_gameId", columnList = "game_id"),
-                    @Index(name = "game_tags_tagId", columnList = "tag_id")
+                    @Index(name = "idx_games_tags", columnList = "game_id, tag_id", unique = true)
             })
     private Set<Tag> tags = new HashSet<>();
 

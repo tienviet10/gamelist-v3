@@ -27,6 +27,7 @@ public class Franchise {
     private UUID checksum;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(joinColumns = @JoinColumn(name = "franchise_id", nullable = false))
     private Set<Game> games = new HashSet<>();
 
     @CreationTimestamp

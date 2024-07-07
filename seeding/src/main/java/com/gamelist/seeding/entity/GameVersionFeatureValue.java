@@ -22,7 +22,7 @@ public class GameVersionFeatureValue {
     private IncludedFeatureType includedFeatureType;
 
     @ManyToOne
-    @JoinColumn(name = "game_feature", nullable = false)
+    @JoinColumn(name = "game_feature_id", nullable = false)
     private GameVersionFeature gameVersionFeature;
 
     @OneToOne

@@ -20,7 +20,7 @@ public class GameVersionFeature {
 
     @Column(nullable = false)
     @OneToMany
-    private Set<GameVersionFeatureValue> values;
+    private Set<GameVersionFeatureValue> values = new HashSet<>();
 
     @Column(name = "category_type")
     private GameVersionFeatureType gameVersionFeatureType;

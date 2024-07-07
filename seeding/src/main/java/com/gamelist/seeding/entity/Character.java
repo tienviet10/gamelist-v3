@@ -27,6 +27,7 @@ public class Character {
 
     @ElementCollection
     @Column(name = "akas")
+    @JoinTable(joinColumns = @JoinColumn(name = "character_id", nullable = false))
     private Set<String> aliases;
 
     @Column(name = "gender_type")

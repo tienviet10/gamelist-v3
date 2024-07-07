@@ -44,14 +44,21 @@ public class Platform {
     private UUID checksum;
 
     @OneToOne
-    @JoinColumn(name = "platform_family")
+    @JoinColumn(name = "platform_family_id")
     private PlatformFamily platformFamily;
 
     @OneToOne
-    @JoinColumn(name = "platform_logo")
+    @JoinColumn(name = "platform_logo_id")
     private PlatformLogo platformLogo;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "platform_platform_versions",
+            joinColumns = @JoinColumn(name = "platform_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "platform_version_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_platform_platform_versions", columnList = "platform_id, platform_version_id", unique = true)
+            })
     private Set<PlatformVersion> platformVersions = new HashSet<>();
 
     @CreationTimestamp

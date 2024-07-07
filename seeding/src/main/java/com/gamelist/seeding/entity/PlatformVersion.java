@@ -40,14 +40,27 @@ public class PlatformVersion {
     @JoinColumn(name = "main_manufacturer")
     private PlatformVersionCompany mainManufacturer;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<PlatformVersionCompany> companies = new HashSet<>();
-
-    @JoinColumn(name = "platform_logo")
     @OneToOne
+    @JoinColumn(name = "platform_logo")
     private PlatformLogo platformLogo;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "platform_version_platform_version_release_dates",
+            joinColumns = @JoinColumn(name = "platform_version_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "platform_version_release_date_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_platform_version_platform_release_dates", columnList = "platform_version_id, platform_version_release_date_id", unique = true)
+            })
     private Set<PlatformVersionReleaseDate> platformVersionReleaseDates = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "platform_version_platform_version_companies",
+            joinColumns = @JoinColumn(name = "platform_version_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "platform_version_company_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_platform_version_platform_version_company", columnList = "platform_version_id, platform_version_company_id", unique = true)
+            })
+    private Set<PlatformVersionCompany> companies = new HashSet<>();
 }

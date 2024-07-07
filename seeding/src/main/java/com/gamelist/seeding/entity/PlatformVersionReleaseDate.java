@@ -34,11 +34,11 @@ public class PlatformVersionReleaseDate {
     private ReleaseDateCategoryType releaseDateCategoryType;
 
     @ManyToOne
-    @JoinColumn(name = "platform_version")
+    @JoinColumn(name = "platform_version_id")
     private PlatformVersion platformVersion;
 
     @OneToOne
-    @JoinColumn(name = "region", nullable = false)
+    @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
     @Column(unique = true, nullable = false)
