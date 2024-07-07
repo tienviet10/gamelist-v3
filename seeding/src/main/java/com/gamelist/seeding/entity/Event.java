@@ -42,7 +42,7 @@ public class Event {
             indexes = {
                     @Index(name = "idx_event_networks", columnList = "event_id, network_id", unique = true)
             })
-    private Set<Game> eventNetworks;
+    private Set<Game> eventNetworks = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -52,7 +52,7 @@ public class Event {
             indexes = {
                     @Index(name = "idx_event_games", columnList = "company_id, game_id", unique = true)
             })
-    private Set<Game> games;
+    private Set<Game> games = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")

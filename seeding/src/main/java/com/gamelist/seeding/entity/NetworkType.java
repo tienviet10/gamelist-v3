@@ -25,7 +25,7 @@ public class NetworkType {
 
     @OneToMany
     @JoinColumn(name = "event_network_id", nullable = false)
-    private Set<EventNetwork> eventNetworks;
+    private Set<EventNetwork> eventNetworks = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")

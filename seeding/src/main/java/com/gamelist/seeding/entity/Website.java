@@ -28,9 +28,7 @@ public class Website {
     @Column(unique = true)
     private UUID checksum;
 
-    // todo
-//    @ManyToOne
-//    @MapsId
-//    private Game game;
-
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Game game;
 }

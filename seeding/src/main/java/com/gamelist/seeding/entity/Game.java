@@ -94,7 +94,7 @@ public class Game extends InteractiveEntity {
     // One To Many
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Set<Franchise> franchises;
+    private Set<Franchise> franchises = new HashSet<>();
 
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Artwork> artworks = new HashSet<>();
@@ -252,7 +252,7 @@ public class Game extends InteractiveEntity {
             indexes = {
                     @Index(name = "idx_game_age_ratings", columnList = "game_id, age_rating_id", unique = true)
             })
-    private Set<AgeRating> ageRatings;
+    private Set<AgeRating> ageRatings = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(

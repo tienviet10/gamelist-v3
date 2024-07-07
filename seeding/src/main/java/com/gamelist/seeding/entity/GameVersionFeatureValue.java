@@ -25,8 +25,9 @@ public class GameVersionFeatureValue {
     @JoinColumn(name = "game_feature", nullable = false)
     private GameVersionFeature gameVersionFeature;
 
-    // todo @Column(nullable = false)
-//    private Game game;
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Game game;
 
     @Column(unique = true, nullable = false)
     private UUID checksum;

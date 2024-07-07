@@ -21,14 +21,9 @@ public class GameVersion {
     @JoinColumn(nullable = false)
     private Game game;
 
-    // todo
-//    @OneToMany
-//    @JoinColumn(nullable = false)
-//    private Game games;
-
     @OneToMany
     @JoinColumn(name = "game_feature_id", nullable = false)
-    private Set<GameVersionFeature> gameVersionFeature;
+    private Set<GameVersionFeature> gameVersionFeature = new HashSet<>();
 
     @Column(unique = true, nullable = false)
     private UUID checksum;

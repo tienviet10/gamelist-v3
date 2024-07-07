@@ -54,7 +54,7 @@ public class Character {
             indexes = {
                     @Index(name = "idx_characters_games", columnList = "character_id, game_id", unique = true)
             })
-    private Set<Game> games;
+    private Set<Game> games = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "character_mug_shot_id", nullable = false)

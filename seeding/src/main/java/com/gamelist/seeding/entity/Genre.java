@@ -37,5 +37,5 @@ public class Genre {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
-    private Set<Game> games;
+    private Set<Game> games = new HashSet<>();
 }

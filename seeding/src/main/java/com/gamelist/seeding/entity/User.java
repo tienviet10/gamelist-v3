@@ -65,7 +65,7 @@ public class User {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @JsonProperty("roles")
     @Enumerated(EnumType.STRING)
-    private Set<RoleType> roles;
+    private Set<RoleType> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -77,7 +77,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<UserGame> userGames;
+    private Set<UserGame> userGames = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

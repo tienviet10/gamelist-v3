@@ -30,7 +30,7 @@ public class GameEngine {
     private UUID checksum;
 
     @ManyToMany(mappedBy = "gameEngines", fetch = FetchType.LAZY)
-    private Set<Company> companies;
+    private Set<Company> companies = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -40,7 +40,7 @@ public class GameEngine {
             indexes = {
                     @Index(name = "idx_game_engines_platforms", columnList = "game_engine_id, platform_id", unique = true)
             })
-    private Set<Platform> platforms;
+    private Set<Platform> platforms = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")

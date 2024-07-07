@@ -33,9 +33,9 @@ public class AgeRating {
     private UUID checksum;
 
     @OneToMany(mappedBy = "ageRating", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<AgeRatingContentDescriptions> descriptions;
+    private Set<AgeRatingContentDescriptions> descriptions = new HashSet<>();
 
     @ManyToMany(mappedBy = "ageRatings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Game> games;
+    private Set<Game> games = new HashSet<>();
 }
 

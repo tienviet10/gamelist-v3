@@ -63,7 +63,7 @@ public class Company {
             indexes = {
                     @Index(name = "idx_company_game_engine", columnList = "company_id, game_engine_id", unique = true)
             })
-    private Set<GameEngine> gameEngines;
+    private Set<GameEngine> gameEngines = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -73,7 +73,7 @@ public class Company {
             indexes = {
                     @Index(name = "idx_companies_developed_games", columnList = "company_id, game_id", unique = true)
             })
-    private Set<Game> developed;
+    private Set<Game> developed = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -83,7 +83,7 @@ public class Company {
             indexes = {
                     @Index(name = "idx_companies_published_games", columnList = "company_id, game_id", unique = true)
             })
-    private Set<Game> published;
+    private Set<Game> published = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
