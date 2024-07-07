@@ -22,11 +22,11 @@ public class AgeRating {
     private String ratingCoverUrl;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "category", nullable = false)
+    @Column(name = "category_type", nullable = false)
     private AgeRatingCategoryType ageRatingCategoryType;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "rating", nullable = false)
+    @Column(name = "rating_type", nullable = false)
     private AgeRatingType ageRatingType;
 
     @Column(unique = true, nullable = false)

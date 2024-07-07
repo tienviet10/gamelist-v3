@@ -18,7 +18,7 @@ public class GameVersionFeatureValue {
 
     private String note;
 
-    @Column(name = "included_feature")
+    @Column(name = "included_feature_type")
     private IncludedFeatureType includedFeatureType;
 
     @ManyToOne

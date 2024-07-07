@@ -20,7 +20,7 @@ public class AgeRatingContentDescriptions {
     private String description;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "age_rating_category", nullable = false)
+    @Column(name = "age_rating_category_type", nullable = false)
     private AgeRatingContentDescriptionType ageRatingCategory;
 
     @Column(unique = true, nullable = false)

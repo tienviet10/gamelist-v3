@@ -56,7 +56,7 @@ public class Game extends InteractiveEntity {
     @Column(unique = true, nullable = false)
     private String slug;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category_type", nullable = false)
     private GameCategoryType categoryType;
 
     @Column(name = "total_rating_count")

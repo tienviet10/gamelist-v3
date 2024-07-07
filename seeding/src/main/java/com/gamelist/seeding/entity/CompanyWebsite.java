@@ -26,6 +26,6 @@ public class CompanyWebsite {
     private UUID checksum;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "category", nullable = false, unique = true)
+    @Column(name = "category_type", nullable = false, unique = true)
     private WebsiteType companyWebsiteType;
 }

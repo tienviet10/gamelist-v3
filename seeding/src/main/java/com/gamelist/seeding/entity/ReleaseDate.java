@@ -29,7 +29,7 @@ public class ReleaseDate {
     @Column(nullable = false)
     private String human;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category_type", nullable = false)
     private ReleaseDateCategoryType releaseDateCategoryType;
 
     @OneToOne

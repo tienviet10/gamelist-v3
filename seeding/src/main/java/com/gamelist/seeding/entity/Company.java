@@ -28,21 +28,21 @@ public class Company {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-
-    @Column(unique = true, nullable = false)
-    private UUID checksum;
-
     @Column(unique = true, nullable = false)
     private String slug;
 
-    @Column(name = "start_date_category", nullable = false)
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "start_date_category_type", nullable = false)
     private CompanyDateCategory startDateCategory;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "change_date_category", nullable = false)
+    @Column(name = "change_date_category_type", nullable = false)
     private CompanyDateCategory changeDateCategory;
+
+    @Column(unique = true, nullable = false)
+    private UUID checksum;
 
     @OneToOne
     private Company parent;

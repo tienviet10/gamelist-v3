@@ -29,11 +29,11 @@ public class Character {
     @Column(name = "akas")
     private Set<String> aliases;
 
-    @Column(name = "gender")
+    @Column(name = "gender_type")
     @Enumerated(EnumType.ORDINAL)
     private GenderType genderType;
 
-    @Column(name = "species")
+    @Column(name = "species_type")
     @Enumerated(EnumType.ORDINAL)
     private CharacterSpeciesType characterSpeciesType;
 

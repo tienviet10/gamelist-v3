@@ -30,7 +30,7 @@ public class Platform {
     @Column(name = "alternative_name")
     private String alternativeName;
 
-    @Column(name = "category")
+    @Column(name = "category_type")
     @Enumerated(EnumType.ORDINAL)
     private PlatformCategoryType platformCategoryType;
 

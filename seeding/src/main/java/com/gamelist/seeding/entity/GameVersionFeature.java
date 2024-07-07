@@ -22,7 +22,7 @@ public class GameVersionFeature {
     @OneToMany
     private Set<GameVersionFeatureValue> values;
 
-    @Column(name = "category")
+    @Column(name = "category_type")
     private GameVersionFeatureType gameVersionFeatureType;
 
     @Column(nullable = false)
