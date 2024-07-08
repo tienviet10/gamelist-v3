@@ -1,4 +1,4 @@
-package com.gamelist.game_service.exception;
+package com.gamelist.api_gateway.exception;
 
 import java.time.LocalDateTime;
 
