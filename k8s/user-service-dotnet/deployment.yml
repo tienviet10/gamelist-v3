@@ -33,7 +33,7 @@
             - name: ASPNETCORE_HTTP_PORTS
               value: "8080"
             - name: ASPNETCORE_ENVIRONMENT
-              value: "Development"
+              value: "Production"
             - name: USER_SECRETS_ID
               value: "bd82e8a2-e889-4963-87e9-6740a1609d78"
            resources: {}
