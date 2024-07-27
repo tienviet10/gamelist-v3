@@ -1,5 +1,6 @@
 package com.gamelist.api_gateway.filter;
 
+import com.gamelist.api_gateway.exception.InvalidTokenException;
 import com.gamelist.api_gateway.util.JwtUtil;
 import java.util.Objects;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             .header("email", jwtUtil.extractEmail(authHeader))
                             .build();
                 } catch (Exception e) {
-                    throw new RuntimeException("Unauthorized access to application");
+                    throw new InvalidTokenException("Unauthorized access to application");
                 }
             }
             assert request != null;

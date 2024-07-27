@@ -12,11 +12,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "userId", target = "userId")
+    //    @Mapping(source = "userId", target = "userId")
     @Mapping(source = "text", target = "text")
     @Mapping(source = "createdAt", target = "createdAt")
-    @Mapping(source = "likes", target = "likes")
-    @Mapping(source = "comments", target = "comments")
+    //    @Mapping(source = "likes", target = "likes")
+    //    @Mapping(source = "comments", target = "comments")
     PostDTO postToPostDTO(Post post);
 
     PostDTO postViewToPostDTO(PostView post);
