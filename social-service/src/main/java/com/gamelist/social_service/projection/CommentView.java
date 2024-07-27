@@ -4,10 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CommentView {
-
     Long getId();
 
-    //    UserBasicView getUser();
     String getUserId();
 
     String getText();

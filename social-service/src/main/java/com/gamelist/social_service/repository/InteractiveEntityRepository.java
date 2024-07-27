@@ -8,14 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface InteractiveEntityRepository extends JpaRepository<InteractiveEntity, Long> {
-    //    @Query("SELECT i FROM interactive_entities i WHERE "
-    //            + "(i.id IN (SELECT p.id FROM posts p WHERE p.userId = :userId) OR "
-    //            + "i.id IN (SELECT su.id FROM status_updates su JOIN su.userGame ug WHERE ug.userId = :userId)) "
-    //            + "AND i.id < :id "
-    //            + "ORDER BY i.createdAt DESC "
-    //            + "LIMIT :limit")
-    //    List<InteractiveEntity> findPostsAndStatusUpdatesByUserIdAndStartingWithIdDesc(
-    //            @Param("userId") String userId, @Param("id") Long id, @Param("limit") int limit);
     @Query(
             value =
                     """
@@ -69,13 +61,6 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
     List<InteractiveEntityProjection> findPostsAndStatusUpdatesByUserIdAndStartingWithIdDescV2(
             @Param("userId") String userId, @Param("id") Long id, @Param("limit") int limit);
 
-    //    @Query("SELECT i FROM interactive_entities i WHERE "
-    //            + "(i.id IN (SELECT p.id FROM posts p WHERE p.userId = :userId) OR "
-    //            + "i.id IN (SELECT su.id FROM status_updates su JOIN su.userGame ug WHERE ug.userId = :userId)) "
-    //            + "ORDER BY i.createdAt DESC "
-    //            + "LIMIT :limit")
-    //    List<InteractiveEntity> findPostsAndStatusUpdatesByUserIdFirstPage(
-    //            @Param("userId") String userId, @Param("limit") int limit);
     @Query(
             value =
                     """
@@ -127,12 +112,6 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
             nativeQuery = true)
     List<InteractiveEntityProjection> findPostsAndStatusUpdatesByUserIdFirstPageV2(
             @Param("userId") String userId, @Param("limit") int limit);
-
-    //    @Query("SELECT i FROM interactive_entities i WHERE " + "i.id IN (SELECT p.id FROM posts p) OR "
-    //            + "i.id IN (SELECT su.id FROM status_updates su) "
-    //            + "ORDER BY i.createdAt DESC "
-    //            + "LIMIT :limit")
-    //    List<InteractiveEntity> findAllPostsAndStatusUpdatesFirstPage(@Param("limit") int limit);
 
     @Query(
             value =
