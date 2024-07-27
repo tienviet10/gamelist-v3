@@ -16,13 +16,13 @@ public interface InteractiveEntityMapper {
     PostDTO toPostDTO(InteractiveEntityProjection data);
 
     @Mapping(target = "id", source = "statusUpdateId")
-    @Mapping(target = "userGameId", source = "userGameId")
+    @Mapping(target = "userGame.id", source = "userGameId")
     @Mapping(target = "gameStatus", source = "suGameStatus")
-    @Mapping(target = "userGameUserId", source = "userGameUserId")
-    @Mapping(target = "gameId", source = "gameId")
-    @Mapping(target = "gameName", source = "gameName")
-    @Mapping(target = "gameImageUrl", source = "gameImageurl")
-    @Mapping(target = "gameBannerUrl", source = "gameBannerurl")
+    //    @Mapping(target = "userGameUserId", source = "userGameUserId")
+    @Mapping(target = "userGame.game.id", source = "gameId")
+    @Mapping(target = "userGame.game.name", source = "gameName")
+    @Mapping(target = "userGame.game.imageURL", source = "gameImageurl")
+    @Mapping(target = "userGame.game.bannerURL", source = "gameBannerurl")
     @Mapping(target = "likes", ignore = true)
     @Mapping(target = "comments", ignore = true)
     StatusUpdateDTOV2 toStatusUpdateDTO(InteractiveEntityProjection data);

@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamelist.social_service.clients.user.UserDTO;
 import com.gamelist.social_service.clients.user.UserInfoResponse;
 import com.gamelist.social_service.clients.user.UserServiceClient;
-import com.gamelist.social_service.dto.CommentDTO;
-import com.gamelist.social_service.dto.LikeEntityDTO;
-import com.gamelist.social_service.dto.PostDTO;
-import com.gamelist.social_service.dto.StatusUpdateDTOV2;
+import com.gamelist.social_service.dto.*;
 import com.gamelist.social_service.mapper.InteractiveEntityMapper;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponseV2;
 import com.gamelist.social_service.projection.InteractiveEntityProjection;
@@ -78,15 +75,19 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
                 PostDTO postDTO = interactiveEntityMapper.toPostDTO(data);
                 postDTO.setUser(fetchUserDetails(userId, authorizationHeader, userInfoCache));
 
-                // You may need a method to parse JSON into lists of likes and comments
                 postDTO.setLikes(parseLikes(data.getLikes(), userInfoCache, authorizationHeader));
-                //                postDTO.setComments(parseComments(data.getCommentsJson()));
+                postDTO.setComments(parseComments(data.getComments(), userInfoCache, authorizationHeader));
 
                 posts.add(postDTO);
             } else if (data.getStatusUpdateId() != null) {
                 String userId = data.getUserGameUserId();
                 StatusUpdateDTOV2 statusUpdateDTO = interactiveEntityMapper.toStatusUpdateDTO(data);
-                statusUpdateDTO.setUser(fetchUserDetails(userId, authorizationHeader, userInfoCache));
+                UserDTO newUser = fetchUserDetails(userId, authorizationHeader, userInfoCache);
+
+                UserGameDTOV2 userGame = statusUpdateDTO.getUserGame();
+                if (userGame != null) {
+                    userGame.setUser(newUser);
+                }
 
                 statusUpdateDTO.setLikes(parseLikes(data.getLikes(), userInfoCache, authorizationHeader));
                 statusUpdateDTO.setComments(parseComments(data.getComments(), userInfoCache, authorizationHeader));
