@@ -16,14 +16,14 @@ public interface GameMapper {
     @Mapping(source = "platforms", target = "platforms", qualifiedByName = "platformSetToStringList")
     @Mapping(source = "tags", target = "tags", qualifiedByName = "tagSetToStringList")
     @Mapping(source = "genres", target = "genres", qualifiedByName = "genreSetToStringList")
-    @Mapping(source = "releaseDate", target = "releaseDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    @Mapping(source = "avgScore", target = "avgScore")
-    @Mapping(source = "totalRating", target = "totalRating")
-    @Mapping(source = "imageURL", target = "imageURL", defaultValue = "")
-    @Mapping(source = "bannerURL", target = "bannerURL", defaultValue = "")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name", defaultValue = "")
+//    @Mapping(source = "releaseDates", target = "releaseDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
+//    @Mapping(source = "avgScore", target = "avgScore")
+////    @Mapping(source = "totalRating", target = "totalRating")
+////    @Mapping(source = "imageURL", target = "imageURL", defaultValue = "")
+////    @Mapping(source = "bannerURL", target = "bannerURL", defaultValue = "")
+////    @Mapping(source = "description", target = "description")
+//    @Mapping(source = "id", target = "id")
+//    @Mapping(source = "name", target = "name", defaultValue = "")
     GameDTO gameToGameDTO(Game game);
 
     List<GameDTO> gamesToGameDTOs(List<Game> games);

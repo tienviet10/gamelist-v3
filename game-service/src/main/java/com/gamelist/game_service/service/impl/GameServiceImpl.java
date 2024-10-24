@@ -17,6 +17,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,9 @@ public class GameServiceImpl implements GameService {
             gameQueryFilters.setSortBy("name");
         }
 
+
+        PageRequest request = PageRequest.of(0, 20);
+
         // Ensure a limit is set, we don't want to fetch too many rows
         gameQueryFilters.setLimit(clampLimit(gameQueryFilters.getLimit()));
 
@@ -55,17 +59,17 @@ public class GameServiceImpl implements GameService {
 
         List<GameDTO> gameDTOs = gameMapper.gamesToGameDTOs(foundGames.getResultList());
 
-        for (GameDTO gameDTO : gameDTOs) {
-            if (userId == null) {
-                gameDTO.setGameAdded(false);
-                gameDTO.setGameLiked(false);
-                continue;
-            }
-
-            gameDTO.setGameAdded(
-                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(), userId));
-            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId, gameDTO.getId()));
-        }
+//        for (GameDTO gameDTO : gameDTOs) {
+//            if (userId == null) {
+//                gameDTO.setGameAdded(false);
+//                gameDTO.setGameLiked(false);
+//                continue;
+//            }
+//
+//            gameDTO.setGameAdded(
+//                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(), userId));
+//            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId, gameDTO.getId()));
+//        }
 
         return gameDTOs;
     }

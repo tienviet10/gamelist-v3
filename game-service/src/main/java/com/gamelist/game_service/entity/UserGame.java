@@ -1,15 +1,12 @@
 package com.gamelist.game_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import lombok.experimental.*;
+import org.hibernate.annotations.*;
+
+import java.time.*;
 
 @Getter
 @Setter

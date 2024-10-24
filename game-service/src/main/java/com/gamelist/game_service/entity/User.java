@@ -1,16 +1,15 @@
 package com.gamelist.game_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.gamelist.game_service.enums.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Index;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
+
+import java.time.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -18,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
+
 public class User {
 
     @Id
@@ -26,7 +26,7 @@ public class User {
 
     private String username;
 
-    @JsonProperty("email_address")
+    @Column(name = "email_address", nullable = false)
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -58,12 +58,11 @@ public class User {
     @Column(name = "`listsorder`")
     private String listsOrder;
 
-    //    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    //    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    //    @JsonProperty("roles")
-    //    @Enumerated(EnumType.STRING)
-    //    @RoleSubset(anyOf = {Role.ROLE_USER, Role.ROLE_ADMIN})
-    //    private Set<Role> roles;
+    @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @JsonProperty("roles")
+    @Enumerated(EnumType.STRING)
+    private Set<RoleType> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -75,7 +74,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<UserGame> userGames;
+    private Set<UserGame> userGames = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -84,10 +83,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "following_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"follower_id", "following_id"}),
             indexes = @Index(columnList = "follower_id, following_id", unique = true))
-    private Set<User> followers;
+    private Set<User> followers = new HashSet<>();
 
     @ManyToMany(mappedBy = "followers")
-    private Set<User> following;
+    private Set<User> following = new HashSet<>();
 
     //    @Override
     //    public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,10 +1,8 @@
 package com.gamelist.game_service.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+import lombok.experimental.*;
 
 @Getter
 @Setter
@@ -13,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity(name = "comments")
 public class Comment extends InteractiveEntity {
+
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)

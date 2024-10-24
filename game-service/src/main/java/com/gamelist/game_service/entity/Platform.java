@@ -1,16 +1,14 @@
 package com.gamelist.game_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gamelist.game_service.enums.*;
+import com.google.gson.annotations.*;
+import jakarta.persistence.Index;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import lombok.*;
+import org.hibernate.annotations.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import java.time.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -22,36 +20,58 @@ public class Platform {
     @Id
     private Long id;
 
-    @Column
     private String abbreviation;
 
-    @Column
-    private String alternative_name;
+    private int generation;
 
-    @Column(unique = true)
+    @Column(length = 2000)
+    private String summary;
+
+    @Column(name = "alternative_name")
+    @SerializedName(value = "alternative_name")
+    private String alternativeName;
+
+    @Column(name = "category_type")
+    @SerializedName(value = "category_type")
+    @Enumerated(EnumType.ORDINAL)
+    private PlatformCategoryType platformCategoryType;
+
+    @Column(unique = true, nullable = false, length = 100)
+    private String name;
+
+    @Column(unique = true, nullable = false)
+    private String slug;
+
+    @Column(unique = true, nullable = false)
     private UUID checksum;
 
     @OneToOne
-    private PlatformCategory platformCategory;
+    @JoinColumn(name = "platform_family_id")
+    @SerializedName(value = "platform_family_id")
+    private PlatformFamily platformFamily;
 
-    @Column
-    private int generation;
+    @OneToOne
+    @JoinColumn(name = "platform_logo_id")
+    @SerializedName(value = "platform_logo_id")
+    private PlatformLogo platformLogo;
 
-    @Column
-    private String summary;
-
-    @Column(unique = true)
-    private String name;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "platform_platform_versions",
+            joinColumns = @JoinColumn(name = "platform_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "platform_version_id", referencedColumnName = "id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_platform_platform_versions", columnList = "platform_id, platform_version_id", unique = true)
+            })
+    private Set<PlatformVersion> platformVersions = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
+    @SerializedName(value = "created_at")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @SerializedName(value = "updated_at")
     private LocalDateTime updatedAt;
-
-    // TODO: Do we actually want this to be FetchType lazy? Aggressive might cost a little more memory but could speed it up
-    @ManyToMany(mappedBy = "platforms", fetch = FetchType.LAZY)
-    private Set<Game> games;
 }

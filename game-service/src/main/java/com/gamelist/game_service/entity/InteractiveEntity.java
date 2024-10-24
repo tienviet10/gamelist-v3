@@ -1,15 +1,13 @@
 package com.gamelist.game_service.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import lombok.experimental.*;
+import org.hibernate.annotations.*;
+
+import java.time.*;
+import java.util.*;
 
 @Setter
 @Getter
@@ -18,9 +16,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity(name = "interactive_entities")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InteractiveEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
     @CreationTimestamp
@@ -34,8 +31,8 @@ public abstract class InteractiveEntity {
     @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<LikeEntity> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "interactiveEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Comment> comments = new ArrayList<>();
 
     public void addLike(LikeEntity likeEntity) {
         likes.add(likeEntity);
@@ -47,13 +44,13 @@ public abstract class InteractiveEntity {
         likeEntity.setInteractiveEntity(null);
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setInteractiveEntity(this);
-    }
-
-    public void removeComment(Comment comment) {
-        comments.remove(comment);
-        comment.setInteractiveEntity(null);
-    }
+//    public void addComment(Comment comment) {
+//        comments.add(comment);
+//        comment.setInteractiveEntity(this);
+//    }
+//
+//    public void removeComment(Comment comment) {
+//        comments.remove(comment);
+//        comment.setInteractiveEntity(null);
+//    }
 }

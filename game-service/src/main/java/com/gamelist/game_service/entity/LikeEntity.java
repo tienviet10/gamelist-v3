@@ -1,13 +1,13 @@
 package com.gamelist.game_service.entity;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import lombok.experimental.*;
+import org.hibernate.annotations.*;
+
+import java.time.*;
 
 @Getter
 @Setter

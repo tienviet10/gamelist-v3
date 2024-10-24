@@ -214,11 +214,13 @@ public class GameSpecification implements Specification<Game> {
         Subquery<Long> subquery = query.subquery(Long.class);
         Root<Game> subqueryRoot = subquery.from(Game.class);
 
+
         Join<Game, ?> tableJoin = subqueryRoot.join(tableName);
         subquery.select(subqueryRoot.get("id"))
                 .where(tableJoin.get("name").in(toInclude))
                 .groupBy(subqueryRoot.get("id"))
                 .having(cb.equal(cb.count(tableJoin.get("name")), toInclude.size()));
+
 
         return cb.and(root.get("id").in(subquery));
     }

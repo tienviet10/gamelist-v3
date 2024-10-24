@@ -1,11 +1,9 @@
 package com.gamelist.game_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+import lombok.experimental.*;
 
 @Getter
 @Setter
@@ -15,10 +13,15 @@ import lombok.experimental.SuperBuilder;
 @Entity(name = "posts")
 public class Post extends InteractiveEntity {
 
+    @Column(nullable = false)
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(
+            fetch = FetchType.LAZY
+//            TODO: Commented out to seed database
+//            cascade = CascadeType.PERSIST
+    )
     @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 }

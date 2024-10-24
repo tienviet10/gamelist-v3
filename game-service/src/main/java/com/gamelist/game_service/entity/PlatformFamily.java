@@ -15,12 +15,12 @@ public class PlatformFamily {
     @Id
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String slug;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private UUID checksum;
 }

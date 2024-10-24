@@ -45,7 +45,7 @@ public class SeedService {
 //        seedPlatformFamiliesIfEmpty();
 //        seedGenresIfEmpty();
 //        seedTagsIfEmpty();
-//        seedGamesIfEmpty();
+        seedGamesIfEmpty();
 //        seedUsersIfEmpty();
 //        seedUserGamesIfEmpty();
 //        seedPostsIfEmpty();

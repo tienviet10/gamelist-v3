@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificationExecutor<Game> {
-    @Query("SELECT EXTRACT(YEAR FROM MAX(releaseDate)) FROM games")
+    @Query("SELECT EXTRACT(YEAR FROM MAX(firstReleaseDate)) FROM games")
     int getFurthestYear();
 
     @Query("SELECT g FROM user_games ug JOIN ug.game g WHERE ug.user.id = :userId AND ug.gameStatus = :status")
