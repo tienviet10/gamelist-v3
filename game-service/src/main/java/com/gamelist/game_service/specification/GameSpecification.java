@@ -19,6 +19,8 @@ public class GameSpecification implements Specification<Game> {
             @NonNull Root<Game> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
 
+        System.out.println("gameQueryFilters" + gameQueryFilters);
+
         // Inclusion
         if (gameQueryFilters.getGenres() != null
                 && !gameQueryFilters.getGenres().isEmpty()) {
@@ -206,6 +208,7 @@ public class GameSpecification implements Specification<Game> {
                 default -> query.orderBy(cb.asc(root.get("name")));
             }
         }
+        System.out.println("predicates (end)" + predicates);
         return cb.and(predicates.toArray(Predicate[]::new));
     }
 

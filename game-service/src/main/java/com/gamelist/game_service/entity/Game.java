@@ -59,8 +59,8 @@ public class Game extends InteractiveEntity {
     @JsonProperty("screenshots")
     private String bannerURL;
 
-    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "games_genres",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
@@ -71,8 +71,8 @@ public class Game extends InteractiveEntity {
             })
     private Set<Genre> genres = new HashSet<>();
 
-    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "games_platforms",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
@@ -83,8 +83,8 @@ public class Game extends InteractiveEntity {
             })
     private Set<Platform> platforms = new HashSet<>();
 
-    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "games_tags",
             joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),

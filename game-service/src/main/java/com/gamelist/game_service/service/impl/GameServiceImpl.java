@@ -12,9 +12,7 @@ import com.gamelist.game_service.specification.GameSpecification;
 import com.gamelist.game_service.utils.Utils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,9 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
-    private static final int DEFAULT_QUERY_LIMIT = 10;
+    private static final int DEFAULT_QUERY_LIMIT = 500;
     private static final int MIN_QUERY_LIMIT = 1;
-    private static final int MAX_QUERY_LIMIT = 35;
+    private static final int MAX_QUERY_LIMIT = 500;
     private final GameRepository gameRepository;
     private final GameMapper gameMapper;
     private final UserGameRepository userGameRepository;
@@ -42,7 +40,7 @@ public class GameServiceImpl implements GameService {
         if (gameQueryFilters == null) {
             gameQueryFilters = new GameQueryFilters();
             gameQueryFilters.setLimit(DEFAULT_QUERY_LIMIT);
-            gameQueryFilters.setSortBy("name");
+            gameQueryFilters.setSortBy("newest_releases");
         }
 
         // Ensure a limit is set, we don't want to fetch too many rows
@@ -77,10 +75,16 @@ public class GameServiceImpl implements GameService {
         CriteriaQuery<T> query = builder.createQuery(clazz);
         Root<T> root = query.from(clazz);
 
+        root.fetch("genres", JoinType.LEFT);
+        root.fetch("platforms", JoinType.LEFT);
+        root.fetch("tags", JoinType.LEFT);
+
         query.select(root);
         if (specification != null) {
             query.where(specification.toPredicate(root, query, builder));
         }
+
+        query.distinct(true);
 
         return em.createQuery(query);
     }
