@@ -3,10 +3,9 @@ package com.gamelist.game_service.specification;
 import com.gamelist.game_service.entity.*;
 import com.gamelist.game_service.model.*;
 import jakarta.persistence.criteria.*;
+import java.util.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.*;
-
-import java.util.*;
 
 @RequiredArgsConstructor
 public class GameSpecification implements Specification<Game> {
