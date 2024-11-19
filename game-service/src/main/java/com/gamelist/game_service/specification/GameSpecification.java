@@ -1,13 +1,12 @@
 package com.gamelist.game_service.specification;
 
-import com.gamelist.game_service.entity.Game;
-import com.gamelist.game_service.model.GameQueryFilters;
+import com.gamelist.game_service.entity.*;
+import com.gamelist.game_service.model.*;
 import jakarta.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
+import lombok.*;
+import org.springframework.data.jpa.domain.*;
+
+import java.util.*;
 
 @RequiredArgsConstructor
 public class GameSpecification implements Specification<Game> {
@@ -18,8 +17,6 @@ public class GameSpecification implements Specification<Game> {
     public Predicate toPredicate(
             @NonNull Root<Game> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
-
-        System.out.println("gameQueryFilters" + gameQueryFilters);
 
         // Inclusion
         if (gameQueryFilters.getGenres() != null
@@ -208,7 +205,6 @@ public class GameSpecification implements Specification<Game> {
                 default -> query.orderBy(cb.asc(root.get("name")));
             }
         }
-        System.out.println("predicates (end)" + predicates);
         return cb.and(predicates.toArray(Predicate[]::new));
     }
 
