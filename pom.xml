@@ -22,6 +22,7 @@
         <module>config-server</module>
         <module>social-service</module>
         <module>user-service</module>
+        <module>igdb-webhook-service</module>
     </modules>
     <build>
         <plugins>
