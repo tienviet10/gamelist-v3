@@ -15,6 +15,9 @@ import com.gamelist.game_service.utils.Utils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -75,11 +78,11 @@ public class GameServiceImpl implements GameService {
         List<GameDTO> gameDTOs = gameMapper.gamesToGameDTOs(foundGames.getResultList());
 
         for (GameDTO gameDTO : gameDTOs) {
-            if (userId == null) {
-                gameDTO.setGameAdded(false);
-                gameDTO.setGameLiked(false);
-                continue;
-            }
+            //            if (userId == null) {
+            //                gameDTO.setGameAdded(false);
+            //                gameDTO.setGameLiked(false);
+            //                continue;
+            //            }
 
             //            gameDTO.setGameAdded(
             //                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(),
