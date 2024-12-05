@@ -3,3 +3,11 @@ spring:
     name: social-service
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+
+grpc:
+  client:
+    game-service:
+      address: static://localhost:6565
+      negotiation-type: plaintext
+  server:
+    port: 9090

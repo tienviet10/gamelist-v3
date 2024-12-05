@@ -5,4 +5,11 @@ package common;
 option java_multiple_files = true;
 option java_package = "com.gamelist.common";
 
+enum Ticker {
+  UNKNOWN = 0;
+  APPLE = 1;
+  GOOGLE = 2;
+  AMAZON = 3;
+  MICROSOFT = 4;
+}
 

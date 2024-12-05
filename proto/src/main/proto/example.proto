@@ -6,5 +6,16 @@ import "google/protobuf/empty.proto";
 import "common/common.proto";
 
 option java_multiple_files = true;
-option java_package = "com.gamelist.stock";
+option java_package = "com.gamelist.game";
 
+message GameInformationRequest{
+  int32 game_id = 1;
+}
+
+message GameInformation {
+  string name = 2;
+}
+
+service ExampleService {
+  rpc GetExampleInformation(GameInformationRequest) returns (GameInformation);
+}
