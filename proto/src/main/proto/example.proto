@@ -2,11 +2,12 @@ syntax = "proto3";
 
 package example;
 
-import "google/protobuf/empty.proto";
-import "common/common.proto";
+// import "google/protobuf/empty.proto";
+// import "common/common.proto";
 
 option java_multiple_files = true;
 option java_package = "com.gamelist.game";
+option go_package = "github.com/gamelist/game";
 
 message GameInformationRequest{
   int32 game_id = 1;

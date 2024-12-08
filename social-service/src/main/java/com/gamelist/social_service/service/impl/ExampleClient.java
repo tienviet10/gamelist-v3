@@ -12,9 +12,7 @@ public class ExampleClient {
     private ExampleServiceGrpc.ExampleServiceBlockingStub exampleClient;
 
     public GameInformation getGameInformation(int gameId) {
-        var request = GameInformationRequest.newBuilder()
-                .setGameId(gameId)
-                .build();
+        var request = GameInformationRequest.newBuilder().setGameId(gameId).build();
         return this.exampleClient.getExampleInformation(request);
     }
 }

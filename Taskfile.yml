@@ -96,6 +96,10 @@ tasks:
       - "cd ./seeding && {{.MVNW}} spring-boot:run"
       - task: stop_config
 
+  make_proto:
+    cmds:
+      - "cd ./proto && make proto"
+
   sleep:
     vars:
       DURATION: "{{default 5 .DURATION}}"
