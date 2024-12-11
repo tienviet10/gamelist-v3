@@ -8,11 +8,14 @@ import (
 	"net/http"
 	"time"
 
+	game "github.com/gamelist/game/pb"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type User struct {
@@ -114,10 +117,27 @@ func Register(c *gin.Context) {
 	helpers.SendSuccessResponse(c, http.StatusOK, "OK", "Registered successfully", "Registered", data)
 }
 
+func NewGRPCClient(addr string) *grpc.ClientConn {
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+
+	return conn
+}
+
 func Login(c *gin.Context) {
 	_, traceID := helpers.StartSpanWithTracer(c, "Login")
 	log.Printf("Logging in user with trace ID: %s", traceID)
 	collection := config.MongoClient.Database("gamelist").Collection("users")
+
+	conn := NewGRPCClient(":6565")
+	defer conn.Close()
+
+	client := game.NewExampleServiceClient(conn)
+	res, _ := client.GetExampleInformation(context.Background(), &game.GameInformationRequest{GameId: 1})
+
+	log.Printf("Response from gRPC server......: %s", res)
 
 	var user User
 	if err := c.ShouldBindJSON(&user); err != nil {
