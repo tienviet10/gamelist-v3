@@ -1,12 +1,14 @@
-package config
+package main
 
 import (
+	"containerized-go-app/service"
 	"log"
 	"net"
 
-	// handler "github.com/sikozonpc/kitchen/services/orders/handler/orders"
-	// "github.com/sikozonpc/kitchen/services/orders/service"
+	"containerized-go-app/controllers"
+
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type gRPCServer struct {
@@ -24,10 +26,11 @@ func (s *gRPCServer) Run() error {
 	}
 
 	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 
 	// register our grpc services
-	// orderService := service.NewOrderService()
-	// handler.NewGrpcOrdersService(grpcServer, orderService)
+	exampleService := service.NewExampleService()
+	controllers.NewGrpcExampleService(grpcServer, exampleService)
 
 	log.Println("Starting gRPC server on", s.addr)
 

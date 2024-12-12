@@ -9,5 +9,8 @@ grpc:
     game-service:
       address: static://localhost:6565
       negotiation-type: plaintext
+    auth-service-go:
+      address: static://localhost:6567
+      negotiation-type: plaintext
   server:
     port: 6566
