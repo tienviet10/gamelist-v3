@@ -9,10 +9,11 @@
 
   <ItemGroup>
     <Protobuf Include="src\main\proto\*.proto" OutputDir="%(RelativePath)csharpOutput/" />
-     <Protobuf Include="src\main\proto\common\*.proto" OutputDir="%(RelativePath)csharpOutput/" />
+    <!-- <Protobuf Include="src\main\proto\common\*.proto" OutputDir="%(RelativePath)csharpOutput/" /> -->
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Contrib.Grpc.Core.M1" Version="2.46.7" />
     <PackageReference Include="Google.Protobuf" Version="3.29.1" />
     <PackageReference Include="Grpc" Version="2.46.6" />
     <PackageReference Include="Grpc.Tools" Version="2.68.1">

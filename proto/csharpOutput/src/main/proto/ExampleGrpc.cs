@@ -7,7 +7,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace Example {
+namespace GameList.Game {
   public static partial class ExampleService
   {
     static readonly string __ServiceName = "example.ExampleService";
@@ -46,12 +46,12 @@ namespace Example {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Example.GameInformationRequest> __Marshaller_example_GameInformationRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Example.GameInformationRequest.Parser));
+    static readonly grpc::Marshaller<global::GameList.Game.GameInformationRequest> __Marshaller_example_GameInformationRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.GameInformationRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Example.GameInformation> __Marshaller_example_GameInformation = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Example.GameInformation.Parser));
+    static readonly grpc::Marshaller<global::GameList.Game.GameInformation> __Marshaller_example_GameInformation = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.GameInformation.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Example.GameInformationRequest, global::Example.GameInformation> __Method_GetExampleInformation = new grpc::Method<global::Example.GameInformationRequest, global::Example.GameInformation>(
+    static readonly grpc::Method<global::GameList.Game.GameInformationRequest, global::GameList.Game.GameInformation> __Method_GetExampleInformation = new grpc::Method<global::GameList.Game.GameInformationRequest, global::GameList.Game.GameInformation>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetExampleInformation",
@@ -61,7 +61,7 @@ namespace Example {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Example.ExampleReflection.Descriptor.Services[0]; }
+      get { return global::GameList.Game.ExampleReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of ExampleService</summary>
@@ -69,7 +69,7 @@ namespace Example {
     public abstract partial class ExampleServiceBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Example.GameInformation> GetExampleInformation(global::Example.GameInformationRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::GameList.Game.GameInformation> GetExampleInformation(global::GameList.Game.GameInformationRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -104,22 +104,22 @@ namespace Example {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Example.GameInformation GetExampleInformation(global::Example.GameInformationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::GameList.Game.GameInformation GetExampleInformation(global::GameList.Game.GameInformationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetExampleInformation(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Example.GameInformation GetExampleInformation(global::Example.GameInformationRequest request, grpc::CallOptions options)
+      public virtual global::GameList.Game.GameInformation GetExampleInformation(global::GameList.Game.GameInformationRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_GetExampleInformation, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Example.GameInformation> GetExampleInformationAsync(global::Example.GameInformationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.GameInformation> GetExampleInformationAsync(global::GameList.Game.GameInformationRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetExampleInformationAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Example.GameInformation> GetExampleInformationAsync(global::Example.GameInformationRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.GameInformation> GetExampleInformationAsync(global::GameList.Game.GameInformationRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetExampleInformation, null, options, request);
       }
@@ -147,7 +147,7 @@ namespace Example {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, ExampleServiceBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_GetExampleInformation, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Example.GameInformationRequest, global::Example.GameInformation>(serviceImpl.GetExampleInformation));
+      serviceBinder.AddMethod(__Method_GetExampleInformation, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GameList.Game.GameInformationRequest, global::GameList.Game.GameInformation>(serviceImpl.GetExampleInformation));
     }
 
   }

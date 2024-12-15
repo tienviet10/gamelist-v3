@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Example {
+namespace GameList.Game {
 
   /// <summary>Holder for reflection information generated from src/main/proto/example.proto</summary>
   public static partial class ExampleReflection {
@@ -28,14 +28,14 @@ namespace Example {
             "bWVJbmZvcm1hdGlvblJlcXVlc3QSDwoHZ2FtZV9pZBgBIAEoBSIfCg9HYW1l",
             "SW5mb3JtYXRpb24SDAoEbmFtZRgCIAEoCTJkCg5FeGFtcGxlU2VydmljZRJS",
             "ChVHZXRFeGFtcGxlSW5mb3JtYXRpb24SHy5leGFtcGxlLkdhbWVJbmZvcm1h",
-            "dGlvblJlcXVlc3QaGC5leGFtcGxlLkdhbWVJbmZvcm1hdGlvbkIvChFjb20u",
-            "Z2FtZWxpc3QuZ2FtZVABWhhnaXRodWIuY29tL2dhbWVsaXN0L2dhbWViBnBy",
-            "b3RvMw=="));
+            "dGlvblJlcXVlc3QaGC5leGFtcGxlLkdhbWVJbmZvcm1hdGlvbkI/ChFjb20u",
+            "Z2FtZWxpc3QuZ2FtZVABWhhnaXRodWIuY29tL2dhbWVsaXN0L2dhbWWqAg1H",
+            "YW1lTGlzdC5HYW1lYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Example.GameInformationRequest), global::Example.GameInformationRequest.Parser, new[]{ "GameId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Example.GameInformation), global::Example.GameInformation.Parser, new[]{ "Name" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameList.Game.GameInformationRequest), global::GameList.Game.GameInformationRequest.Parser, new[]{ "GameId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameList.Game.GameInformation), global::GameList.Game.GameInformation.Parser, new[]{ "Name" }, null, null, null, null)
           }));
     }
     #endregion
@@ -57,7 +57,7 @@ namespace Example {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Example.ExampleReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameList.Game.ExampleReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -255,7 +255,7 @@ namespace Example {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Example.ExampleReflection.Descriptor.MessageTypes[1]; }
+      get { return global::GameList.Game.ExampleReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

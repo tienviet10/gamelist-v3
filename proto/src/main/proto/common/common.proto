@@ -5,6 +5,7 @@ package common;
 option java_multiple_files = true;
 option java_package = "com.gamelist.common";
 option go_package = "github.com/gamelist/common";
+option csharp_namespace = "GameList.Common";
 
 
 enum Ticker {

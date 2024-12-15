@@ -6,6 +6,8 @@ using user_service_dotnet.config;
 using user_service_dotnet.Services;
 using user_service_dotnet.Services.impl;
 using user_service_dotnet.Prometheus;
+using Grpc.Core;
+using GameList.Game;
 
 var builder = WebApplication.CreateBuilder(args);
 var zipkinEndpoint = builder.Configuration.GetValue<string>("Zipkin:Endpoint");
