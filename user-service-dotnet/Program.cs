@@ -8,14 +8,40 @@ using user_service_dotnet.Services.impl;
 using user_service_dotnet.Prometheus;
 using Grpc.Core;
 using GameList.Game;
+using Grpc.Reflection;
+using Grpc.Reflection.V1Alpha;
+using server;
 
 var builder = WebApplication.CreateBuilder(args);
 var zipkinEndpoint = builder.Configuration.GetValue<string>("Zipkin:Endpoint");
+var gRPCPort = builder.Configuration.GetValue<string>("Grpc:ServerAddress");
 
 if (string.IsNullOrEmpty(zipkinEndpoint))
 {
   Console.WriteLine("Zipkin endpoint is not configured");
 }
+
+if (string.IsNullOrEmpty(gRPCPort))
+{
+  Console.WriteLine("gRPC Port is not configured");
+}
+
+
+Server server = null;
+var reflectionServiceImpl = new ReflectionServiceImpl(ExampleService.Descriptor, ServerReflection.Descriptor);
+
+server = new Server()
+{
+  Services = {
+    ExampleService.BindService(new ExampleServiceImpl()),
+    ServerReflection.BindService(reflectionServiceImpl),
+  },
+  Ports = { new ServerPort("localhost", int.Parse(gRPCPort), ServerCredentials.Insecure) }
+};
+
+server.Start();
+Console.WriteLine("The gRPC server is listening on the port : " + gRPCPort);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
