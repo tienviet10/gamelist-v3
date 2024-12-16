@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	game "github.com/gamelist/game/pb"
+	// game "github.com/gamelist/game/pb"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -131,13 +131,13 @@ func Login(c *gin.Context) {
 	log.Printf("Logging in user with trace ID: %s", traceID)
 	collection := config.MongoClient.Database("gamelist").Collection("users")
 
-	conn := NewGRPCClient(":6565")
-	defer conn.Close()
+	// conn := NewGRPCClient(":6565")
+	// defer conn.Close()
 
-	client := game.NewExampleServiceClient(conn)
-	res, _ := client.GetExampleInformation(context.Background(), &game.GameInformationRequest{GameId: 1})
+	// client := game.NewExampleServiceClient(conn)
+	// res, _ := client.GetExampleInformation(context.Background(), &game.GameInformationRequest{GameId: 1})
 
-	log.Printf("Response from gRPC server......: %s", res)
+	// log.Printf("Response from gRPC server......: %s", res)
 
 	var user User
 	if err := c.ShouldBindJSON(&user); err != nil {

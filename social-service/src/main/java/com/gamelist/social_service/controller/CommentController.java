@@ -4,8 +4,9 @@ import com.gamelist.social_service.model.CreateCommentRequest;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.service.CommentService;
-import com.gamelist.social_service.service.impl.ExampleClient;
-import com.gamelist.social_service.service.impl.ExampleTwoClient;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,8 +23,8 @@ public class CommentController {
     private static final Logger log = LoggerFactory.getLogger(CommentController.class);
     private final CommentService commentService;
 
-    private final ExampleClient exampleClient;
-    private final ExampleTwoClient exampleTwoClient;
+    //    private final ExampleClient exampleClient;
+    //    private final ExampleTwoClient exampleTwoClient;
 
     @PostMapping
     @Transactional
@@ -41,10 +38,10 @@ public class CommentController {
                 authorizationHeader,
                 createCommentRequest.getInteractiveEntityId(),
                 createCommentRequest.getText());
-        System.out.println(
-                "comment = 111111" + exampleClient.getGameInformation(11).getName());
-        System.out.println(
-                "comment = 222222" + exampleTwoClient.getGameTwoInformation(22).getName());
+        // System.out.println(
+        //         "comment = 111111" + exampleClient.getGameInformation(11).getName());
+        // System.out.println(
+        //         "comment = 222222" + exampleTwoClient.getGameTwoInformation(22).getName());
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())
