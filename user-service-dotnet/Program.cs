@@ -10,7 +10,7 @@ using Grpc.Core;
 using GameList.Game;
 using Grpc.Reflection;
 using Grpc.Reflection.V1Alpha;
-using server;
+using user_service_dotnet.GrpcServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var zipkinEndpoint = builder.Configuration.GetValue<string>("Zipkin:Endpoint");

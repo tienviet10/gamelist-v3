@@ -7,7 +7,7 @@ using GameList.Game;
 using Grpc.Core;
 
 
-namespace server
+namespace user_service_dotnet.GrpcServices
 {
   public class ExampleServiceImpl : ExampleService.ExampleServiceBase
   {

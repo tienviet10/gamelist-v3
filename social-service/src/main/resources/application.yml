@@ -12,5 +12,3 @@ grpc:
     auth-service-go:
       address: static://localhost:6567
       negotiation-type: plaintext
-  server:
-    port: 6566
