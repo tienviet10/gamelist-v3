@@ -17,12 +17,13 @@ import com.gamelist.game_service.repository.GameRepository;
 import com.gamelist.game_service.repository.StatusUpdateRepository;
 import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.UserGameService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -143,7 +144,8 @@ public class UserGameServiceImpl implements UserGameService {
                 case Planning -> planningGameDTOs.add(gameDTO);
                 case Dropped -> droppedGameDTOs.add(gameDTO);
                 case JustAdded -> justAddedGameDTOs.add(gameDTO);
-                default -> {}
+                default -> {
+                }
             }
         }
         UserGamesSummaryDTO userGamesSummary = new UserGamesSummaryDTO();
@@ -170,6 +172,7 @@ public class UserGameServiceImpl implements UserGameService {
 
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
         Optional<HttpResponseModel> result = client.getUserCategoryListsInfoById(authorizationHeader);
+
         if (result.isPresent()) {
             listsOrder = result.get().data().get("listsOrder").toString();
         }
