@@ -1,6 +1,6 @@
 package com.gamelist.game_service.service.impl;
 
-import com.gamelist.game_service.clients.user.HttpResponseModel;
+import com.gamelist.game.UserCategoryList;
 import com.gamelist.game_service.clients.user.UserServiceClient;
 import com.gamelist.game_service.dto.UserGamesDTO;
 import com.gamelist.game_service.dto.UserGamesSummaryDTO;
@@ -10,6 +10,7 @@ import com.gamelist.game_service.entity.StatusUpdate;
 import com.gamelist.game_service.entity.UserGame;
 import com.gamelist.game_service.exception.InvalidTokenException;
 import com.gamelist.game_service.exception.ResourceNotFoundException;
+import com.gamelist.game_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.game_service.mapper.UserGameMapper;
 import com.gamelist.game_service.model.EditUserGameRequest;
 import com.gamelist.game_service.projection.UserGameProjection;
@@ -33,6 +34,7 @@ public class UserGameServiceImpl implements UserGameService {
     private final GameRepository gameRepository;
     private final StatusUpdateRepository statusUpdateRepository;
     private final UserGameMapper userGameMapper;
+    private final UserGRPCServiceClient userGRPCServiceClient;
 
     @Override
     public UserGame createUserGame(EditUserGameRequest userGame, String userId) {
@@ -171,10 +173,11 @@ public class UserGameServiceImpl implements UserGameService {
         userGamesSummary.setTotalCount(totalCount);
 
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
-        Optional<HttpResponseModel> result = client.getUserCategoryListsInfoById(authorizationHeader);
+//        Optional<HttpResponseModel> result = client.getUserCategoryListsInfoById(authorizationHeader);
 
-        if (result.isPresent()) {
-            listsOrder = result.get().data().get("listsOrder").toString();
+        UserCategoryList result = userGRPCServiceClient.getUserCategoryListsInfoById(userId);
+        if (result != null) {
+            listsOrder = result.getCategoryList();
         }
         userGamesSummary.setListsOrder(listsOrder);
 
