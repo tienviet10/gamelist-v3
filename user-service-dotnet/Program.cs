@@ -26,14 +26,21 @@ if (string.IsNullOrEmpty(gRPCPort))
   Console.WriteLine("gRPC Port is not configured");
 }
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.UseHttpClientMetrics();
+builder.Services.AddSingleton<AppDbContext>();
+builder.Services.AddScoped<IUserService, UserImpl>();
 
-Server server = null;
-var reflectionServiceImpl = new ReflectionServiceImpl(ExampleService.Descriptor, ServerReflection.Descriptor);
-
+Server server;
+var reflectionServiceImpl = new ReflectionServiceImpl(ExampleService.Descriptor, UserService.Descriptor, ServerReflection.Descriptor);
+var userServiceImpl = builder.Services.BuildServiceProvider().GetRequiredService<IUserService>();
 server = new Server()
 {
   Services = {
     ExampleService.BindService(new ExampleServiceImpl()),
+    UserService.BindService(new UserServiceImpl(userServiceImpl)),
     ServerReflection.BindService(reflectionServiceImpl),
   },
   Ports = { new ServerPort("localhost", int.Parse(gRPCPort), ServerCredentials.Insecure) }
@@ -41,13 +48,6 @@ server = new Server()
 
 server.Start();
 Console.WriteLine("The gRPC server is listening on the port : " + gRPCPort);
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.UseHttpClientMetrics();
-builder.Services.AddSingleton<AppDbContext>();
-builder.Services.AddScoped<IUserService, UserImpl>();
 
 builder.Services.AddOpenTelemetry().WithTracing(builder => builder
   .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("user-service"))
