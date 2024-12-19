@@ -15,6 +15,11 @@ message UserCategoryList {
   string category_list = 1;
 }
 
+message UserExistResponse {
+  bool user_exist = 1;
+}
+
 service UserService {
   rpc GetUserCategoryListsInfoById(UserIdRequest) returns (UserCategoryList);
+  rpc CheckUserExist(UserIdRequest) returns (UserExistResponse);
 }

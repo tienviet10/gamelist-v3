@@ -18,5 +18,14 @@ namespace user_service_dotnet.GrpcServices
         CategoryList = userListOrderDto.ListsOrder,
       };
     }
+
+    public override async Task<UserExistResponse> CheckUserExist(UserIdRequest request, ServerCallContext context)
+    {
+      bool userExist = await _userService.UserExist(request.UserId);
+      return new UserExistResponse()
+      {
+        UserExist = userExist,
+      };
+    }
   }
 }

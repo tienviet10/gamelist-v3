@@ -49,6 +49,8 @@ namespace GameList.Game {
     static readonly grpc::Marshaller<global::GameList.Game.UserIdRequest> __Marshaller_userService_UserIdRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.UserIdRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GameList.Game.UserCategoryList> __Marshaller_userService_UserCategoryList = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.UserCategoryList.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GameList.Game.UserExistResponse> __Marshaller_userService_UserExistResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.UserExistResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList> __Method_GetUserCategoryListsInfoById = new grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList>(
@@ -57,6 +59,14 @@ namespace GameList.Game {
         "GetUserCategoryListsInfoById",
         __Marshaller_userService_UserIdRequest,
         __Marshaller_userService_UserCategoryList);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserExistResponse> __Method_CheckUserExist = new grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserExistResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "CheckUserExist",
+        __Marshaller_userService_UserIdRequest,
+        __Marshaller_userService_UserExistResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -70,6 +80,12 @@ namespace GameList.Game {
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoById(global::GameList.Game.UserIdRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::GameList.Game.UserExistResponse> CheckUserExist(global::GameList.Game.UserIdRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -123,6 +139,26 @@ namespace GameList.Game {
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetUserCategoryListsInfoById, null, options, request);
       }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::GameList.Game.UserExistResponse CheckUserExist(global::GameList.Game.UserIdRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CheckUserExist(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::GameList.Game.UserExistResponse CheckUserExist(global::GameList.Game.UserIdRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_CheckUserExist, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserExistResponse> CheckUserExistAsync(global::GameList.Game.UserIdRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CheckUserExistAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserExistResponse> CheckUserExistAsync(global::GameList.Game.UserIdRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_CheckUserExist, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override UserServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -137,7 +173,8 @@ namespace GameList.Game {
     public static grpc::ServerServiceDefinition BindService(UserServiceBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_GetUserCategoryListsInfoById, serviceImpl.GetUserCategoryListsInfoById).Build();
+          .AddMethod(__Method_GetUserCategoryListsInfoById, serviceImpl.GetUserCategoryListsInfoById)
+          .AddMethod(__Method_CheckUserExist, serviceImpl.CheckUserExist).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -148,6 +185,7 @@ namespace GameList.Game {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, UserServiceBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_GetUserCategoryListsInfoById, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList>(serviceImpl.GetUserCategoryListsInfoById));
+      serviceBinder.AddMethod(__Method_CheckUserExist, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GameList.Game.UserIdRequest, global::GameList.Game.UserExistResponse>(serviceImpl.CheckUserExist));
     }
 
   }
