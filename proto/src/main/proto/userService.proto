@@ -7,7 +7,7 @@ option java_package = "com.gamelist.game";
 option go_package = "github.com/gamelist/game";
 option csharp_namespace = "GameList.Game";
 
-message GetUserCategoryListRequest{
+message UserIdRequest{
   string user_id = 1;
 }
 
@@ -16,5 +16,5 @@ message UserCategoryList {
 }
 
 service UserService {
-  rpc GetUserCategoryListsInfoById(GetUserCategoryListRequest) returns (UserCategoryList);
+  rpc GetUserCategoryListsInfoById(UserIdRequest) returns (UserCategoryList);
 }

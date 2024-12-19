@@ -25,17 +25,16 @@ namespace GameList.Game {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBzcmMvbWFpbi9wcm90by91c2VyU2VydmljZS5wcm90bxILdXNlclNlcnZp",
-            "Y2UiLQoaR2V0VXNlckNhdGVnb3J5TGlzdFJlcXVlc3QSDwoHdXNlcl9pZBgB",
-            "IAEoCSIpChBVc2VyQ2F0ZWdvcnlMaXN0EhUKDWNhdGVnb3J5X2xpc3QYASAB",
-            "KAkydQoLVXNlclNlcnZpY2USZgocR2V0VXNlckNhdGVnb3J5TGlzdHNJbmZv",
-            "QnlJZBInLnVzZXJTZXJ2aWNlLkdldFVzZXJDYXRlZ29yeUxpc3RSZXF1ZXN0",
-            "Gh0udXNlclNlcnZpY2UuVXNlckNhdGVnb3J5TGlzdEI/ChFjb20uZ2FtZWxp",
-            "c3QuZ2FtZVABWhhnaXRodWIuY29tL2dhbWVsaXN0L2dhbWWqAg1HYW1lTGlz",
-            "dC5HYW1lYgZwcm90bzM="));
+            "Y2UiIAoNVXNlcklkUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJIikKEFVzZXJD",
+            "YXRlZ29yeUxpc3QSFQoNY2F0ZWdvcnlfbGlzdBgBIAEoCTJoCgtVc2VyU2Vy",
+            "dmljZRJZChxHZXRVc2VyQ2F0ZWdvcnlMaXN0c0luZm9CeUlkEhoudXNlclNl",
+            "cnZpY2UuVXNlcklkUmVxdWVzdBodLnVzZXJTZXJ2aWNlLlVzZXJDYXRlZ29y",
+            "eUxpc3RCPwoRY29tLmdhbWVsaXN0LmdhbWVQAVoYZ2l0aHViLmNvbS9nYW1l",
+            "bGlzdC9nYW1lqgINR2FtZUxpc3QuR2FtZWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameList.Game.GetUserCategoryListRequest), global::GameList.Game.GetUserCategoryListRequest.Parser, new[]{ "UserId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameList.Game.UserIdRequest), global::GameList.Game.UserIdRequest.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GameList.Game.UserCategoryList), global::GameList.Game.UserCategoryList.Parser, new[]{ "CategoryList" }, null, null, null, null)
           }));
     }
@@ -44,16 +43,16 @@ namespace GameList.Game {
   }
   #region Messages
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class GetUserCategoryListRequest : pb::IMessage<GetUserCategoryListRequest>
+  public sealed partial class UserIdRequest : pb::IMessage<UserIdRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GetUserCategoryListRequest> _parser = new pb::MessageParser<GetUserCategoryListRequest>(() => new GetUserCategoryListRequest());
+    private static readonly pb::MessageParser<UserIdRequest> _parser = new pb::MessageParser<UserIdRequest>(() => new UserIdRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GetUserCategoryListRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<UserIdRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -69,7 +68,7 @@ namespace GameList.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetUserCategoryListRequest() {
+    public UserIdRequest() {
       OnConstruction();
     }
 
@@ -77,15 +76,15 @@ namespace GameList.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetUserCategoryListRequest(GetUserCategoryListRequest other) : this() {
+    public UserIdRequest(UserIdRequest other) : this() {
       userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetUserCategoryListRequest Clone() {
-      return new GetUserCategoryListRequest(this);
+    public UserIdRequest Clone() {
+      return new UserIdRequest(this);
     }
 
     /// <summary>Field number for the "user_id" field.</summary>
@@ -103,12 +102,12 @@ namespace GameList.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as GetUserCategoryListRequest);
+      return Equals(other as UserIdRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GetUserCategoryListRequest other) {
+    public bool Equals(UserIdRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -181,7 +180,7 @@ namespace GameList.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GetUserCategoryListRequest other) {
+    public void MergeFrom(UserIdRequest other) {
       if (other == null) {
         return;
       }

@@ -2,14 +2,16 @@ package com.gamelist.social_service.clients.game;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.util.Objects;
+import java.util.Optional;
+
+// TODO: This is for a TEST.
 @Component
 @RequiredArgsConstructor
 public class GameServiceClient {

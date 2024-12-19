@@ -10,7 +10,7 @@ namespace user_service_dotnet.GrpcServices
   {
     private readonly IUserService _userService = userService;
 
-    public override async Task<UserCategoryList> GetUserCategoryListsInfoById(GetUserCategoryListRequest request, ServerCallContext context)
+    public override async Task<UserCategoryList> GetUserCategoryListsInfoById(UserIdRequest request, ServerCallContext context)
     {
       UserListOrderDTO userListOrderDto = await _userService.GetUserListOrderById(request.UserId);
       return new UserCategoryList()

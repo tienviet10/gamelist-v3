@@ -46,16 +46,16 @@ namespace GameList.Game {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::GameList.Game.GetUserCategoryListRequest> __Marshaller_userService_GetUserCategoryListRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.GetUserCategoryListRequest.Parser));
+    static readonly grpc::Marshaller<global::GameList.Game.UserIdRequest> __Marshaller_userService_UserIdRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.UserIdRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GameList.Game.UserCategoryList> __Marshaller_userService_UserCategoryList = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GameList.Game.UserCategoryList.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::GameList.Game.GetUserCategoryListRequest, global::GameList.Game.UserCategoryList> __Method_GetUserCategoryListsInfoById = new grpc::Method<global::GameList.Game.GetUserCategoryListRequest, global::GameList.Game.UserCategoryList>(
+    static readonly grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList> __Method_GetUserCategoryListsInfoById = new grpc::Method<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetUserCategoryListsInfoById",
-        __Marshaller_userService_GetUserCategoryListRequest,
+        __Marshaller_userService_UserIdRequest,
         __Marshaller_userService_UserCategoryList);
 
     /// <summary>Service descriptor</summary>
@@ -69,7 +69,7 @@ namespace GameList.Game {
     public abstract partial class UserServiceBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoById(global::GameList.Game.GetUserCategoryListRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoById(global::GameList.Game.UserIdRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -104,22 +104,22 @@ namespace GameList.Game {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GameList.Game.UserCategoryList GetUserCategoryListsInfoById(global::GameList.Game.GetUserCategoryListRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::GameList.Game.UserCategoryList GetUserCategoryListsInfoById(global::GameList.Game.UserIdRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetUserCategoryListsInfoById(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GameList.Game.UserCategoryList GetUserCategoryListsInfoById(global::GameList.Game.GetUserCategoryListRequest request, grpc::CallOptions options)
+      public virtual global::GameList.Game.UserCategoryList GetUserCategoryListsInfoById(global::GameList.Game.UserIdRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_GetUserCategoryListsInfoById, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoByIdAsync(global::GameList.Game.GetUserCategoryListRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoByIdAsync(global::GameList.Game.UserIdRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetUserCategoryListsInfoByIdAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoByIdAsync(global::GameList.Game.GetUserCategoryListRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::GameList.Game.UserCategoryList> GetUserCategoryListsInfoByIdAsync(global::GameList.Game.UserIdRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetUserCategoryListsInfoById, null, options, request);
       }
@@ -147,7 +147,7 @@ namespace GameList.Game {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, UserServiceBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_GetUserCategoryListsInfoById, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GameList.Game.GetUserCategoryListRequest, global::GameList.Game.UserCategoryList>(serviceImpl.GetUserCategoryListsInfoById));
+      serviceBinder.AddMethod(__Method_GetUserCategoryListsInfoById, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GameList.Game.UserIdRequest, global::GameList.Game.UserCategoryList>(serviceImpl.GetUserCategoryListsInfoById));
     }
 
   }
