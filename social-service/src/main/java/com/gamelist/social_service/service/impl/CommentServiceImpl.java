@@ -11,11 +11,10 @@ import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.repository.CommentRepository;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.CommentService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

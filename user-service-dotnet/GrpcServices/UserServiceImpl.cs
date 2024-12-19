@@ -27,5 +27,16 @@ namespace user_service_dotnet.GrpcServices
         UserExist = userExist,
       };
     }
+
+    public override async Task<UserInfoGRPCResponse> GetShortUserInfoById(UserIdRequest request, ServerCallContext context)
+    {
+      UserBasicInfoWithoutIdDTO userDto = await _userService.GetUserBasicInfoById(request.UserId);
+      return new UserInfoGRPCResponse()
+      {
+        Username = userDto.Username,
+        BannerPicture = userDto.BannerPicture,
+        UserPicture = userDto.UserPicture,
+      };
+    }
   }
 }

@@ -2,10 +2,10 @@ package com.gamelist.social_service.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gamelist.game.UserInfoGRPCResponse;
 import com.gamelist.social_service.clients.user.UserDTO;
-import com.gamelist.social_service.clients.user.UserInfoResponse;
-import com.gamelist.social_service.clients.user.UserServiceClient;
 import com.gamelist.social_service.dto.*;
+import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.social_service.mapper.InteractiveEntityMapper;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponseV2;
 import com.gamelist.social_service.projection.InteractiveEntityProjection;
@@ -13,7 +13,10 @@ import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.InteractiveEntityService;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +28,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     private static final Logger log = LoggerFactory.getLogger(InteractiveEntityServiceImpl.class);
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final InteractiveEntityMapper interactiveEntityMapper;
-    private final UserServiceClient userServiceClient;
+    private final UserGRPCServiceClient userGRPCServiceClient;
 
     @Override
     public PostAndStatusUpdateResponseV2 getPostAndStatusUpdateByUserIdAndStartingId(
@@ -109,11 +112,14 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
         if (userInfoCache.containsKey(userId)) {
             return userInfoCache.get(userId);
         } else {
-            Optional<UserInfoResponse> userDTO = userServiceClient.getUserInfoById(authorizationHeader, userId);
-            if (userDTO.isEmpty()) {
+
+            UserInfoGRPCResponse tempUserInfo = userGRPCServiceClient.getShortUserInfo(userId);
+            if (tempUserInfo == null) {
                 throw new RuntimeException("User not found");
             }
-            UserDTO saveUserDTO = userDTO.get().getData();
+
+            UserDTO saveUserDTO = new UserDTO(
+                    tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture());
             userInfoCache.put(userId, saveUserDTO);
             return saveUserDTO;
         }
