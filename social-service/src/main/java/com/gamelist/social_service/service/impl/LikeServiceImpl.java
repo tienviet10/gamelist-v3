@@ -1,10 +1,10 @@
 package com.gamelist.social_service.service.impl;
 
-import com.gamelist.social_service.clients.user.UserExistResponse;
-import com.gamelist.social_service.clients.user.UserServiceClient;
+import com.gamelist.game.UserExistResponse;
 import com.gamelist.social_service.entity.*;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
+import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.social_service.projection.LikeEntityView;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.repository.LikeRepository;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
-    private final UserServiceClient userServiceClient;
+    private final UserGRPCServiceClient userGRPCServiceClient;
 
     @Override
     public LikeEntityView createLike(String userId, String authorizationHeader, Long interactiveEntityId) {
@@ -29,8 +29,8 @@ public class LikeServiceImpl implements LikeService {
             throw new InvalidInputException("You have already liked this entity.");
         }
 
-        Optional<UserExistResponse> userExist = userServiceClient.checkedIfUserExists(authorizationHeader);
-        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().getData())) {
+        UserExistResponse userExistResponse = userGRPCServiceClient.checkUserExist(userId);
+        if (!userExistResponse.getUserExist()) {
             throw new InvalidInputException("User does not exists");
         }
 

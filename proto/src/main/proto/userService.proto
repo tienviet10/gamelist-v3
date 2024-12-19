@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package userService;
+
+option java_multiple_files = true;
+option java_package = "com.gamelist.game";
+option go_package = "github.com/gamelist/game";
+option csharp_namespace = "GameList.Game";
+
+message UserIdRequest{
+  string user_id = 1;
+}
+
+message UserCategoryList {
+  string category_list = 1;
+}
+
+message UserExistResponse {
+  bool user_exist = 1;
+}
+
+message UserInfoGRPCResponse {
+  string username = 1;
+  string banner_picture = 2;
+  string user_picture = 3;
+}
+
+service UserService {
+  rpc GetUserCategoryListsInfoById(UserIdRequest) returns (UserCategoryList);
+  rpc CheckUserExist(UserIdRequest) returns (UserExistResponse);
+  rpc GetShortUserInfoById(UserIdRequest) returns (UserInfoGRPCResponse);
+}

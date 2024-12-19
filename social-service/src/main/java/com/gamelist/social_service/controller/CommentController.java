@@ -23,6 +23,9 @@ public class CommentController {
     private static final Logger log = LoggerFactory.getLogger(CommentController.class);
     private final CommentService commentService;
 
+    //    private final ExampleClient exampleClient;
+    //    private final ExampleTwoClient exampleTwoClient;
+
     @PostMapping
     @Transactional
     public ResponseEntity<HttpResponse> createComment(
@@ -35,7 +38,10 @@ public class CommentController {
                 authorizationHeader,
                 createCommentRequest.getInteractiveEntityId(),
                 createCommentRequest.getText());
-
+        // System.out.println(
+        //         "comment = 111111" + exampleClient.getGameInformation(11).getName());
+        // System.out.println(
+        //         "comment = 222222" + exampleTwoClient.getGameTwoInformation(22).getName());
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())
@@ -52,7 +58,6 @@ public class CommentController {
             @RequestHeader(name = "userId") String userId, @PathVariable Long requestedId) {
         log.info("deleteComment called with userId: {}", userId);
         commentService.deleteCommentById(userId, requestedId);
-
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
                 .status(HttpStatus.NO_CONTENT)

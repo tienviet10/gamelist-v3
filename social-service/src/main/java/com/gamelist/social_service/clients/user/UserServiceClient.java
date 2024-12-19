@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+// TODO: REMOVE THIS CLASS
+// This class is not used in the project. Being replaced by gRPC.
 @Component
 public class UserServiceClient {
     private static final Logger log = LoggerFactory.getLogger(UserServiceClient.class);

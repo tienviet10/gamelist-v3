@@ -4,7 +4,7 @@
      name: user-service
      namespace: gamelist
    spec:
-     replicas: 2
+     replicas: 1
      selector:
        matchLabels:
          app: user-service
