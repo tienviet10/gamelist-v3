@@ -171,8 +171,6 @@ public class UserGameServiceImpl implements UserGameService {
         userGamesSummary.setTotalCount(totalCount);
 
         String listsOrder = "playing,completed,paused,planning,dropped,justAdded";
-        //        Optional<HttpResponseModel> result = client.getUserCategoryListsInfoById(authorizationHeader);
-
         UserCategoryList result = userGRPCServiceClient.getUserCategoryListsInfoById(userId);
         if (result != null) {
             listsOrder = result.getCategoryList();

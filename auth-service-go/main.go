@@ -72,7 +72,6 @@ func main() {
 
 	go router.Run(config.ServerConfig())
 
-	// log.Printf("Server started on port %s", listPort)
 	// Set up gRPC server
 	grpcServer := NewGRPCServer(":6567")
 	grpcServer.Run()
