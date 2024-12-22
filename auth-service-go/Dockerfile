@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine as builder
+FROM golang:1.23.4-alpine as builder
 
 RUN apk update && apk add --no-cache git
 
@@ -29,5 +29,6 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/.env .env
 
 EXPOSE 8082
+EXPOSE 6567
 
 CMD ["./main"]
