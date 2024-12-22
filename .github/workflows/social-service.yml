@@ -67,6 +67,10 @@ jobs:
           cache: 'maven'
 
       # Step 3: Build the proto module
+      - name: Build parent module
+        run: ./mvnw clean install -f pom.xml
+
+      # Step 3.5: Build the proto module
       - name: Build proto module
         run: ./mvnw clean install -f ./proto/pom.xml
 
