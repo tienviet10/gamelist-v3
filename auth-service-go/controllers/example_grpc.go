@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	game "containerized-go-app/pb"
 	"context"
 	"log"
 
-	game "github.com/gamelist/game/pb"
 	"google.golang.org/grpc"
 )
 

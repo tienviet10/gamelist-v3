@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="src\main\proto\*.proto" OutputDir="%(RelativePath)csharpOutput/" />
+    <Protobuf Include="src\main\proto\*.proto" OutputDir="..\user-service-dotnet\csharpOutput\"/>
     <!-- <Protobuf Include="src\main\proto\common\*.proto" OutputDir="%(RelativePath)csharpOutput/" /> -->
   </ItemGroup>
 

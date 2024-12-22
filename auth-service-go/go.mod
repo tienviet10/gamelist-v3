@@ -2,10 +2,10 @@ module containerized-go-app
 
 go 1.23.3
 
-replace github.com/gamelist/game v0.0.0-unpublished => /Users/viettran/Desktop/Training/Project/game-list/gamelist-v3/proto
+// replace github.com/gamelist/game v0.0.0-unpublished => /Users/viettran/Desktop/Training/Project/game-list/gamelist-v3/proto
 
 require (
-	github.com/gamelist/game v0.0.0-unpublished
+	// github.com/gamelist/game v0.0.0-unpublished
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/prometheus/client_golang v1.19.1
@@ -17,6 +17,8 @@ require (
 	golang.org/x/crypto v0.27.0
 	google.golang.org/grpc v1.68.1
 )
+
+require google.golang.org/protobuf v1.35.2
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -75,7 +77,6 @@ require (
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240903143218-8af14fe29dc1 // indirect
-	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

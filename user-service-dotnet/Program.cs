@@ -43,7 +43,7 @@ server = new Server()
     UserService.BindService(new UserServiceImpl(userServiceImpl)),
     ServerReflection.BindService(reflectionServiceImpl),
   },
-  Ports = { new ServerPort("localhost", int.Parse(gRPCPort), ServerCredentials.Insecure) }
+  Ports = { new ServerPort("0.0.0.0", int.Parse(gRPCPort), ServerCredentials.Insecure) }
 };
 
 server.Start();
