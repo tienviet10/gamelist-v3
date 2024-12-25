@@ -10,4 +10,9 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8082
+    name: http
+  - protocol: TCP
+    port: 6567
+    targetPort: 6567
+    name: grpc
   type: ClusterIP

@@ -59,6 +59,10 @@ spec:
               value: "http://${API_GATEWAY_SERVICE_HOST}:80/game-service"
             - name: USER_SERVICE_URL
               value: "http://${API_GATEWAY_SERVICE_HOST}:80/user-service"
+            - name: AUTH_SERVICE_ADDRESS
+              value: "${AUTH_SERVICE_SERVICE_HOST}:6567"
+            - name: USER_SERVICE_ADDRESS
+              value: "${USER_SERVICE_SERVICE_HOST}:6568"
           resources: {}
           # resources:
           #   requests:
