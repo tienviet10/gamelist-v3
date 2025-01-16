@@ -14,14 +14,15 @@ import com.gamelist.game_service.specification.GameSpecification;
 import com.gamelist.game_service.utils.Utils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -75,23 +76,7 @@ public class GameServiceImpl implements GameService {
         TypedQuery<Game> foundGames = getQuery(gameSpecification, Game.class);
         foundGames.setMaxResults(gameQueryFilters.getLimit());
 
-        List<GameDTO> gameDTOs = gameMapper.gamesToGameDTOs(foundGames.getResultList());
-
-        for (GameDTO gameDTO : gameDTOs) {
-            //            if (userId == null) {
-            //                gameDTO.setGameAdded(false);
-            //                gameDTO.setGameLiked(false);
-            //                continue;
-            //            }
-
-            //            gameDTO.setGameAdded(
-            //                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(),
-            // userId));
-            //            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId,
-            // gameDTO.getId()));
-        }
-
-        return gameDTOs;
+        return gameMapper.gamesToGameDTOs(foundGames.getResultList());
     }
 
     private <T> TypedQuery<T> getQuery(Specification<T> specification, Class<T> clazz) {
@@ -120,21 +105,21 @@ public class GameServiceImpl implements GameService {
     private boolean isDefaultGameFilters(GameQueryFilters gameQueryFilters) {
         GameQueryFilters defaultGameFilter = createDefaultGameQueryFilters();
         return (gameQueryFilters.getGenres() == null
-                        && gameQueryFilters.getExcludedGenres() == null
-                        && gameQueryFilters.getPlatforms() == null
-                        && gameQueryFilters.getExcludedPlatforms() == null
-                        && gameQueryFilters.getTags() == null
-                        && gameQueryFilters.getExcludedTags() == null
-                        && gameQueryFilters.getYear() == 0
-                        && gameQueryFilters.getSearch() == null)
+                && gameQueryFilters.getExcludedGenres() == null
+                && gameQueryFilters.getPlatforms() == null
+                && gameQueryFilters.getExcludedPlatforms() == null
+                && gameQueryFilters.getTags() == null
+                && gameQueryFilters.getExcludedTags() == null
+                && gameQueryFilters.getYear() == 0
+                && gameQueryFilters.getSearch() == null)
                 || (gameQueryFilters.getGenres().equals(defaultGameFilter.getGenres())
-                        && gameQueryFilters.getExcludedGenres().equals(defaultGameFilter.getExcludedGenres())
-                        && gameQueryFilters.getPlatforms().equals(defaultGameFilter.getPlatforms())
-                        && gameQueryFilters.getExcludedPlatforms().equals(defaultGameFilter.getExcludedPlatforms())
-                        && gameQueryFilters.getTags().equals(defaultGameFilter.getTags())
-                        && gameQueryFilters.getExcludedTags().equals(defaultGameFilter.getExcludedTags())
-                        && gameQueryFilters.getYear() == defaultGameFilter.getYear()
-                        && gameQueryFilters.getSearch().equals(defaultGameFilter.getSearch()));
+                && gameQueryFilters.getExcludedGenres().equals(defaultGameFilter.getExcludedGenres())
+                && gameQueryFilters.getPlatforms().equals(defaultGameFilter.getPlatforms())
+                && gameQueryFilters.getExcludedPlatforms().equals(defaultGameFilter.getExcludedPlatforms())
+                && gameQueryFilters.getTags().equals(defaultGameFilter.getTags())
+                && gameQueryFilters.getExcludedTags().equals(defaultGameFilter.getExcludedTags())
+                && gameQueryFilters.getYear() == defaultGameFilter.getYear()
+                && gameQueryFilters.getSearch().equals(defaultGameFilter.getSearch()));
     }
 
     private GameQueryFilters createDefaultGameQueryFilters() {
