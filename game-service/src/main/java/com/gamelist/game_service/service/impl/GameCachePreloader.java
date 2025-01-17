@@ -1,7 +1,7 @@
 package com.gamelist.game_service.service.impl;
 
+import com.gamelist.game_service.dto.GameDTO;
 import com.gamelist.game_service.model.GameQueryFilters;
-import com.gamelist.game_service.projection.GameProjection;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +31,18 @@ public class GameCachePreloader {
         filters.setSearch("");
         GameQueryFilters.GameQueryPaginationOptions paginationOptions = null;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             filters.setGameQueryPaginationOptions(paginationOptions);
 
-            List<GameProjection> games = gameQueryHandler.preloadGamesCache(filters);
+            List<GameDTO> games = gameQueryHandler.preloadGamesCache(filters);
 
             if (!games.isEmpty()) {
                 paginationOptions = new GameQueryFilters.GameQueryPaginationOptions();
-                GameProjection lastGame = games.get(games.size() - 1);
+                GameDTO lastGame = games.get(games.size() - 1);
                 paginationOptions.setLastId(lastGame.getId().intValue());
                 paginationOptions.setLastName(lastGame.getName());
                 paginationOptions.setLastReleaseDateEpoch(
-                        lastGame.getReleasedate().atZone(ZoneId.systemDefault()).toEpochSecond());
+                        lastGame.getReleaseDate().atZone(ZoneId.systemDefault()).toEpochSecond());
                 paginationOptions.setLastAverageScore(lastGame.getAvgScore());
                 paginationOptions.setLastTotalRating(lastGame.getTotalRating());
             } else {

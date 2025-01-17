@@ -5,7 +5,6 @@ import com.gamelist.game_service.entity.Game;
 import com.gamelist.game_service.mapper.GameMapper;
 import com.gamelist.game_service.mapper.GameV2Mapper;
 import com.gamelist.game_service.model.GameQueryFilters;
-import com.gamelist.game_service.projection.GameProjection;
 import com.gamelist.game_service.repository.GameRepository;
 import com.gamelist.game_service.service.GameService;
 import com.gamelist.game_service.specification.GameSpecification;
@@ -51,17 +50,14 @@ public class GameServiceImpl implements GameService {
 
         if (isDefaultGameFilters(gameQueryFilters)
                 && gameQueryFilters.getSortBy().equals("name")) {
-            List<GameProjection> games;
 
             String finalUserId = userId == null ? "" : userId;
 
             if (finalUserId.isEmpty()) {
-                games = gameQueryHandler.handleEmptyUserId(gameQueryFilters);
+                return gameQueryHandler.handleEmptyUserId(gameQueryFilters);
             } else {
-                games = gameQueryHandler.handleNonEmptyUserId(gameQueryFilters, finalUserId);
+                return gameQueryHandler.handleNonEmptyUserId(gameQueryFilters, finalUserId);
             }
-
-            return gameV2Mapper.gamesToGameDTOs(games);
         }
 
         Specification<Game> gameSpecification = new GameSpecification(gameQueryFilters);

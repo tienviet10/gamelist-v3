@@ -1,5 +1,6 @@
 package com.gamelist.game_service.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class GameDTO {
+public class GameDTO implements Serializable {
     private Long id;
     private String name;
     private double avgScore;
