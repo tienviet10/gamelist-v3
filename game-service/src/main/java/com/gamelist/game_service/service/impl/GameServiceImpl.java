@@ -34,6 +34,7 @@ public class GameServiceImpl implements GameService {
     private final GameV2Mapper gameV2Mapper;
     private final UserGameRepository userGameRepository;
     private final LikeRepository likeRepository;
+    private final GameQueryHandler gameQueryHandler;
     private final EntityManager em;
 
     @Override
@@ -58,15 +59,12 @@ public class GameServiceImpl implements GameService {
 
             String finalUserId = userId == null ? "" : userId;
 
-            if (gameQueryFilters.getGameQueryPaginationOptions() == null) {
-                games = gameRepository.findGameByCategoryAndLimitAndNoStartingId(
-                        gameQueryFilters.getLimit(), finalUserId);
+            if (finalUserId.isEmpty()) {
+                games = gameQueryHandler.handleEmptyUserId(gameQueryFilters);
             } else {
-                games = gameRepository.findGameByCategoryAndLimit(
-                        gameQueryFilters.getGameQueryPaginationOptions().getLastName(),
-                        gameQueryFilters.getLimit(),
-                        finalUserId);
+                games = gameQueryHandler.handleNonEmptyUserId(gameQueryFilters, finalUserId);
             }
+
             return gameV2Mapper.gamesToGameDTOs(games);
         }
 
