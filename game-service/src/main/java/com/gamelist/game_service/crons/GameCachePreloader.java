@@ -1,7 +1,8 @@
-package com.gamelist.game_service.service.impl;
+package com.gamelist.game_service.crons;
 
 import com.gamelist.game_service.dto.GameDTO;
 import com.gamelist.game_service.model.GameQueryFilters;
+import com.gamelist.game_service.service.impl.GameQueryHandler;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
