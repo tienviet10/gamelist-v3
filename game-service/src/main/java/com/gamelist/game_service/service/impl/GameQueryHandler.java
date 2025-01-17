@@ -21,7 +21,6 @@ public class GameQueryHandler {
         this.cacheManager = cacheManager;
     }
 
-    //    @Cacheable(value = "gamesByEmptyUserId", key = "#gameQueryFilters.toString()")
     public List<GameProjection> handleEmptyUserId(GameQueryFilters gameQueryFilters) {
         String cacheKey = gameQueryFilters.toString();
         Cache cache = cacheManager.getCache("gamesByEmptyUserId");

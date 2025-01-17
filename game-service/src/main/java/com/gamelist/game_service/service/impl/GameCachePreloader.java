@@ -19,8 +19,8 @@ public class GameCachePreloader {
     @Scheduled(cron = "0 0 * * * *")
     public void preloadGames() {
         GameQueryFilters filters = new GameQueryFilters();
-        filters.setLimit(20); // Default limit per page
-        filters.setSortBy("name"); // Default sort key
+        filters.setLimit(20);
+        filters.setSortBy("name");
         filters.setGenres(new ArrayList<>());
         filters.setExcludedGenres(new ArrayList<>());
         filters.setPlatforms(new ArrayList<>());
