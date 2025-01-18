@@ -3,3 +3,7 @@ spring:
     name: game-service
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  elasticsearch:
+    uris: http://localhost:9200
+    username:
+    password:
