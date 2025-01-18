@@ -32,13 +32,20 @@ public class GameQueryHandler {
             }
         }
 
+        List<GameDTO> games;
         if (gameQueryFilters.getGameQueryPaginationOptions() == null) {
-            return gameV2Mapper.gamesToGameDTOs(
+            games = gameV2Mapper.gamesToGameDTOs(
                     gameRepository.findGameByCategoryAndLimitAndNoStartingId(gameQueryFilters.getLimit(), ""));
         } else {
-            return gameV2Mapper.gamesToGameDTOs(gameRepository.findGameByCategoryAndLimit(
+            games = gameV2Mapper.gamesToGameDTOs(gameRepository.findGameByCategoryAndLimit(
                     gameQueryFilters.getGameQueryPaginationOptions().getLastName(), gameQueryFilters.getLimit(), ""));
         }
+
+        if (cache != null) {
+            cache.put(cacheKey, games);
+        }
+
+        return games;
     }
 
     public List<GameDTO> handleNonEmptyUserId(GameQueryFilters gameQueryFilters, String userId) {
