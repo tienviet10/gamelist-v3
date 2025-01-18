@@ -33,7 +33,6 @@ import lombok.experimental.SuperBuilder;
 //            @Index(name = "mulitIndexTotalRatingIdDesc", columnList = "total_rating DESC, id"),
 //        })
 public class Game extends InteractiveEntity {
-
     private String name;
 
     @Column(length = 2000)

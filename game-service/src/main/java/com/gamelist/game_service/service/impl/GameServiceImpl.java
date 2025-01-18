@@ -5,16 +5,16 @@ import com.gamelist.game_service.entity.Game;
 import com.gamelist.game_service.mapper.GameMapper;
 import com.gamelist.game_service.mapper.GameV2Mapper;
 import com.gamelist.game_service.model.GameQueryFilters;
-import com.gamelist.game_service.projection.GameProjection;
 import com.gamelist.game_service.repository.GameRepository;
-import com.gamelist.game_service.repository.LikeRepository;
-import com.gamelist.game_service.repository.UserGameRepository;
 import com.gamelist.game_service.service.GameService;
 import com.gamelist.game_service.specification.GameSpecification;
 import com.gamelist.game_service.utils.Utils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,8 +29,7 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final GameMapper gameMapper;
     private final GameV2Mapper gameV2Mapper;
-    private final UserGameRepository userGameRepository;
-    private final LikeRepository likeRepository;
+    private final GameQueryHandler gameQueryHandler;
     private final EntityManager em;
 
     @Override
@@ -51,20 +50,14 @@ public class GameServiceImpl implements GameService {
 
         if (isDefaultGameFilters(gameQueryFilters)
                 && gameQueryFilters.getSortBy().equals("name")) {
-            List<GameProjection> games;
 
             String finalUserId = userId == null ? "" : userId;
 
-            if (gameQueryFilters.getGameQueryPaginationOptions() == null) {
-                games = gameRepository.findGameByCategoryAndLimitAndNoStartingId(
-                        gameQueryFilters.getLimit(), finalUserId);
+            if (finalUserId.isEmpty()) {
+                return gameQueryHandler.handleEmptyUserId(gameQueryFilters);
             } else {
-                games = gameRepository.findGameByCategoryAndLimit(
-                        gameQueryFilters.getGameQueryPaginationOptions().getLastName(),
-                        gameQueryFilters.getLimit(),
-                        finalUserId);
+                return gameQueryHandler.handleNonEmptyUserId(gameQueryFilters, finalUserId);
             }
-            return gameV2Mapper.gamesToGameDTOs(games);
         }
 
         Specification<Game> gameSpecification = new GameSpecification(gameQueryFilters);
@@ -72,23 +65,7 @@ public class GameServiceImpl implements GameService {
         TypedQuery<Game> foundGames = getQuery(gameSpecification, Game.class);
         foundGames.setMaxResults(gameQueryFilters.getLimit());
 
-        List<GameDTO> gameDTOs = gameMapper.gamesToGameDTOs(foundGames.getResultList());
-
-        for (GameDTO gameDTO : gameDTOs) {
-            if (userId == null) {
-                gameDTO.setGameAdded(false);
-                gameDTO.setGameLiked(false);
-                continue;
-            }
-
-            //            gameDTO.setGameAdded(
-            //                    userGameRepository.existsByGameIdAndUserIdAndGameStatusNotInactive(gameDTO.getId(),
-            // userId));
-            //            gameDTO.setGameLiked(likeRepository.existsByUserIdAndInteractiveEntityId(userId,
-            // gameDTO.getId()));
-        }
-
-        return gameDTOs;
+        return gameMapper.gamesToGameDTOs(foundGames.getResultList());
     }
 
     private <T> TypedQuery<T> getQuery(Specification<T> specification, Class<T> clazz) {

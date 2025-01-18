@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+// TODO: This is for a TEST.
 @Component
 @RequiredArgsConstructor
 public class GameServiceClient {

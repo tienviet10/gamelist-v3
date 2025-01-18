@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+// TODO: This is for a TEST.
 @Component
 public class GoServiceClient {
     private static final Logger log = LoggerFactory.getLogger(GoServiceClient.class);

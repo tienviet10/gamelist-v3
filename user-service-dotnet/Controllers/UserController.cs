@@ -6,6 +6,8 @@ using user_service_dotnet.exception;
 using user_service_dotnet.Services;
 using System.Diagnostics;
 using user_service_dotnet.Dtos;
+// using Grpc.Core;
+// using GameList.Game;
 namespace user_service_dotnet.Controllers
 {
   [Route("api/v1/user")]
@@ -52,6 +54,17 @@ namespace user_service_dotnet.Controllers
     [HttpGet("userinfo")]
     public async Task<ActionResult<CustomHttpResponse<object>>> GetUser()
     {
+      // Channel channel = new("localhost", 6565, ChannelCredentials.Insecure);
+      // await channel.ConnectAsync().ContinueWith((task) =>
+      //  {
+      //    if (task.Status == TaskStatus.RanToCompletion)
+      //      Console.WriteLine("The client connected successfully");
+      //  });
+
+      // var client = new ExampleService.ExampleServiceClient(channel);
+      // var example = new GameInformationRequest() { GameId = 2222 };
+      // channel.ShutdownAsync().Wait();
+
       string userId = Request.Headers["userId"].ToString();
       var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
 
