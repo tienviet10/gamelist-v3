@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: db-password
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
             - name: SWAGGER_API_GATEWAY_URL
               value: "http://${API_GATEWAY_SERVICE_HOST}:80/game-service"
             - name: MANAGEMENT_TRACING_ENABLED
