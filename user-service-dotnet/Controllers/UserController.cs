@@ -54,7 +54,6 @@ namespace user_service_dotnet.Controllers
     [HttpGet("userinfo")]
     public async Task<ActionResult<CustomHttpResponse<object>>> GetUser()
     {
-      // Console.WriteLine("Getting user info.........");
       // Channel channel = new("localhost", 6565, ChannelCredentials.Insecure);
       // await channel.ConnectAsync().ContinueWith((task) =>
       //  {
@@ -64,10 +63,8 @@ namespace user_service_dotnet.Controllers
 
       // var client = new ExampleService.ExampleServiceClient(channel);
       // var example = new GameInformationRequest() { GameId = 2222 };
-      // // print the response
-      // Console.WriteLine("Response: ...........");
-      // Console.WriteLine(client.GetExampleInformation(example));
       // channel.ShutdownAsync().Wait();
+
       string userId = Request.Headers["userId"].ToString();
       var traceId = Activity.Current?.TraceId.ToString() ?? "Unavailable";
 

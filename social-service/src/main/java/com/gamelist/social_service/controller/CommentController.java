@@ -38,10 +38,7 @@ public class CommentController {
                 authorizationHeader,
                 createCommentRequest.getInteractiveEntityId(),
                 createCommentRequest.getText());
-        // System.out.println(
-        //         "comment = 111111" + exampleClient.getGameInformation(11).getName());
-        // System.out.println(
-        //         "comment = 222222" + exampleTwoClient.getGameTwoInformation(22).getName());
+
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())

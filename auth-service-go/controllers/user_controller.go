@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"time"
 
-	// game "github.com/gamelist/game/pb"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
