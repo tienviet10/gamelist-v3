@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
@@ -26,8 +26,10 @@
         <os.maven.plugin.version>1.7.1</os.maven.plugin.version>
         <grpc.spring.version>3.1.0.RELEASE</grpc.spring.version>
         <protobuf.java.util.version>3.25.4</protobuf.java.util.version>
+        <flywaydb.postgresql.version>11.2.0</flywaydb.postgresql.version>
+        <resilience4j.version>2.3.0</resilience4j.version>
     </properties>
-
+    
     <modules>
         <module>api-gateway</module>
         <module>game-service</module>

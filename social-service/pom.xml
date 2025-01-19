@@ -17,7 +17,6 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
-        <resilience4j.version>2.2.0</resilience4j.version>
         <dockerImageName>tienviet/gamelist-${project.artifactId}</dockerImageName>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.version>1.18.32</lombok.version>
