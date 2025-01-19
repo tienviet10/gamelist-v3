@@ -1,15 +1,12 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import lombok.experimental.*;
+import org.hibernate.annotations.*;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 @Getter
 @Setter
@@ -46,7 +43,7 @@ public class UserGame {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
+    
     @Column(name = "user_id")
     private String userId;
 

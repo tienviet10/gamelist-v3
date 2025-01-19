@@ -1,24 +1,20 @@
 package com.gamelist.seeding;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.*;
+import com.fasterxml.jackson.databind.*;
+import com.gamelist.seeding.elastic.modal.*;
+import com.gamelist.seeding.elastic.repository.*;
 import com.gamelist.seeding.entity.*;
 import com.gamelist.seeding.repository.*;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.annotation.*;
+import lombok.*;
+import org.springframework.data.mongodb.core.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.io.*;
+import java.time.*;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +29,8 @@ public class SeedService {
     private final UserGameRepository userGameRepository;
     private final GameJournalRepository gameJournalRepository;
     private final StatusUpdateRepository statusUpdateRepository;
+
+    private final ElasticUserRepository elasticUserRepository;
 
     @PostConstruct
     @Transactional
@@ -50,8 +48,8 @@ public class SeedService {
     @Transactional
     public void seedUsersIfEmpty() {
         if (userMongoRepository.count() == 0) {
-            ObjectMapper objectMapper = new ObjectMapper();
             try {
+                ObjectMapper objectMapper = new ObjectMapper();
                 InputStream inputStream = getClass().getResourceAsStream("/json/users.json");
                 List<User> users = objectMapper.readValue(inputStream, new TypeReference<>() {
                 });
@@ -61,7 +59,17 @@ public class SeedService {
                     user.setUpdatedAt(LocalDateTime.now());
                 });
 
-                userMongoRepository.saveAll(users);
+                List<User> dbUsers = userMongoRepository.saveAll(users);
+
+                List<ElasticUser> elasticUsers = dbUsers.stream().map(originalUser -> {
+                    ElasticUser elasticUser = new ElasticUser();
+                    elasticUser.setId(originalUser.getId());
+                    elasticUser.setUsername(originalUser.getUsername());
+                    elasticUser.setEmail(originalUser.getEmail());
+                    return elasticUser;
+                }).toList();
+
+                elasticUserRepository.saveAll(elasticUsers);
             } catch (IOException e) {
                 e.printStackTrace();
             }
