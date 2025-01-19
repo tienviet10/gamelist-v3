@@ -194,8 +194,7 @@ public class SeedService {
 
                 List<ElasticGame> elasticGames = returnedGames.stream().map(originalGame -> {
                     ElasticGame elasticGame = new ElasticGame();
-
-                    elasticGame.setId(String.valueOf(originalGame.getId()));
+                    elasticGame.setGameId(originalGame.getId());
                     elasticGame.setName(originalGame.getName());
                     elasticGame.setDescription(originalGame.getDescription());
                     elasticGame.setAverageRating(originalGame.getAvgScore());
