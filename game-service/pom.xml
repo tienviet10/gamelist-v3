@@ -135,7 +135,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
-            <version>5.4.1</version>
+            <version>${elastic-search.version}</version>
         </dependency>
         <dependency>
             <groupId>com.gamelist</groupId>
