@@ -8,6 +8,7 @@ import com.gamelist.seeding.entity.*;
 import com.gamelist.seeding.repository.*;
 import jakarta.annotation.*;
 import lombok.*;
+import org.slf4j.*;
 import org.springframework.data.mongodb.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -19,6 +20,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class SeedService {
+
+    private final Logger logger = LoggerFactory.getLogger(SeedService.class);
     private final MongoTemplate mongoTemplate;
     private final UserMongoRepository userMongoRepository;
     private final PostRepository postRepository;
@@ -43,6 +46,11 @@ public class SeedService {
         seedUserGamesIfEmpty();
         seedPostsIfEmpty();
         seedGameJournalsIfEmpty();
+
+        logger.info("Successfully seeded database");
+
+        // Kill the server when were done seeding - it doesn't need to stay active
+        System.exit(1);
     }
 
     @Transactional
@@ -71,7 +79,7 @@ public class SeedService {
 
                 elasticUserRepository.saveAll(elasticUsers);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -87,7 +95,7 @@ public class SeedService {
 
                 platformRepository.saveAll(platforms);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -102,7 +110,7 @@ public class SeedService {
                 });
                 genreRepository.saveAll(genres);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -117,7 +125,7 @@ public class SeedService {
                 });
                 tagRepository.saveAll(tags);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
 
         }
@@ -137,7 +145,6 @@ public class SeedService {
 
                 for (JsonNode gameNode : gameNodes) {
                     Game game = new Game();
-                    game.setId(gameNode.get("id").asLong());
                     game.setName(gameNode.get("name").asText());
                     game.setDescription(gameNode.get("summary").asText());
                     game.setImageURL("https:" + gameNode.get("cover").asText());
@@ -150,6 +157,7 @@ public class SeedService {
                     JsonNode genresNode = gameNode.get("genres");
                     for (JsonNode genreNode : genresNode) {
                         Genre genre = genreRepository.findByName(genreNode.asText());
+                        logger.info("Genre {}", genre.getId());
                         genres.add(genre);
                     }
                     game.setGenres(new HashSet<>(genres));
@@ -158,11 +166,6 @@ public class SeedService {
                     JsonNode tagsNode = gameNode.get("tags");
                     for (JsonNode tagNode : tagsNode) {
                         Tag tag = tagRepository.findByName(tagNode.asText());
-                        if (tag == null) {
-                            tag = new Tag();
-                            tag.setName(tagNode.asText());
-                            tagRepository.save(tag);
-                        }
                         tags.add(tag);
                     }
                     game.setTags(new HashSet<>(tags));
@@ -171,24 +174,24 @@ public class SeedService {
                     JsonNode platformsNode = gameNode.get("platforms");
                     for (JsonNode platformNode : platformsNode) {
                         Platform platform = platformRepository.findByName(platformNode.asText());
-                        if (platform == null) {
-                            platform = new Platform();
-                            platform.setName(platformNode.asText());
-                            platformRepository.save(platform);
-                        }
                         platforms.add(platform);
                     }
+
                     game.setPlatforms(new HashSet<>(platforms));
 
                     game.setCreatedAt(LocalDateTime.now());
                     game.setUpdatedAt(LocalDateTime.now());
 
+
                     games.add(game);
+
                 }
 
-                gameRepository.saveAll(games);
+
+                List<Game> returnedGames = gameRepository.saveAll(games);
+                logger.info("Saved {} Games", returnedGames.size());
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -209,7 +212,7 @@ public class SeedService {
 
                         gameJournals.add(gameJournal);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 }
             }
@@ -233,7 +236,7 @@ public class SeedService {
 
                         posts.add(post);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 }
             }
@@ -248,7 +251,6 @@ public class SeedService {
             List<User> users = userMongoRepository.findAll();
 
             List<UserGame> userGames = new ArrayList<>();
-            List<StatusUpdate> statusUpdates = new ArrayList<>();
 
             for (User user : users) {
                 for (int j = 1; j <= 75; j++) {
@@ -267,15 +269,16 @@ public class SeedService {
                         StatusUpdate statusUpdate = new StatusUpdate();
                         statusUpdate.setUserGame(userGame);
                         statusUpdate.setGameStatus(userGame.getGameStatus());
-                        statusUpdates.add(statusUpdate);
+                        statusUpdateRepository.save(statusUpdate);
+
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 }
             }
 
             userGameRepository.saveAll(userGames);
-            statusUpdateRepository.saveAll(statusUpdates);
+
         }
     }
 }

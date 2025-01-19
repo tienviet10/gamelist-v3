@@ -1,17 +1,12 @@
 package com.gamelist.seeding.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.*;
+import java.util.*;
 
 @Getter
 @Setter

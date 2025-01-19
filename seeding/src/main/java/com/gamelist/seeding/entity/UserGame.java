@@ -14,6 +14,7 @@ import java.time.*;
 @NoArgsConstructor
 @Entity(name = "user_games")
 public class UserGame {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -43,7 +44,7 @@ public class UserGame {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
     @Column(name = "user_id")
     private String userId;
 
