@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.*;
 import java.io.*;
 import java.time.*;
 import java.util.*;
+import java.util.stream.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class SeedService {
     private final StatusUpdateRepository statusUpdateRepository;
 
     private final ElasticUserRepository elasticUserRepository;
+    private final ElasticGameRepository elasticGameRepository;
 
     @PostConstruct
     @Transactional
@@ -187,9 +189,24 @@ public class SeedService {
 
                 }
 
-
                 List<Game> returnedGames = gameRepository.saveAll(games);
                 logger.info("Saved {} Games", returnedGames.size());
+
+                List<ElasticGame> elasticGames = returnedGames.stream().map(originalGame -> {
+                    ElasticGame elasticGame = new ElasticGame();
+
+                    elasticGame.setId(String.valueOf(originalGame.getId()));
+                    elasticGame.setName(originalGame.getName());
+                    elasticGame.setDescription(originalGame.getDescription());
+                    elasticGame.setAverageRating(originalGame.getAvgScore());
+                    elasticGame.setGenres(originalGame.getGenres().stream().map(Genre::getName).toList());
+                    return elasticGame;
+                }).toList();
+
+                Iterable<ElasticGame> savedElasticGames = elasticGameRepository.saveAll(elasticGames);
+                long size = StreamSupport.stream(savedElasticGames.spliterator(), false).count();
+
+                logger.info("Saved {} Games to Elastic Search", size);
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
