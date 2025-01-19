@@ -1,19 +1,18 @@
 package com.gamelist.social_service.service.impl;
 
-import com.gamelist.social_service.clients.user.UserExistResponse;
-import com.gamelist.social_service.clients.user.UserServiceClient;
+import com.gamelist.game.UserExistResponse;
 import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.InteractiveEntity;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
+import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.repository.CommentRepository;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.CommentService;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
-    private final UserServiceClient userServiceClient;
+    private final UserGRPCServiceClient userGRPCServiceClient;
 
     @Override
     public CommentView createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text) {
@@ -31,10 +30,11 @@ public class CommentServiceImpl implements CommentService {
                 .findById(interactiveEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Interactive entity not found"));
 
-        Optional<UserExistResponse> userExist = userServiceClient.checkedIfUserExists(authorizationHeader);
-        if (userExist.isEmpty() || Boolean.FALSE.equals(userExist.get().getData())) {
+        UserExistResponse userExistResponse = userGRPCServiceClient.checkUserExist(userId);
+        if (!userExistResponse.getUserExist()) {
             throw new InvalidInputException("User does not exists");
         }
+
         Comment comment = Comment.builder()
                 .text(text)
                 .userId(userId)

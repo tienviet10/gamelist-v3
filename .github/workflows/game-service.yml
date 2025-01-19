@@ -17,13 +17,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      working-directory: ./game-service
       DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gamelist-game-service
-    defaults:
-      run:
-        working-directory: ${{ env.working-directory }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Java 21
         uses: actions/setup-java@v4
@@ -32,8 +29,14 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build with Maven
-        run: ./mvnw -ntp verify
+      - name: Build parent module
+        run: ./mvnw clean install -f pom.xml
+
+      - name: Build proto module
+        run: ./mvnw clean install -f ./proto/pom.xml
+
+      - name: Build game-service module
+        run: ./mvnw -ntp verify -f ./game-service/pom.xml
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -42,6 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Publish Docker Image
+        working-directory: ./game-service
         run: |
           ./mvnw spring-boot:build-image -DskipTests
           echo "Pushing the image $DOCKER_IMAGE_NAME to Docker Hub..."

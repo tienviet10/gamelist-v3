@@ -1,13 +1,14 @@
 package com.gamelist.social_service.service.impl;
 
-import com.gamelist.social_service.clients.user.UserInfoResponse;
-import com.gamelist.social_service.clients.user.UserServiceClient;
+import com.gamelist.game.UserInfoGRPCResponse;
+import com.gamelist.social_service.clients.user.UserDTO;
 import com.gamelist.social_service.dto.PostDTO;
 import com.gamelist.social_service.entity.Post;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.InvalidTokenException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
+import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.social_service.mapper.PostMapper;
 import com.gamelist.social_service.projection.PostView;
 import com.gamelist.social_service.repository.PostRepository;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final UserServiceClient userServiceClient;
+    private final UserGRPCServiceClient userGRPCServiceClient;
     private final PostMapper postMapper;
 
     @Override
@@ -87,10 +88,12 @@ public class PostServiceImpl implements PostService {
             throw new InvalidInputException("Text input value is invalid");
         }
 
-        Optional<UserInfoResponse> userDTO = userServiceClient.getUserInfoById(authorizationHeader, userId);
-        if (userDTO.isEmpty()) {
+        UserInfoGRPCResponse tempUserInfo = userGRPCServiceClient.getShortUserInfo(userId);
+        if (tempUserInfo == null) {
             throw new RuntimeException("User not found");
         }
+        UserDTO userDTO =
+                new UserDTO(tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture());
 
         postRepository.save(post);
         Optional<PostView> postOptional = postRepository.findProjectedById(post.getId());
@@ -100,7 +103,7 @@ public class PostServiceImpl implements PostService {
         }
 
         PostDTO newPost = postMapper.postViewToPostDTO(postOptional.get());
-        newPost.setUser(userDTO.get().getData());
+        newPost.setUser(userDTO);
         return newPost;
     }
 

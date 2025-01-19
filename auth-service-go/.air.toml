@@ -20,7 +20,7 @@ tmp_dir = "tmp"
   log = "build-errors.log"
   poll = false
   poll_interval = 0
-  post_cmd = ["lsof -i tcp:8082 | awk 'NR==2{print $2}' | xargs kill"]
+  post_cmd = ["lsof -i tcp:8082 | awk 'NR==2{print $2}' | xargs kill", "lsof -i tcp:6567 | awk 'NR==2{print $2}' | xargs kill -9"]
   pre_cmd = []
   rerun = false
   rerun_delay = 500

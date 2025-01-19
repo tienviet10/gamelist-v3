@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+// TODO: DELETE THIS CLASS
+// Deprecated. Replaced by gRPC implementation.
 @Component
 @RequiredArgsConstructor
 public class UserServiceClient {

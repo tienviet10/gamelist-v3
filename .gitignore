@@ -157,3 +157,4 @@ msbuild.wrn
 mongodb-secret.yaml
 db-secret.yaml
 jwt-secret.yaml
+redis-secret.yaml

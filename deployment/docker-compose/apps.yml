@@ -57,13 +57,16 @@ services:
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
       - CONFIG_SERVER_URL=http://config-server:8888
       - USER_SERVICE_URL=http://api-gateway:8989/user-service
+      - AUTH_SERVICE_ADDRESS=auth-service:6567
+      - USER_SERVICE_ADDRESS=user-service:6568
     ports:
       - "8083:8083"
+      - "6565:6565"
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 700m
+          memory: 1g
     labels:
       logging: "promtail"
 
@@ -82,13 +85,16 @@ services:
       - GAME_SERVICE_URL=http://api-gateway:8989/game-service
       #      - GO_SERVICE_URL=http://api-gateway:8989/go-service
       - USER_SERVICE_URL=http://api-gateway:8989/user-service
+      - AUTH_SERVICE_ADDRESS=auth-service:6567
+      - USER_SERVICE_ADDRESS=user-service:6568
     ports:
       - "8081:8081"
+      - "6566:6566"
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 700m
+          memory: 1g
     labels:
       logging: "promtail"
 
@@ -124,6 +130,7 @@ services:
       - PORT=8082
     ports:
       - "8082:8082"
+      - "6567:6567"
     restart: unless-stopped
     deploy:
       resources:
@@ -144,6 +151,7 @@ services:
       - USER_SECRETS_ID=bd82e8a2-e889-4963-87e9-6740a1609d78
     ports:
       - "8080:8080"
+      - "6568:6568"
     volumes:
       - $HOME/.microsoft/usersecrets/$USER_SECRETS_ID:/root/.microsoft/usersecrets/$USER_SECRETS_ID
     restart: unless-stopped

@@ -70,5 +70,8 @@ func main() {
 
 	router := routers.SetupRoute()
 
-	log.Println(router.Run(config.ServerConfig()))
+	go router.Run(config.ServerConfig())
+
+	grpcServer := NewGRPCServer(":6567")
+	grpcServer.Run()
 }

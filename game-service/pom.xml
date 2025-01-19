@@ -3,10 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.gamelist</groupId>
+        <artifactId>gamelist-microservices</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.gamelist</groupId>
     <artifactId>game-service</artifactId>
@@ -18,7 +17,6 @@
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
-        <resilience4j.version>2.3.0</resilience4j.version>
         <dockerImageName>tienviet/gamelist-${project.artifactId}</dockerImageName>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <lombok.version>1.18.32</lombok.version>
@@ -52,10 +50,21 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
+            <version>${flywaydb.postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-rxjava3</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring6</artifactId>
             <version>${resilience4j.version}</version>
         </dependency>
         <dependency>
@@ -128,7 +137,25 @@
             <artifactId>spring-data-elasticsearch</artifactId>
             <version>5.4.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.gamelist</groupId>
+            <artifactId>proto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-server-spring-boot-starter</artifactId>
+            <version>${grpc.spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-client-spring-boot-starter</artifactId>
+            <version>${grpc.spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
