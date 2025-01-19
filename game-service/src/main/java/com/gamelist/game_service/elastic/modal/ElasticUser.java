@@ -1,9 +1,10 @@
 package com.gamelist.game_service.elastic.modal;
 
-import java.time.*;
 import lombok.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.elasticsearch.annotations.*;
+
+import java.time.*;
 
 @Data
 @Document(indexName = "users")
@@ -11,6 +12,9 @@ public class ElasticUser {
 
     @Id
     private String id;
+
+    @Field(type = FieldType.Long)
+    private Long gameId;
 
     @Field(type = FieldType.Text)
     private String username;

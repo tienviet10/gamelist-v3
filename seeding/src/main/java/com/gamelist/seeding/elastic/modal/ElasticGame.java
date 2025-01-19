@@ -14,6 +14,9 @@ public class ElasticGame {
     @Id
     private String id;
 
+    @Field(type = FieldType.Long)
+    private Long gameId;
+
     @Field(type = FieldType.Text)
     private String name;
 
