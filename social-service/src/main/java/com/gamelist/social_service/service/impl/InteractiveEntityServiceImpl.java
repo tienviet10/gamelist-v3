@@ -119,7 +119,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
             }
 
             UserDTO saveUserDTO = new UserDTO(
-                    tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture());
+                    tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture(), userId);
             userInfoCache.put(userId, saveUserDTO);
             return saveUserDTO;
         }
