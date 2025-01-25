@@ -2,10 +2,8 @@ package com.gamelist.social_service.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gamelist.game.UserInfoGRPCResponse;
 import com.gamelist.social_service.clients.user.UserDTO;
 import com.gamelist.social_service.dto.*;
-import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
 import com.gamelist.social_service.mapper.InteractiveEntityMapper;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponseV2;
 import com.gamelist.social_service.projection.InteractiveEntityProjection;
@@ -28,7 +26,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
     private static final Logger log = LoggerFactory.getLogger(InteractiveEntityServiceImpl.class);
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final InteractiveEntityMapper interactiveEntityMapper;
-    private final UserGRPCServiceClient userGRPCServiceClient;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public PostAndStatusUpdateResponseV2 getPostAndStatusUpdateByUserIdAndStartingId(
@@ -76,7 +74,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
             if (data.getUserId() != null) {
                 String userId = data.getUserId();
                 PostDTO postDTO = interactiveEntityMapper.toPostDTO(data);
-                postDTO.setUser(fetchUserDetails(userId, authorizationHeader, userInfoCache));
+                postDTO.setUser(userDetailsService.fetchUserDetails(userId, authorizationHeader, userInfoCache));
 
                 postDTO.setLikes(parseLikes(data.getLikes(), userInfoCache, authorizationHeader));
                 postDTO.setComments(parseComments(data.getComments(), userInfoCache, authorizationHeader));
@@ -85,7 +83,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
             } else if (data.getStatusUpdateId() != null) {
                 String userId = data.getUserGameUserId();
                 StatusUpdateDTOV2 statusUpdateDTO = interactiveEntityMapper.toStatusUpdateDTO(data);
-                UserDTO newUser = fetchUserDetails(userId, authorizationHeader, userInfoCache);
+                UserDTO newUser = userDetailsService.fetchUserDetails(userId, authorizationHeader, userInfoCache);
 
                 UserGameDTOV2 userGame = statusUpdateDTO.getUserGame();
                 if (userGame != null) {
@@ -108,23 +106,6 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
                 .build();
     }
 
-    private UserDTO fetchUserDetails(String userId, String authorizationHeader, Map<String, UserDTO> userInfoCache) {
-        if (userInfoCache.containsKey(userId)) {
-            return userInfoCache.get(userId);
-        } else {
-
-            UserInfoGRPCResponse tempUserInfo = userGRPCServiceClient.getShortUserInfo(userId);
-            if (tempUserInfo == null) {
-                throw new RuntimeException("User not found");
-            }
-
-            UserDTO saveUserDTO = new UserDTO(
-                    tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture(), userId);
-            userInfoCache.put(userId, saveUserDTO);
-            return saveUserDTO;
-        }
-    }
-
     private List<LikeEntityDTO> parseLikes(
             String likesJson, Map<String, UserDTO> userInfoCache, String authorizationHeader) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -133,7 +114,8 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
         for (JsonNode node : jsonNode) {
             LikeEntityDTO like = new LikeEntityDTO();
             like.setId(node.get("id").asLong());
-            like.setUser(fetchUserDetails(node.get("user_id").asText(), authorizationHeader, userInfoCache));
+            like.setUser(userDetailsService.fetchUserDetails(
+                    node.get("user_id").asText(), authorizationHeader, userInfoCache));
             like.setCreatedAt(LocalDateTime.parse(node.get("created_at").asText()));
             like.setUpdatedAt(LocalDateTime.parse(node.get("updated_at").asText()));
             likes.add(like);
@@ -149,10 +131,11 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
         for (JsonNode node : jsonNode) {
             CommentDTO comment = new CommentDTO();
             comment.setId(node.get("comment_id").asLong());
-            comment.setUser(fetchUserDetails(node.get("user_id").asText(), authorizationHeader, userInfoCache));
+            comment.setUser(userDetailsService.fetchUserDetails(
+                    node.get("user_id").asText(), authorizationHeader, userInfoCache));
             comment.setText(node.get("text").asText());
-            //            comment.setCreatedAt(node.get("created_at").asText());
-            //            comment.setUpdatedAt(node.get("updated_at").asText());
+            comment.setCreatedAt(node.get("comment_created_at").asText());
+            comment.setUpdatedAt(node.get("comment_updated_at").asText());
             comments.add(comment);
         }
         return comments;

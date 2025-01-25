@@ -1,5 +1,6 @@
 package com.gamelist.social_service.controller;
 
+import com.gamelist.social_service.dto.CommentDTO;
 import com.gamelist.social_service.model.CreateCommentRequest;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.CommentView;
@@ -33,7 +34,7 @@ public class CommentController {
             @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @RequestBody CreateCommentRequest createCommentRequest) {
         log.info("createComment called with userId: {}", userId);
-        CommentView comment = commentService.createComment(
+        CommentDTO comment = commentService.createComment(
                 userId,
                 authorizationHeader,
                 createCommentRequest.getInteractiveEntityId(),
@@ -42,7 +43,11 @@ public class CommentController {
         return ResponseEntity.created(URI.create(""))
                 .body(HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())
-                        .data(Map.of("comment", comment))
+                        .data(Map.of(
+                                "comment",
+                                comment,
+                                "interactiveEntityId",
+                                createCommentRequest.getInteractiveEntityId()))
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
                         .message("Comment created successfully")

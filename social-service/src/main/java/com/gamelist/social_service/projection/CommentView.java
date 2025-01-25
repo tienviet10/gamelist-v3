@@ -14,6 +14,12 @@ public interface CommentView {
 
     LocalDateTime getCreatedAt();
 
+    LocalDateTime getUpdatedAt();
+
+    LocalDateTime getCommentCreatedAt();
+
+    LocalDateTime getCommentUpdatedAt();
+
     List<LikeEntityView> getLikes();
 
     List<CommentView> getComments();

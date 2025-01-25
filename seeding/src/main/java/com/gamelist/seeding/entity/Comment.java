@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,4 +26,12 @@ public class Comment extends InteractiveEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "interactive_entity_id", referencedColumnName = "id")
     private InteractiveEntity interactiveEntity;
+
+    @CreationTimestamp
+    @Column(name = "comment_created_at")
+    private LocalDateTime commentCreatedAt;
+
+    @UpdateTimestamp
+    @Column(name = "comment_updated_at")
+    private LocalDateTime commentUpdatedAt;
 }

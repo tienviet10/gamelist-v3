@@ -1,6 +1,8 @@
 package com.gamelist.social_service.service.impl;
 
 import com.gamelist.game.UserExistResponse;
+import com.gamelist.social_service.clients.user.UserDTO;
+import com.gamelist.social_service.dto.CommentDTO;
 import com.gamelist.social_service.entity.Comment;
 import com.gamelist.social_service.entity.InteractiveEntity;
 import com.gamelist.social_service.exception.InvalidAuthorizationException;
@@ -12,6 +14,7 @@ import com.gamelist.social_service.repository.CommentRepository;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.CommentService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +26,10 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final UserGRPCServiceClient userGRPCServiceClient;
+    private final UserDetailsService userDetailsService;
 
     @Override
-    public CommentView createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text) {
+    public CommentDTO createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text) {
         InteractiveEntity interactiveEntity = interactiveEntityRepository
                 .findById(interactiveEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Interactive entity not found"));
@@ -45,9 +49,18 @@ public class CommentServiceImpl implements CommentService {
 
         comment = commentRepository.save(comment);
 
-        return commentRepository
+        CommentView commentRetrieved = commentRepository
                 .findProjectedById(comment.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not created successfully"));
+
+        UserDTO userInfo = userDetailsService.fetchUserDetails(userId, authorizationHeader, new HashMap<>());
+        return CommentDTO.builder()
+                .id(commentRetrieved.getId())
+                .text(commentRetrieved.getText())
+                .createdAt(commentRetrieved.getCommentCreatedAt().toString())
+                .updatedAt(commentRetrieved.getCommentUpdatedAt().toString())
+                .user(userInfo)
+                .build();
     }
 
     @Override

@@ -77,10 +77,10 @@ CREATE TABLE IF NOT EXISTS interactive_entities
 
 CREATE TABLE IF NOT EXISTS like_entities
 (
-    id                    BIGINT NOT NULL,
-    created_at            TIMESTAMP,
+    id                    BIGINT                              NOT NULL,
+    created_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at            TIMESTAMP,
-    interactive_entity_id BIGINT NOT NULL,
+    interactive_entity_id BIGINT                              NOT NULL,
     user_id               VARCHAR(128),
     PRIMARY KEY (id),
     UNIQUE (user_id, interactive_entity_id),
@@ -142,9 +142,11 @@ CREATE TABLE IF NOT EXISTS user_roles
 CREATE TABLE IF NOT EXISTS comments
 (
     text                  VARCHAR(255),
-    comment_id            BIGINT NOT NULL,
+    comment_id            BIGINT                              NOT NULL,
     interactive_entity_id BIGINT,
     user_id               VARCHAR(128),
+    comment_created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    comment_updated_at    TIMESTAMP,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (interactive_entity_id) REFERENCES interactive_entities
 );
