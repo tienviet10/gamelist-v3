@@ -1,6 +1,7 @@
 package com.gamelist.social_service.controller;
 
 import com.gamelist.social_service.dto.CommentDTO;
+import com.gamelist.social_service.model.CommentResponse;
 import com.gamelist.social_service.model.CreateCommentRequest;
 import com.gamelist.social_service.model.HttpResponse;
 import com.gamelist.social_service.projection.CommentView;
@@ -26,6 +27,28 @@ public class CommentController {
 
     //    private final ExampleClient exampleClient;
     //    private final ExampleTwoClient exampleTwoClient;
+
+    @GetMapping("/pageable")
+    @Transactional
+    public ResponseEntity<HttpResponse> getUserCommentsByUserIdPageable(
+            @RequestHeader(name = "Authorization") String authorizationHeader,
+            @RequestHeader(name = "userId") String userId,
+            @RequestParam(value = "startingId", required = false, defaultValue = "0") Long startingId,
+            @RequestParam(value = "interactiveEntityId", required = false, defaultValue = "0")
+                    Long interactiveEntityId) {
+        log.info("getUserCommentsByUserIdPageable called with userId: {}", userId);
+
+        CommentResponse commentsResponse = commentService.getCommentsStaringId(interactiveEntityId, startingId);
+
+        return ResponseEntity.ok(HttpResponse.builder()
+                .timeStamp(LocalDateTime.now().toString())
+                .data(Map.of(
+                        "comments", commentsResponse.getComments(), "hasNextPage", commentsResponse.isHasNextPage()))
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message("Posts And StatusUpdates retrieved successfully. ")
+                .build());
+    }
 
     @PostMapping
     @Transactional

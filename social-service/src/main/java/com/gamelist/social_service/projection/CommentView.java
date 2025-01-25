@@ -6,6 +6,8 @@ import java.util.List;
 public interface CommentView {
     Long getId();
 
+    Long getCommentId();
+
     String getUserId();
 
     String getText();

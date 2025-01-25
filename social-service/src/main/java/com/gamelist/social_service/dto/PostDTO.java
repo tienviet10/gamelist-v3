@@ -16,5 +16,6 @@ public class PostDTO {
     private LocalDateTime createdAt;
     private List<LikeEntityDTO> likes;
     private List<CommentDTO> comments;
+    private boolean hasNextCommentPage;
     private UserDTO user;
 }

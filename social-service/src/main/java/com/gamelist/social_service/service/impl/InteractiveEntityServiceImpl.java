@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamelist.social_service.clients.user.UserDTO;
 import com.gamelist.social_service.dto.*;
 import com.gamelist.social_service.mapper.InteractiveEntityMapper;
+import com.gamelist.social_service.model.CommentResponse;
 import com.gamelist.social_service.model.PostAndStatusUpdateResponseV2;
 import com.gamelist.social_service.projection.InteractiveEntityProjection;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
@@ -75,9 +76,11 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
                 String userId = data.getUserId();
                 PostDTO postDTO = interactiveEntityMapper.toPostDTO(data);
                 postDTO.setUser(userDetailsService.fetchUserDetails(userId, authorizationHeader, userInfoCache));
-
                 postDTO.setLikes(parseLikes(data.getLikes(), userInfoCache, authorizationHeader));
-                postDTO.setComments(parseComments(data.getComments(), userInfoCache, authorizationHeader));
+
+                CommentResponse comments = parseComments(data.getComments(), userInfoCache, authorizationHeader);
+                postDTO.setComments(comments.getComments());
+                postDTO.setHasNextCommentPage(comments.isHasNextPage());
 
                 posts.add(postDTO);
             } else if (data.getStatusUpdateId() != null) {
@@ -89,9 +92,11 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
                 if (userGame != null) {
                     userGame.setUser(newUser);
                 }
-
                 statusUpdateDTO.setLikes(parseLikes(data.getLikes(), userInfoCache, authorizationHeader));
-                statusUpdateDTO.setComments(parseComments(data.getComments(), userInfoCache, authorizationHeader));
+
+                CommentResponse comments = parseComments(data.getComments(), userInfoCache, authorizationHeader);
+                statusUpdateDTO.setComments(comments.getComments());
+                statusUpdateDTO.setHasNextCommentPage(comments.isHasNextPage());
 
                 statusUpdates.add(statusUpdateDTO);
             }
@@ -123,12 +128,16 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
         return likes;
     }
 
-    private List<CommentDTO> parseComments(
+    private CommentResponse parseComments(
             String commentsJson, Map<String, UserDTO> userInfoCache, String authorizationHeader) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(commentsJson);
+
+        boolean hasNextPage = jsonNode.size() > 5;
+
         List<CommentDTO> comments = new ArrayList<>();
-        for (JsonNode node : jsonNode) {
+        for (int i = 0; i < Math.min(jsonNode.size(), 5); i++) {
+            JsonNode node = jsonNode.get(i);
             CommentDTO comment = new CommentDTO();
             comment.setId(node.get("comment_id").asLong());
             comment.setUser(userDetailsService.fetchUserDetails(
@@ -138,6 +147,7 @@ public class InteractiveEntityServiceImpl implements InteractiveEntityService {
             comment.setUpdatedAt(node.get("comment_updated_at").asText());
             comments.add(comment);
         }
-        return comments;
+
+        return new CommentResponse(comments, hasNextPage);
     }
 }

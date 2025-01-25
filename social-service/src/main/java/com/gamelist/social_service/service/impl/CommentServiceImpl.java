@@ -9,12 +9,15 @@ import com.gamelist.social_service.exception.InvalidAuthorizationException;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
+import com.gamelist.social_service.mapper.CommentMapper;
+import com.gamelist.social_service.model.CommentResponse;
 import com.gamelist.social_service.projection.CommentView;
 import com.gamelist.social_service.repository.CommentRepository;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.service.CommentService;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final UserGRPCServiceClient userGRPCServiceClient;
     private final UserDetailsService userDetailsService;
+    private final CommentMapper commentMapper;
 
     @Override
     public CommentDTO createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text) {
@@ -92,5 +96,23 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository
                 .findProjectedById(comment.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not updated successfully"));
+    }
+
+    @Override
+    public CommentResponse getCommentsStaringId(Long interactiveEntityId, Long commentId) {
+        List<CommentView> retrievedData = commentRepository.getCommentsByStartingId(interactiveEntityId, commentId);
+
+        boolean hasNextPage = retrievedData.size() > 5;
+
+        List<CommentView> slicedData = hasNextPage ? retrievedData.subList(0, 5) : retrievedData;
+
+        List<CommentDTO> comments = commentMapper.commentViewListToCommentDTOList(slicedData);
+
+        comments.forEach(comment -> {
+            UserDTO user = userDetailsService.fetchUserDetails(comment.getUser().id(), null, new HashMap<>());
+            comment.setUser(user);
+        });
+
+        return new CommentResponse(comments, hasNextPage);
     }
 }

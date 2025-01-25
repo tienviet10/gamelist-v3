@@ -16,5 +16,6 @@ public class StatusUpdateDTOV2 {
     private LocalDateTime createdAt;
     private List<LikeEntityDTO> likes;
     private List<CommentDTO> comments;
+    private boolean hasNextCommentPage;
     private UserGameDTOV2 userGame;
 }
