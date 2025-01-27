@@ -92,9 +92,10 @@ public class PostServiceImpl implements PostService {
         if (tempUserInfo == null) {
             throw new RuntimeException("User not found");
         }
-        UserDTO userDTO =
-                new UserDTO(tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture());
+        UserDTO userDTO = new UserDTO(
+                tempUserInfo.getUsername(), tempUserInfo.getBannerPicture(), tempUserInfo.getUserPicture(), userId);
 
+        post.setUserId(userId);
         postRepository.save(post);
         Optional<PostView> postOptional = postRepository.findProjectedById(post.getId());
 

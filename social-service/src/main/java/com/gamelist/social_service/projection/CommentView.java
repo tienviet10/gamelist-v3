@@ -6,6 +6,8 @@ import java.util.List;
 public interface CommentView {
     Long getId();
 
+    Long getCommentId();
+
     String getUserId();
 
     String getText();
@@ -13,6 +15,12 @@ public interface CommentView {
     void setText(String text);
 
     LocalDateTime getCreatedAt();
+
+    LocalDateTime getUpdatedAt();
+
+    LocalDateTime getCommentCreatedAt();
+
+    LocalDateTime getCommentUpdatedAt();
 
     List<LikeEntityView> getLikes();
 

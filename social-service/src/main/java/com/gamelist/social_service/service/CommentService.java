@@ -1,12 +1,16 @@
 package com.gamelist.social_service.service;
 
+import com.gamelist.social_service.dto.CommentDTO;
+import com.gamelist.social_service.model.CommentResponse;
 import com.gamelist.social_service.projection.CommentView;
 
 public interface CommentService {
 
-    CommentView createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text);
+    CommentDTO createComment(String userId, String authorizationHeader, Long interactiveEntityId, String text);
 
     void deleteCommentById(String userId, Long commentId);
 
     CommentView updateCommentById(String userId, Long commentId, String text);
+
+    CommentResponse getCommentsStaringId(Long interactiveEntityId, Long commentId);
 }
