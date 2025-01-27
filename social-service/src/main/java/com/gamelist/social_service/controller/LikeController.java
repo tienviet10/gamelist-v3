@@ -1,8 +1,8 @@
 package com.gamelist.social_service.controller;
 
+import com.gamelist.social_service.dto.LikeEntityDTO;
 import com.gamelist.social_service.entity.CreateLikeEntityRequest;
 import com.gamelist.social_service.model.HttpResponse;
-import com.gamelist.social_service.projection.LikeEntityView;
 import com.gamelist.social_service.service.LikeService;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class LikeController {
             @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @RequestBody CreateLikeEntityRequest createLikeEntityRequest) {
         log.info("createLike called with userId: {}", userId);
-        LikeEntityView like =
+        LikeEntityDTO like =
                 likeService.createLike(userId, authorizationHeader, createLikeEntityRequest.getInteractiveEntityId());
 
         return ResponseEntity.created(URI.create(""))

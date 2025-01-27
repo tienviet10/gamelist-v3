@@ -1,14 +1,17 @@
 package com.gamelist.social_service.service.impl;
 
 import com.gamelist.game.UserExistResponse;
+import com.gamelist.social_service.dto.LikeEntityDTO;
 import com.gamelist.social_service.entity.*;
 import com.gamelist.social_service.exception.InvalidInputException;
 import com.gamelist.social_service.exception.ResourceNotFoundException;
 import com.gamelist.social_service.gRPCService.UserGRPCServiceClient;
+import com.gamelist.social_service.mapper.LikeMapper;
 import com.gamelist.social_service.projection.LikeEntityView;
 import com.gamelist.social_service.repository.InteractiveEntityRepository;
 import com.gamelist.social_service.repository.LikeRepository;
 import com.gamelist.social_service.service.LikeService;
+import java.util.HashMap;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +23,11 @@ public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
     private final InteractiveEntityRepository interactiveEntityRepository;
     private final UserGRPCServiceClient userGRPCServiceClient;
+    private final LikeMapper likeMapper;
+    private final UserDetailsService userDetailsService;
 
     @Override
-    public LikeEntityView createLike(String userId, String authorizationHeader, Long interactiveEntityId) {
+    public LikeEntityDTO createLike(String userId, String authorizationHeader, Long interactiveEntityId) {
         boolean alreadyLiked = likeRepository.existsByUserIdAndInteractiveEntityId(userId, interactiveEntityId);
 
         if (alreadyLiked) {
@@ -60,7 +65,12 @@ public class LikeServiceImpl implements LikeService {
 
         like = likeRepository.save(like);
 
-        return likeRepository.findProjectedById(like.getId());
+        LikeEntityView retrievedLikes = likeRepository.findProjectedById(like.getId());
+
+        LikeEntityDTO convertedLikes = likeMapper.likeViewToLikeDTO(retrievedLikes);
+        convertedLikes.setUser(
+                userDetailsService.fetchUserDetails(convertedLikes.getUser().id(), null, new HashMap<>()));
+        return convertedLikes;
     }
 
     @Override
