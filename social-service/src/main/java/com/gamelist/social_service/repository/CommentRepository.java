@@ -24,9 +24,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                             FROM
                                 comments
                             WHERE
-                                interactive_entity_id = :interactiveEntityId AND comment_id > :commendId
+                                interactive_entity_id = :interactiveEntityId AND comment_id < :commendId
                             ORDER BY
-                                comment_created_at
+                                comment_created_at desc
                             LIMIT 6
                             """,
             nativeQuery = true)

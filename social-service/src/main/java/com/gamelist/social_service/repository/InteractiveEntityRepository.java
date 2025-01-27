@@ -39,7 +39,7 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
                                             SELECT c.*
                                             FROM comments c
                                             WHERE c.interactive_entity_id = i.id
-                                            ORDER BY c.comment_created_at
+                                            ORDER BY c.comment_created_at desc
                                             LIMIT 6
                                         ) c_limited
                                     ), '[]'
@@ -98,7 +98,7 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
                                             SELECT c.*
                                             FROM comments c
                                             WHERE c.interactive_entity_id = i.id
-                                            ORDER BY c.comment_created_at
+                                            ORDER BY c.comment_created_at desc
                                             LIMIT 6
                                         ) c_limited
                                     ), '[]'
@@ -158,7 +158,7 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
                                             SELECT c.*
                                             FROM comments c
                                             WHERE c.interactive_entity_id = i.id
-                                            ORDER BY c.comment_created_at
+                                            ORDER BY c.comment_created_at desc
                                             LIMIT 6
                                         ) c_limited
                                     ), '[]'
@@ -221,7 +221,7 @@ public interface InteractiveEntityRepository extends JpaRepository<InteractiveEn
                                             SELECT c.*
                                             FROM comments c
                                             WHERE c.interactive_entity_id = i.id
-                                            ORDER BY c.comment_created_at
+                                            ORDER BY c.comment_created_at desc
                                             LIMIT 6
                                         ) c_limited
                                     ), '[]'
