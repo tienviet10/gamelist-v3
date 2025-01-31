@@ -21,6 +21,7 @@ public interface GameV2Mapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name", defaultValue = "")
     @Mapping(source = "gameAdded", target = "gameAdded")
+    @Mapping(source = "gameLiked", target = "gameLiked")
     GameDTO gameToGameDTO(GameProjection game);
 
     List<GameDTO> gamesToGameDTOs(List<GameProjection> games);

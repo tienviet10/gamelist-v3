@@ -1,9 +1,9 @@
 package com.gamelist.social_service.service;
 
-import com.gamelist.social_service.projection.LikeEntityView;
+import com.gamelist.social_service.dto.LikeEntityDTO;
 
 public interface LikeService {
-    LikeEntityView createLike(String userId, String authorizationHeader, Long interactiveEntityId);
+    LikeEntityDTO createLike(String userId, String authorizationHeader, Long interactiveEntityId);
 
     void deleteLikeById(String userId, Long interactiveEntityId);
 }

@@ -11,4 +11,6 @@ public interface LikeEntityView {
     //    void setUser(UserBasicView user);
 
     LocalDateTime getUpdatedAt();
+
+    LocalDateTime getCreatedAt();
 }

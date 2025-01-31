@@ -36,6 +36,7 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
                                 string_agg(DISTINCT ge.name, ', ' ORDER BY ge.name) AS genres,
                                 string_agg(DISTINCT p.name, ', ' ORDER BY p.name) AS platforms,
                                 string_agg(DISTINCT t.name, ', ' ORDER BY t.name) AS tags,
+                                BOOL_OR(le.interactive_entity_id IS NOT NULL) AS gameLiked,
                                 CASE
                                     WHEN EXISTS (
                                         SELECT 1
@@ -58,6 +59,8 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
                                 games_tags gt ON g.id = gt.game_id
                                     LEFT JOIN
                                 tags t ON gt.tag_id = t.id
+                                    LEFT JOIN
+                                like_entities le ON g.id = le.interactive_entity_id AND le.user_id = :userId
                             WHERE
                                 g.name > :name
                             GROUP BY
@@ -84,6 +87,7 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
                                 string_agg(DISTINCT ge.name, ', ' ORDER BY ge.name) AS genres,
                                 string_agg(DISTINCT p.name, ', ' ORDER BY p.name) AS platforms,
                                 string_agg(DISTINCT t.name, ', ' ORDER BY t.name) AS tags,
+                                BOOL_OR(le.interactive_entity_id IS NOT NULL) AS gameLiked,
                                 CASE
                                     WHEN EXISTS (
                                         SELECT 1
@@ -106,6 +110,8 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
                                 games_tags gt ON g.id = gt.game_id
                                     LEFT JOIN
                                 tags t ON gt.tag_id = t.id
+                                    LEFT JOIN
+                                like_entities le ON g.id = le.interactive_entity_id AND le.user_id = :userId
                             GROUP BY
                                 g.name, g.id
                             ORDER BY
@@ -115,4 +121,47 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
             nativeQuery = true)
     List<GameProjection> findGameByCategoryAndLimitAndNoStartingId(
             @Param("limit") int limit, @Param("userId") String userId);
+
+    @Query(
+            value =
+                    """
+
+                                    SELECT
+                                g.id AS id,
+                                g.name AS name,
+                                g.avg_score AS avgScore,
+                                g.description AS description,
+                                g.imageurl AS imageURL,
+                                g.bannerurl AS bannerURL,
+                                g.releasedate AS releaseDate,
+                                g.total_rating AS totalRating,
+                                string_agg(DISTINCT ge.name, ', ' ORDER BY ge.name) AS genres,
+                                string_agg(DISTINCT p.name, ', ' ORDER BY p.name) AS platforms,
+                                string_agg(DISTINCT t.name, ', ' ORDER BY t.name) AS tags,
+                                BOOL_OR(le.interactive_entity_id IS NOT NULL) AS gameLiked,
+                                BOOL_OR(
+                                        EXISTS (
+                                            SELECT 1
+                                            FROM user_games ug
+                                            WHERE ug.game_id = g.id
+                                              AND ug.game_status != 'Inactive'
+                                              AND ug.user_id = :userId
+                                        )
+                                ) AS gameAdded
+                            FROM games g
+                                     LEFT JOIN interactive_entities ie ON g.id = ie.id
+                                     LEFT JOIN like_entities le ON g.id = le.interactive_entity_id
+                                AND le.user_id = :userId
+                                     LEFT JOIN games_genres gg ON g.id = gg.game_id
+                                     LEFT JOIN genres ge ON gg.genre_id = ge.id
+                                     LEFT JOIN games_platforms gp ON g.id = gp.game_id
+                                     LEFT JOIN platforms p ON gp.platform_id = p.id
+                                     LEFT JOIN games_tags gt ON g.id = gt.game_id
+                                     LEFT JOIN tags t ON gt.tag_id = t.id
+                            WHERE g.id = :gameId
+                            GROUP BY g.id
+                            LIMIT 1;
+                            """,
+            nativeQuery = true)
+    GameProjection findGameByGameIdAndUserId(@Param("gameId") Long gameId, @Param("userId") String userId);
 }
