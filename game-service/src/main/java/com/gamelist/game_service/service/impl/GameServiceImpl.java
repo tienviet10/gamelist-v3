@@ -33,8 +33,10 @@ public class GameServiceImpl implements GameService {
     private final EntityManager em;
 
     @Override
-    public GameDTO getAGame(Long gameId) {
-        return gameMapper.gameToGameDTO(gameRepository.findById(gameId).orElseThrow());
+    public GameDTO getAGame(Long gameId, String userId) {
+        var data = gameRepository.findGameByGameIdAndUserId(gameId, userId);
+        var res = gameV2Mapper.gameToGameDTO(data);
+        return res;
     }
 
     @Override

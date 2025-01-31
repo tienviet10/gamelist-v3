@@ -39,9 +39,10 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    public ResponseEntity<HttpResponse> getGameById(@PathVariable Long gameId) {
+    public ResponseEntity<HttpResponse> getGameById(
+            @PathVariable Long gameId, @RequestHeader(name = "userId", required = false) String userId) {
         log.info("getGameById called with gameId: {}", gameId);
-        GameDTO game = gameService.getAGame(gameId);
+        GameDTO game = gameService.getAGame(gameId, userId);
         return ResponseEntity.ok(HttpResponse.builder()
                 .timeStamp(LocalDateTime.now().toString())
                 .data(Map.of("getGameById", game))

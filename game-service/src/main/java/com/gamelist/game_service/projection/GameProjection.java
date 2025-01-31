@@ -15,7 +15,9 @@ public interface GameProjection {
 
     String getBannerurl();
 
-    String getGameAdded();
+    boolean getGameAdded();
+
+    boolean getGameLiked();
 
     LocalDateTime getReleasedate();
 
