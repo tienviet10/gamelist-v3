@@ -35,6 +35,7 @@
         <module>social-service</module>
         <module>user-service</module>
         <module>proto</module>
+        <!--        <module>seeding</module>-->
     </modules>
     <dependencyManagement>
         <dependencies>

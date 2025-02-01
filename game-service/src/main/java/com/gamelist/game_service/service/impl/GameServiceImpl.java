@@ -35,8 +35,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO getAGame(Long gameId, String userId) {
         var data = gameRepository.findGameByGameIdAndUserId(gameId, userId);
-        var res = gameV2Mapper.gameToGameDTO(data);
-        return res;
+        return gameV2Mapper.gameToGameDTO(data);
     }
 
     @Override
